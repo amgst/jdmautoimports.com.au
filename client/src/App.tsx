@@ -124,16 +124,6 @@ function PublicRouter() {
 }
 
 function Router() {
-  const { maintenanceMode } = useWebsiteSettings();
-  const isAdminAuthenticated = localStorage.getItem("isAdminAuthenticated") === "true";
-  const [location] = useLocation();
-
-  const isAdminRoute = location.startsWith("/admin");
-
-  if (maintenanceMode && !isAdminAuthenticated && !isAdminRoute) {
-    return <ComingSoon />;
-  }
-
   return (
     <Switch>
       <Route path="/admin/login" component={AdminLogin} />
@@ -150,8 +140,27 @@ function Router() {
 }
 
 function AppContent() {
-  // Update HTML head with website settings
-  const { maintenanceMode } = useWebsiteSettings();
+  const { maintenanceMode, isLoading } = useWebsiteSettings();
+  const isAdminAuthenticated = localStorage.getItem("isAdminAuthenticated") === "true";
+  const [location] = useLocation();
+  const isAdminRoute = location.startsWith("/admin");
+
+  // If we are loading and not on an admin route, show nothing or a minimal loader
+  // This prevents the main website from flickering
+  if (isLoading && !isAdminRoute) {
+    return null; // Or a beautiful minimal loader
+  }
+
+  // If maintenance mode is active, not an admin, and not on an admin route
+  // Show only the Coming Soon page - completely separate from the main Router
+  if (maintenanceMode && !isAdminAuthenticated && !isAdminRoute) {
+    return (
+      <>
+        <SEO />
+        <ComingSoon />
+      </>
+    );
+  }
 
   return (
     <>
