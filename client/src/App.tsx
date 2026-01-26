@@ -26,6 +26,7 @@ import { SEO } from "@/components/seo";
 import AdminLogin from "@/pages/admin-login";
 import SetupGuide from "@/components/setup-guide";
 import { isFirebaseInitialized } from "@/lib/firebase";
+import ComingSoon from "@/pages/coming-soon";
 
 // Simple Protected Route Component
 function ProtectedRoute({ component: Component, ...rest }: any) {
@@ -123,6 +124,16 @@ function PublicRouter() {
 }
 
 function Router() {
+  const { maintenanceMode } = useWebsiteSettings();
+  const isAdminAuthenticated = localStorage.getItem("isAdminAuthenticated") === "true";
+  const [location] = useLocation();
+
+  const isAdminRoute = location.startsWith("/admin");
+
+  if (maintenanceMode && !isAdminAuthenticated && !isAdminRoute) {
+    return <ComingSoon />;
+  }
+
   return (
     <Switch>
       <Route path="/admin/login" component={AdminLogin} />
@@ -140,7 +151,7 @@ function Router() {
 
 function AppContent() {
   // Update HTML head with website settings
-  useWebsiteSettings();
+  const { maintenanceMode } = useWebsiteSettings();
 
   return (
     <>

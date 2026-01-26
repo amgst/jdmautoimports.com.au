@@ -76,6 +76,7 @@ export interface WebsiteSettings {
 
   // Pages
   termsAndConditions?: string;
+  maintenanceMode?: boolean;
 }
 
 const defaultWebsiteSettings: WebsiteSettings = {
@@ -166,6 +167,7 @@ The materials appearing on our website could include technical, typographical, o
 
 ## 5. Governing Law
 These terms and conditions are governed by and construed in accordance with the laws of the location of our headquarters and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.`,
+  maintenanceMode: false,
 };
 
 /**
@@ -217,6 +219,7 @@ export async function saveWebsiteSettings(
       phone: settings.phone || "",
       address: settings.address || "",
       description: settings.description || "",
+      maintenanceMode: settings.maintenanceMode || false,
     };
 
     // Only include optional fields if they have values (Firestore doesn't accept undefined)
@@ -304,7 +307,7 @@ export async function saveWebsiteSettings(
       throw new Error(`Failed to save website settings: ${error.message}`);
     } else {
       const errorStr = String(error);
-      throw new Error(`Failed to save website settings: ${errorStr}`);
+      throw new Error(`Failed to save website settings: ${errorStr} `);
     }
   }
 }

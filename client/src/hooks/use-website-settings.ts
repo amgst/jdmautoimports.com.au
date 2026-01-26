@@ -76,6 +76,9 @@ export function useWebsiteSettings() {
     }
   }, [settings]);
 
-  return { settings, isLoading };
+  return {
+    ...settings,
+    isLoading
+  };
 }
 

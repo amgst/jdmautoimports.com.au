@@ -27,6 +27,7 @@ import { Upload, X, Save } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { uploadImage, isImageFile, isValidFileSize } from "@/lib/imageUpload";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Switch } from "@/components/ui/switch";
 
 // Custom URL validator that accepts both full URLs and relative paths
 const urlOrPath = z.string().refine(
@@ -111,6 +112,7 @@ const websiteSettingsSchema = z.object({
 
   // Pages
   termsAndConditions: z.string().optional(),
+  maintenanceMode: z.boolean().default(false),
 });
 
 type WebsiteSettingsForm = z.infer<typeof websiteSettingsSchema>;
@@ -203,6 +205,7 @@ export default function WebsiteSettings() {
 
       // Pages
       termsAndConditions: "",
+      maintenanceMode: false,
     },
   });
 
@@ -276,6 +279,7 @@ export default function WebsiteSettings() {
 
         // Pages
         termsAndConditions: settings.termsAndConditions || "",
+        maintenanceMode: settings.maintenanceMode || false,
       });
       if (settings.logo) {
         setLogoPreview(settings.logo);
@@ -359,6 +363,7 @@ export default function WebsiteSettings() {
 
         // Pages
         termsAndConditions: data.termsAndConditions || undefined,
+        maintenanceMode: data.maintenanceMode,
       };
       return saveWebsiteSettings(cleanedData);
     },
@@ -685,12 +690,33 @@ export default function WebsiteSettings() {
             <TabsContent value="general" className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Branding</CardTitle>
+                  <CardTitle>Branding & Site Status</CardTitle>
                   <CardDescription>
-                    Set your website name, logo, and favicon
+                    Configure site visibility and basic information
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="maintenanceMode"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 bg-yellow-50/50 border-yellow-200">
+                        <div className="space-y-0.5">
+                          <FormLabel className="text-base text-yellow-900 font-bold">Maintenance Mode</FormLabel>
+                          <FormDescription className="text-yellow-800">
+                            When enabled, public users will see a "Coming Soon" page. Admins can still access the site.
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
                   <FormField
                     control={form.control}
                     name="websiteName"
