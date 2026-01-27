@@ -92,8 +92,8 @@ const defaultWebsiteSettings: WebsiteSettings = {
   xUrl: "",
   instagramUrl: "",
   linkedinUrl: "",
-  metaDescription: "Premium car rental in Australia. Choose from luxury sedans, SUVs, sports cars and more. Best rates, flexible bookings, and exceptional service across Sydney, Melbourne, Brisbane, Perth, and Adelaide. Book your dream car today.",
-  metaKeywords: "car rental Australia, luxury car hire Australia, premium car rental Sydney, car hire Melbourne, rent car Brisbane, vehicle rental Perth, car rental Adelaide, Australia car hire, premium vehicles Australia, luxury cars Australia",
+  metaDescription: "JDM Auto Imports offers premium JDM and luxury car rentals in Australia. Choose from our exclusive fleet of Japanese imports and high-performance vehicles.",
+  metaKeywords: "JDM imports, car rental Australia, luxury car hire Australia, JDM Auto Imports, Japanese car rental Sydney, performance car hire Melbourne",
 
   // Hero Defaults
   heroTitle: "JDM Auto Imports",

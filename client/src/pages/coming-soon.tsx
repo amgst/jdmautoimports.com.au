@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function ComingSoon() {
-    const { websiteName, logo, email, phone, address, companyName } = useWebsiteSettings();
+    const { isLoading, ...settings } = useWebsiteSettings();
+    const { websiteName, logo, companyName } = settings;
     const [currentDate, setCurrentDate] = useState(new Date());
 
     useEffect(() => {
@@ -53,31 +54,11 @@ export default function ComingSoon() {
                     We'll be back online shortly. Thank you for your patience!
                 </p>
 
-                {/* Contact info grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                    {email && (
-                        <div className="flex flex-col items-center p-4 rounded-xl bg-white/5 border border-white/10">
-                            <Mail className="h-5 w-5 text-blue-400 mb-2" />
-                            <span className="text-sm font-medium">{email}</span>
-                        </div>
-                    )}
-                    {phone && (
-                        <div className="flex flex-col items-center p-4 rounded-xl bg-white/5 border border-white/10">
-                            <Phone className="h-5 w-5 text-blue-400 mb-2" />
-                            <span className="text-sm font-medium">{phone}</span>
-                        </div>
-                    )}
-                    {address && (
-                        <div className="flex flex-col items-center p-4 rounded-xl bg-white/5 border border-white/10">
-                            <MapPin className="h-5 w-5 text-blue-400 mb-2" />
-                            <span className="text-sm font-medium line-clamp-1">{address}</span>
-                        </div>
-                    )}
-                </div>
+                {/* Contact information removed at user request */}
 
                 <div className="pt-8 border-t border-white/10">
                     <p className="text-neutral-500 text-sm">
-                        &copy; {new Date().getFullYear()} {companyName}. All rights reserved.
+                        &copy; {new Date().getFullYear()} {websiteName || companyName}. All rights reserved.
                     </p>
                 </div>
             </motion.div>

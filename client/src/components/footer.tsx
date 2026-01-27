@@ -27,7 +27,7 @@ const XIcon = ({ className }: { className?: string }) => (
 );
 
 export function Footer() {
-  const { settings } = useWebsiteSettings();
+  const { isLoading, ...settings } = useWebsiteSettings();
   const [logoError, setLogoError] = useState(false);
 
   const logoUrl = settings?.logo;
@@ -39,7 +39,7 @@ export function Footer() {
 
   const websiteName = settings?.websiteName || "Tokyo Drive";
   const companyName = settings?.companyName || "Tokyo Drive";
-  const description = settings?.description || "Premium car rental service with the finest vehicles and exceptional customer experience.";
+  const description = settings?.description || "JDM Auto Imports - Premium car rental service with the finest Japanese imports and luxury vehicles.";
   const email = settings?.email || "info@tokyodrive.com";
   const phone = settings?.phone || "+81 3-1234-5678";
   const address = settings?.address || "123 Premium Avenue, Tokyo, Japan";

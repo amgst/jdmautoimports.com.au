@@ -131,7 +131,7 @@ export default function CarDetail() {
   if (isLoading) {
     return (
       <>
-        <SEO title="Loading Car Details" description="Premium car rental in Australia" />
+        <SEO title="Loading Car Details" description="JDM Auto Imports - Premium Car Rentals" />
         <div className="min-h-screen bg-background">
           <div className="max-w-6xl mx-auto px-6 py-12">
             <Skeleton className="h-8 w-32 mb-8" />
