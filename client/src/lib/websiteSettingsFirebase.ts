@@ -133,7 +133,7 @@ const defaultWebsiteSettings: WebsiteSettings = {
   testimonialsSubtitle: "Hear from those who have experienced our premium service",
   testimonial1Name: "James Davidson",
   testimonial1Role: "Business Executive",
-  testimonial1Content: "Outstanding service! The Tesla Model 3 was in perfect condition, and the booking process was seamless. Premium Car Rentals Australia made my business trip incredibly convenient.",
+  testimonial1Content: "Outstanding service! The Tesla Model 3 was in perfect condition, and the booking process was seamless. JDM Auto Imports made my business trip incredibly convenient.",
   testimonial2Name: "Sarah Martinez",
   testimonial2Role: "Family Traveler",
   testimonial2Content: "We rented the BMW X5 for our family vacation and it was perfect! Spacious, comfortable, and the customer support was fantastic. Highly recommend!",
