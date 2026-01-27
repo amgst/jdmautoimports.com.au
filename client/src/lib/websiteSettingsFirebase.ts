@@ -202,112 +202,37 @@ export async function saveWebsiteSettings(
 ): Promise<void> {
   try {
     if (!isFirebaseInitialized) {
-      console.warn("Saving disabled in Demo Mode");
-      return;
+      throw new Error("Firebase is not initialized. Please check your environment variables (.env).");
     }
 
     console.log("Attempting to save website settings:", settings);
     const docRef = doc(db, WEBSITE_SETTINGS_DOC, WEBSITE_SETTINGS_ID);
 
-    // Clean up the data - remove undefined values and ensure all required fields exist
-    const dataToSave: Record<string, any> = {
-      websiteName: settings.websiteName || "",
-      logo: settings.logo || "",
-      favicon: settings.favicon || "/favicon.png",
-      companyName: settings.companyName || "",
-      email: settings.email || "",
-      phone: settings.phone || "",
-      address: settings.address || "",
-      description: settings.description || "",
-      maintenanceMode: settings.maintenanceMode || false,
-    };
+    // Clean up the data - remove undefined values
+    const dataToSave: Record<string, any> = {};
 
-    // Only include optional fields if they have values (Firestore doesn't accept undefined)
-    if (settings.facebookUrl && settings.facebookUrl.trim()) {
-      dataToSave.facebookUrl = settings.facebookUrl;
-    }
-    if (settings.xUrl && settings.xUrl.trim()) {
-      dataToSave.xUrl = settings.xUrl;
-    }
-    if (settings.instagramUrl && settings.instagramUrl.trim()) {
-      dataToSave.instagramUrl = settings.instagramUrl;
-    }
-    if (settings.linkedinUrl && settings.linkedinUrl.trim()) {
-      dataToSave.linkedinUrl = settings.linkedinUrl;
-    }
-    if (settings.metaDescription && settings.metaDescription.trim()) {
-      dataToSave.metaDescription = settings.metaDescription;
-    }
-    if (settings.metaKeywords && settings.metaKeywords.trim()) {
-      dataToSave.metaKeywords = settings.metaKeywords;
-    }
+    // Spread all settings and then override/clean specific ones
+    Object.entries(settings).forEach(([key, value]) => {
+      if (value !== undefined) {
+        dataToSave[key] = value;
+      }
+    });
 
-    // Hero Section Fields
-    if (settings.heroTitle !== undefined) dataToSave.heroTitle = settings.heroTitle;
-    if (settings.heroSubtitle !== undefined) dataToSave.heroSubtitle = settings.heroSubtitle;
-    if (settings.heroImage !== undefined) dataToSave.heroImage = settings.heroImage;
-    if (settings.heroButtonText !== undefined) dataToSave.heroButtonText = settings.heroButtonText;
-    if (settings.heroButtonLink !== undefined) dataToSave.heroButtonLink = settings.heroButtonLink;
-    if (settings.heroLearnMoreText !== undefined) dataToSave.heroLearnMoreText = settings.heroLearnMoreText;
-    if (settings.heroLearnMoreLink !== undefined) dataToSave.heroLearnMoreLink = settings.heroLearnMoreLink;
-
-    // Featured Section
-    if (settings.featuredTitle !== undefined) dataToSave.featuredTitle = settings.featuredTitle;
-    if (settings.featuredSubtitle !== undefined) dataToSave.featuredSubtitle = settings.featuredSubtitle;
-
-    // How It Works Section
-    if (settings.howItWorksTitle !== undefined) dataToSave.howItWorksTitle = settings.howItWorksTitle;
-    if (settings.howItWorksSubtitle !== undefined) dataToSave.howItWorksSubtitle = settings.howItWorksSubtitle;
-    if (settings.howItWorksStep1Title !== undefined) dataToSave.howItWorksStep1Title = settings.howItWorksStep1Title;
-    if (settings.howItWorksStep1Description !== undefined) dataToSave.howItWorksStep1Description = settings.howItWorksStep1Description;
-    if (settings.howItWorksStep2Title !== undefined) dataToSave.howItWorksStep2Title = settings.howItWorksStep2Title;
-    if (settings.howItWorksStep2Description !== undefined) dataToSave.howItWorksStep2Description = settings.howItWorksStep2Description;
-    if (settings.howItWorksStep3Title !== undefined) dataToSave.howItWorksStep3Title = settings.howItWorksStep3Title;
-    if (settings.howItWorksStep3Description !== undefined) dataToSave.howItWorksStep3Description = settings.howItWorksStep3Description;
-
-    // Stats Section
-    if (settings.stats1Value !== undefined) dataToSave.stats1Value = settings.stats1Value;
-    if (settings.stats1Label !== undefined) dataToSave.stats1Label = settings.stats1Label;
-    if (settings.stats2Value !== undefined) dataToSave.stats2Value = settings.stats2Value;
-    if (settings.stats2Label !== undefined) dataToSave.stats2Label = settings.stats2Label;
-    if (settings.stats3Value !== undefined) dataToSave.stats3Value = settings.stats3Value;
-    if (settings.stats3Label !== undefined) dataToSave.stats3Label = settings.stats3Label;
-    if (settings.stats4Value !== undefined) dataToSave.stats4Value = settings.stats4Value;
-    if (settings.stats4Label !== undefined) dataToSave.stats4Label = settings.stats4Label;
-
-    // Testimonials Section
-    if (settings.testimonialsTitle !== undefined) dataToSave.testimonialsTitle = settings.testimonialsTitle;
-    if (settings.testimonialsSubtitle !== undefined) dataToSave.testimonialsSubtitle = settings.testimonialsSubtitle;
-    if (settings.testimonial1Name !== undefined) dataToSave.testimonial1Name = settings.testimonial1Name;
-    if (settings.testimonial1Role !== undefined) dataToSave.testimonial1Role = settings.testimonial1Role;
-    if (settings.testimonial1Content !== undefined) dataToSave.testimonial1Content = settings.testimonial1Content;
-    if (settings.testimonial2Name !== undefined) dataToSave.testimonial2Name = settings.testimonial2Name;
-    if (settings.testimonial2Role !== undefined) dataToSave.testimonial2Role = settings.testimonial2Role;
-    if (settings.testimonial2Content !== undefined) dataToSave.testimonial2Content = settings.testimonial2Content;
-
-    // CTA Section
-    if (settings.ctaTitle !== undefined) dataToSave.ctaTitle = settings.ctaTitle;
-    if (settings.ctaSubtitle !== undefined) dataToSave.ctaSubtitle = settings.ctaSubtitle;
-    if (settings.ctaButtonText !== undefined) dataToSave.ctaButtonText = settings.ctaButtonText;
-    if (settings.ctaButtonLink !== undefined) dataToSave.ctaButtonLink = settings.ctaButtonLink;
-
-    // Pages
-    if (settings.termsAndConditions !== undefined) dataToSave.termsAndConditions = settings.termsAndConditions;
+    // Ensure core fields have defaults if empty
+    dataToSave.websiteName = dataToSave.websiteName || "JDM Auto Imports";
+    dataToSave.companyName = dataToSave.companyName || "JDM Auto Imports";
+    dataToSave.favicon = dataToSave.favicon || "/favicon.png";
+    dataToSave.maintenanceMode = !!dataToSave.maintenanceMode;
 
     console.log("Data to save to Firestore:", dataToSave);
     await setDoc(docRef, dataToSave, { merge: true });
     console.log("Successfully saved website settings to Firestore");
   } catch (error) {
     console.error("Error saving website settings:", error);
-    // Provide more detailed error information
     if (error instanceof Error) {
-      console.error("Error name:", error.name);
-      console.error("Error message:", error.message);
-      console.error("Error stack:", error.stack);
-      throw new Error(`Failed to save website settings: ${error.message}`);
-    } else {
-      const errorStr = String(error);
-      throw new Error(`Failed to save website settings: ${errorStr} `);
+      throw error;
     }
+    throw new Error(String(error));
   }
 }
+

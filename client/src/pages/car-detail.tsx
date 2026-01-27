@@ -49,10 +49,14 @@ export default function CarDetail() {
   // Interactive Calendar State
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
 
-  const { data: car, isLoading } = useQuery<Car>({
+  const { data: car, isLoading } = useQuery({
     queryKey: ["carBySlug", slug],
     enabled: !!slug,
-    queryFn: () => getCarBySlugFirebase(slug!),
+    queryFn: async () => {
+      const result = await getCarBySlugFirebase(slug!);
+      if (!result) throw new Error("Car not found");
+      return result;
+    },
   });
 
   const { data: pricingSettings } = useQuery({
@@ -119,10 +123,10 @@ export default function CarDetail() {
   }, [car?.id, uniqueImages.length]);
 
   // Generate SEO data for this car
-  const seoTitle = car ? `${car.name} - Car Rental Australia` : "Car Details - Premium Car Rentals Australia";
+  const seoTitle = car ? `${car.name} - JDM Auto Imports` : "Car Details - JDM Auto Imports";
   const seoDescription = car
-    ? `Rent ${car.name} in Australia. ${car.description} Starting at $${car.pricePerDay}/day. Book now for best rates and flexible booking options.`
-    : "Browse premium car rental options in Australia";
+    ? `Rent ${car.name} from JDM Auto Imports. ${car.description} Starting at $${car.pricePerDay}/day. Book now for best rates and flexible booking options.`
+    : "Browse JDM and premium car rental options in Australia";
 
   if (isLoading) {
     return (

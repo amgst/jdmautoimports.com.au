@@ -192,7 +192,7 @@ export default function WebsiteSettings() {
       testimonialsSubtitle: "Hear from those who have experienced our premium service",
       testimonial1Name: "James Davidson",
       testimonial1Role: "Business Executive",
-      testimonial1Content: "Outstanding service! The Tesla Model 3 was in perfect condition, and the booking process was seamless. Premium Car Rentals Australia made my business trip incredibly convenient.",
+      testimonial1Content: "Outstanding service! The Tesla Model 3 was in perfect condition, and the booking process was seamless. JDM Auto Imports made my business trip incredibly convenient.",
       testimonial2Name: "Sarah Martinez",
       testimonial2Role: "Family Traveler",
       testimonial2Content: "We rented the BMW X5 for our family vacation and it was perfect! Spacious, comfortable, and the customer support was fantastic. Highly recommend!",
@@ -229,8 +229,8 @@ export default function WebsiteSettings() {
         metaKeywords: settings.metaKeywords || "",
 
         // Hero
-        heroTitle: settings.heroTitle || "Premium Car Rentals Australia",
-        heroSubtitle: settings.heroSubtitle || "Experience luxury and performance with Australia's finest collection of premium vehicles. Available across Sydney, Melbourne, Brisbane, Perth, and Adelaide.",
+        heroTitle: settings.heroTitle || "JDM Auto Imports",
+        heroSubtitle: settings.heroSubtitle || "Experience luxury and performance with Australia's finest collection of JDM and premium vehicles.",
         heroImage: settings.heroImage || "",
         heroButtonText: settings.heroButtonText || "Browse Our Fleet",
         heroButtonLink: settings.heroButtonLink || "/cars",
@@ -266,7 +266,7 @@ export default function WebsiteSettings() {
         testimonialsSubtitle: settings.testimonialsSubtitle || "Hear from those who have experienced our premium service",
         testimonial1Name: settings.testimonial1Name || "James Davidson",
         testimonial1Role: settings.testimonial1Role || "Business Executive",
-        testimonial1Content: settings.testimonial1Content || "Outstanding service! The Tesla Model 3 was in perfect condition, and the booking process was seamless. Premium Car Rentals Australia made my business trip incredibly convenient.",
+        testimonial1Content: settings.testimonial1Content || "Outstanding service! The Tesla Model 3 was in perfect condition, and the booking process was seamless. JDM Auto Imports made my business trip incredibly convenient.",
         testimonial2Name: settings.testimonial2Name || "Sarah Martinez",
         testimonial2Role: settings.testimonial2Role || "Family Traveler",
         testimonial2Content: settings.testimonial2Content || "We rented the BMW X5 for our family vacation and it was perfect! Spacious, comfortable, and the customer support was fantastic. Highly recommend!",
@@ -374,9 +374,7 @@ export default function WebsiteSettings() {
         description: "Website settings saved successfully",
       });
       // Update document title if available
-      if (typeof document !== "undefined") {
-        document.title = `${data.websiteName} - Premium Car Rentals`;
-      }
+      document.title = `${data.websiteName} - JDM Auto Imports`;
     },
     onError: (error: unknown) => {
       console.error("Error saving website settings:", error);
@@ -1027,7 +1025,7 @@ export default function WebsiteSettings() {
                       <FormItem>
                         <FormLabel>Hero Title</FormLabel>
                         <FormControl>
-                          <Input placeholder="Premium Car Rentals Australia" {...field} />
+                          <Input placeholder="JDM Auto Imports" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

@@ -15,8 +15,8 @@ import {
 import { useWebsiteSettings } from "@/hooks/use-website-settings";
 
 export default function About() {
-  const { settings } = useWebsiteSettings();
-  const websiteName = settings?.websiteName || "Premium Car Rentals Australia";
+  const { isLoading, ...settings } = useWebsiteSettings();
+  const websiteName = settings?.websiteName || "JDM Auto Imports";
   const companyName = settings?.companyName || websiteName;
   const values = [
     {
@@ -56,8 +56,8 @@ export default function About() {
           <div className="max-w-3xl">
             <h1 className="text-5xl md:text-6xl font-bold mb-6">About {companyName}</h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              We are a premium car rental service dedicated to providing exceptional vehicles and 
-              outstanding customer experiences. Since our founding, we've been committed to making 
+              We are a premium car rental service dedicated to providing exceptional vehicles and
+              outstanding customer experiences. Since our founding, we've been committed to making
               luxury and performance accessible to everyone.
             </p>
           </div>
@@ -71,11 +71,11 @@ export default function About() {
             <div>
               <h2 className="text-4xl font-bold mb-6">Our Mission</h2>
               <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
-                At {companyName}, our mission is to provide premium car rental services that exceed 
+                At {companyName}, our mission is to provide premium car rental services that exceed
                 expectations. We believe that every journey should be comfortable, safe, and memorable.
               </p>
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                Whether you're traveling for business or pleasure, we offer a curated selection of 
+                Whether you're traveling for business or pleasure, we offer a curated selection of
                 luxury vehicles maintained to the highest standards, backed by exceptional customer service.
               </p>
               <Link href="/cars">

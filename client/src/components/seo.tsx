@@ -12,7 +12,7 @@ interface SEOProps {
 
 export function SEO({ title, description, image, type = "website", noindex = false }: SEOProps) {
   const [location] = useLocation();
-  const { settings } = useWebsiteSettings();
+  const { isLoading, ...settings } = useWebsiteSettings();
 
   const getAbsoluteUrl = (url?: string | null) => {
     if (!url) return undefined;
@@ -33,7 +33,7 @@ export function SEO({ title, description, image, type = "website", noindex = fal
     if (!settings) return;
 
     // Update document title
-    const siteName = settings.websiteName || "Premium Car Rentals Australia";
+    const siteName = settings.websiteName || "JDM Auto Imports";
     const pageTitle = title ? `${siteName} | ${title}` : siteName;
     document.title = pageTitle;
 
@@ -133,7 +133,7 @@ export function SEO({ title, description, image, type = "website", noindex = fal
     const structuredData = {
       "@context": "https://schema.org",
       "@type": "CarRental",
-      "name": settings.companyName || settings.websiteName || "Premium Car Rentals Australia",
+      "name": settings.companyName || settings.websiteName || "JDM Auto Imports",
       "description": settings.description || settings.metaDescription || "",
       "url": canonicalUrl,
       "telephone": settings.phone || "",

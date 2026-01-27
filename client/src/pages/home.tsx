@@ -32,8 +32,8 @@ export default function Home() {
     queryKey: ["cars"],
     queryFn: getAllCarsFirebase,
   });
-  const { settings } = useWebsiteSettings();
-  const websiteName = settings?.websiteName || "Premium Car Rentals Australia";
+  const { isLoading: isSettingsLoading, ...settings } = useWebsiteSettings();
+  const websiteName = settings?.websiteName || "JDM Auto Imports";
 
   const featuredCars = cars?.slice(0, 3) || [];
 
@@ -41,8 +41,8 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Premium Car Rentals Australia"
-        description="Australia's premier car rental service offering luxury vehicles, premium sedans, SUVs, and sports cars. Book your perfect vehicle for your Australian adventure with exceptional service and competitive rates."
+        title="JDM Auto Imports"
+        description="Australia's premier car rental service offering JDM and premium vehicles. Book your perfect vehicle for your Australian adventure with exceptional service and competitive rates."
       />
       <div>
         <section className="relative h-screen min-h-[600px] flex items-center justify-center">
@@ -55,10 +55,10 @@ export default function Home() {
 
           <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
-              {settings?.heroTitle || "Premium Car Rentals Australia"}
+              {settings?.heroTitle || "JDM Auto Imports"}
             </h1>
             <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed max-w-2xl mx-auto">
-              {settings?.heroSubtitle || "Experience luxury and performance with Australia's finest collection of premium vehicles. Available across Sydney, Melbourne, Brisbane, Perth, and Adelaide."}
+              {settings?.heroSubtitle || "Experience luxury and performance with Australia's finest collection of JDM and premium vehicles."}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Link href={settings?.heroButtonLink || "/cars"}>
