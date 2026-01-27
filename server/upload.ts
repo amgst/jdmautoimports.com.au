@@ -24,23 +24,32 @@ if (!isVercel) {
 const storage = isVercel
   ? multer.memoryStorage() // Use memory storage on Vercel, we'll upload to Blob
   : multer.diskStorage({
-      destination: (_req, _file, cb) => {
-        cb(null, uploadsDir!);
-      },
-      filename: (_req, file, cb) => {
-        const ext = path.extname(file.originalname) || ".jpg";
-        const uniqueName = `${Date.now()}_${randomUUID()}${ext}`;
-        cb(null, uniqueName);
-      },
-    });
+    destination: (_req, _file, cb) => {
+      cb(null, uploadsDir!);
+    },
+    filename: (_req, file, cb) => {
+      const ext = path.extname(file.originalname) || ".jpg";
+      const uniqueName = `${Date.now()}_${randomUUID()}${ext}`;
+      cb(null, uniqueName);
+    },
+  });
 
 // File filter - only allow images
 const fileFilter = (_req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
-  const allowedMimes = ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"];
+  const allowedMimes = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/gif",
+    "image/webp",
+    "image/x-icon",
+    "image/vnd.microsoft.icon",
+    "image/svg+xml"
+  ];
   if (allowedMimes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error("Only image files are allowed (JPEG, PNG, GIF, WebP)"));
+    cb(new Error("Only image files are allowed (JPEG, PNG, GIF, WebP, ICO, SVG)"));
   }
 };
 
@@ -61,7 +70,7 @@ async function uploadToBlob(file: Express.Multer.File): Promise<string> {
 
   const ext = path.extname(file.originalname) || ".jpg";
   const filename = `${Date.now()}_${randomUUID()}${ext}`;
-  
+
   const blob = await put(filename, file.buffer, {
     access: "public",
     token: BLOB_STORE_TOKEN,
@@ -90,7 +99,7 @@ export async function deleteImage(urlOrFilename: string): Promise<boolean> {
         console.error("BLOB_READ_WRITE_TOKEN not set, cannot delete from Blob Storage");
         return false;
       }
-      
+
       // Extract blob key from URL
       const url = new URL(urlOrFilename);
       const key = url.pathname.split("/").pop();
