@@ -139,10 +139,10 @@ export default function WebsiteSettings() {
   const form = useForm<WebsiteSettingsForm>({
     resolver: zodResolver(websiteSettingsSchema),
     defaultValues: {
-      websiteName: "Premium Car Rentals Australia",
+      websiteName: "JDM Auto Imports",
       logo: "",
       favicon: "/favicon.png",
-      companyName: "Premium Car Rentals Australia",
+      companyName: "JDM Auto Imports",
       email: "info@premiumcarrentals.com.au",
       phone: "+61 2 9999 8888",
       address: "123 Premium Street, Sydney, NSW 2000, Australia",
@@ -155,8 +155,8 @@ export default function WebsiteSettings() {
       metaKeywords: "car rental Australia, luxury car hire Australia, premium car rental Sydney, car hire Melbourne, rent car Brisbane, vehicle rental Perth, car rental Adelaide, Australia car hire, premium vehicles Australia, luxury cars Australia",
 
       // Hero Defaults
-      heroTitle: "Premium Car Rentals Australia",
-      heroSubtitle: "Experience luxury and performance with Australia's finest collection of premium vehicles. Available across Sydney, Melbourne, Brisbane, Perth, and Adelaide.",
+      heroTitle: "JDM Auto Imports",
+      heroSubtitle: "Experience luxury and performance with Australia's finest collection of premium vehicles.",
       heroImage: "",
       heroButtonText: "Browse Our Fleet",
       heroButtonLink: "/cars",

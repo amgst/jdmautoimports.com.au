@@ -80,10 +80,10 @@ export interface WebsiteSettings {
 }
 
 const defaultWebsiteSettings: WebsiteSettings = {
-  websiteName: "Car Rentals",
+  websiteName: "JDM Auto Imports",
   logo: "",
   favicon: "/favicon.png",
-  companyName: "Car Rentals",
+  companyName: "JDM Auto Imports",
   email: "info@premiumcarrentals.com.au",
   phone: "+61 2 9999 8888",
   address: "123 Premium Street, Sydney, NSW 2000, Australia",
@@ -96,8 +96,8 @@ const defaultWebsiteSettings: WebsiteSettings = {
   metaKeywords: "car rental Australia, luxury car hire Australia, premium car rental Sydney, car hire Melbourne, rent car Brisbane, vehicle rental Perth, car rental Adelaide, Australia car hire, premium vehicles Australia, luxury cars Australia",
 
   // Hero Defaults
-  heroTitle: "Car Rentals",
-  heroSubtitle: "Experience luxury and performance with Australia's finest collection of premium vehicles. Available across Sydney, Melbourne, Brisbane, Perth, and Adelaide.",
+  heroTitle: "JDM Auto Imports",
+  heroSubtitle: "Experience luxury and performance with Australia's finest collection of premium vehicles.",
   heroImage: "", // Will fall back to default if empty
   heroButtonText: "Browse Our Fleet",
   heroButtonLink: "/cars",
