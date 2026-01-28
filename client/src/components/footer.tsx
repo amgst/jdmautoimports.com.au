@@ -59,13 +59,15 @@ export function Footer() {
                 <img
                   src={logoUrl}
                   alt={websiteName}
-                  className="h-5 sm:h-6 w-auto object-contain"
+                  className="h-10 w-auto object-contain"
                   onError={() => setLogoError(true)}
                 />
               ) : (
-                <Car className="h-5 sm:h-6 w-5 sm:w-6 text-primary" />
+                <>
+                  <Car className="h-5 sm:h-6 w-5 sm:w-6 text-primary" />
+                  <span className="text-lg sm:text-xl font-bold">{websiteName}</span>
+                </>
               )}
-              <span className="text-lg sm:text-xl font-bold">{websiteName}</span>
             </div>
             <p className="text-sm sm:text-base text-muted-foreground">
               {description}

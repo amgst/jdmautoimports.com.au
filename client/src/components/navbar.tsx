@@ -51,13 +51,15 @@ export function Navbar() {
                 <img
                   src={logoUrl}
                   alt={websiteName}
-                  className="h-5 sm:h-6 w-auto object-contain"
+                  className="h-8 sm:h-10 w-auto object-contain"
                   onError={() => setLogoError(true)}
                 />
               ) : (
-                <Car className="h-5 sm:h-6 w-5 sm:w-6" />
+                <>
+                  <Car className="h-5 sm:h-6 w-5 sm:w-6" />
+                  <span className="text-lg sm:text-xl font-bold truncate max-w-[120px] sm:max-w-none">{websiteName}</span>
+                </>
               )}
-              <span className="text-lg sm:text-xl font-bold truncate max-w-[120px] sm:max-w-none">{websiteName}</span>
             </div>
           </Link>
 
@@ -97,13 +99,15 @@ export function Navbar() {
                     <img
                       src={logoUrl}
                       alt={websiteName}
-                      className="h-6 w-auto object-contain"
+                      className="h-10 w-auto object-contain"
                       onError={() => setLogoError(true)}
                     />
                   ) : (
-                    <Car className="h-6 w-6" />
+                    <>
+                      <Car className="h-6 w-6" />
+                      <span className="text-xl font-bold">{websiteName}</span>
+                    </>
                   )}
-                  <span className="text-xl font-bold">{websiteName}</span>
                 </div>
                 {navLinks.map((link) => (
                   <Link key={link.href} href={link.href}>
