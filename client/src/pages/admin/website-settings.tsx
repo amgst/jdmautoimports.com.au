@@ -458,6 +458,7 @@ export default function WebsiteSettings() {
       const url = await uploadImage(logoFile);
       form.setValue("logo", url);
       setLogoFile(null);
+      // setLogoPreview(url); // Keep the preview but clear the file object
       if (!silent) {
         toast({
           title: "Success",
@@ -474,7 +475,7 @@ export default function WebsiteSettings() {
           variant: "destructive",
         });
       }
-      throw error; // Re-throw so onSubmit can handle it
+      throw error;
     } finally {
       setIsUploadingLogo(false);
     }
@@ -503,7 +504,7 @@ export default function WebsiteSettings() {
           variant: "destructive",
         });
       }
-      throw error; // Re-throw so onSubmit can handle it
+      throw error;
     } finally {
       setIsUploadingFavicon(false);
     }
@@ -573,41 +574,31 @@ export default function WebsiteSettings() {
     try {
       let uploadErrors: string[] = [];
 
+      // Ensure we use the latest values from form if they were updated via individual uploads
+      const currentValues = form.getValues();
+      const submissionData = { ...data, ...currentValues };
+
       // Upload logo if a new file was selected (silent mode - no toast during submit)
       if (logoFile) {
         try {
           const logoUrl = await uploadLogo(true);
           if (logoUrl) {
-            data.logo = logoUrl;
+            submissionData.logo = logoUrl;
           }
         } catch (error) {
           uploadErrors.push("Logo upload failed");
-          console.error("Logo upload error:", error);
-          // Keep existing logo value if upload fails
-          if (data.logo) {
-            // Use existing value
-          } else {
-            data.logo = ""; // Ensure empty string if no existing value
-          }
         }
       }
 
-      // Upload favicon if a new file was selected (silent mode - no toast during submit)
+      // Upload favicon if a new file was selected
       if (faviconFile) {
         try {
           const faviconUrl = await uploadFavicon(true);
           if (faviconUrl) {
-            data.favicon = faviconUrl;
+            submissionData.favicon = faviconUrl;
           }
         } catch (error) {
           uploadErrors.push("Favicon upload failed");
-          console.error("Favicon upload error:", error);
-          // Keep existing favicon value if upload fails
-          if (data.favicon) {
-            // Use existing value
-          } else {
-            data.favicon = "/favicon.png"; // Use default if no existing value
-          }
         }
       }
 
@@ -616,15 +607,10 @@ export default function WebsiteSettings() {
         try {
           const heroImageUrl = await uploadHeroImage(true);
           if (heroImageUrl) {
-            data.heroImage = heroImageUrl;
+            submissionData.heroImage = heroImageUrl;
           }
         } catch (error) {
           uploadErrors.push("Hero image upload failed");
-          console.error("Hero image upload error:", error);
-          // Keep existing value
-          if (!data.heroImage) {
-            data.heroImage = "";
-          }
         }
       }
 
@@ -637,9 +623,7 @@ export default function WebsiteSettings() {
         });
       }
 
-      // Save the settings (this will use existing logo/favicon if uploads failed)
-      console.log("Saving website settings:", data);
-      saveMutation.mutate(data);
+      saveMutation.mutate(submissionData);
     } catch (error) {
       console.error("Error in onSubmit:", error);
       toast({
@@ -757,19 +741,31 @@ export default function WebsiteSettings() {
                         <FormLabel>Logo</FormLabel>
                         <FormControl>
                           <div className="space-y-4">
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2">
                               <Input
                                 type="file"
                                 accept="image/*"
                                 onChange={handleLogoChange}
                                 className="flex-1"
                               />
+                              {logoFile && (
+                                <Button
+                                  type="button"
+                                  onClick={() => uploadLogo()}
+                                  disabled={isUploadingLogo}
+                                  size="sm"
+                                  className="shrink-0"
+                                >
+                                  {isUploadingLogo ? "Uploading..." : "Upload Logo"}
+                                </Button>
+                              )}
                               {(logoPreview || field.value) && (
                                 <Button
                                   type="button"
                                   variant="outline"
                                   size="icon"
                                   onClick={removeLogo}
+                                  className="shrink-0"
                                 >
                                   <X className="h-4 w-4" />
                                 </Button>
@@ -807,19 +803,31 @@ export default function WebsiteSettings() {
                         <FormLabel>Favicon</FormLabel>
                         <FormControl>
                           <div className="space-y-4">
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2">
                               <Input
                                 type="file"
                                 accept="image/*"
                                 onChange={handleFaviconChange}
                                 className="flex-1"
                               />
+                              {faviconFile && (
+                                <Button
+                                  type="button"
+                                  onClick={() => uploadFavicon()}
+                                  disabled={isUploadingFavicon}
+                                  size="sm"
+                                  className="shrink-0"
+                                >
+                                  {isUploadingFavicon ? "Uploading..." : "Upload Favicon"}
+                                </Button>
+                              )}
                               {(faviconPreview || field.value) && (
                                 <Button
                                   type="button"
                                   variant="outline"
                                   size="icon"
                                   onClick={removeFavicon}
+                                  className="shrink-0"
                                 >
                                   <X className="h-4 w-4" />
                                 </Button>
@@ -1058,19 +1066,31 @@ export default function WebsiteSettings() {
                         <FormLabel>Hero Background Image</FormLabel>
                         <FormControl>
                           <div className="space-y-4">
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2">
                               <Input
                                 type="file"
                                 accept="image/*"
                                 onChange={handleHeroImageChange}
                                 className="flex-1"
                               />
+                              {heroImageFile && (
+                                <Button
+                                  type="button"
+                                  onClick={() => uploadHeroImage()}
+                                  disabled={isUploadingHeroImage}
+                                  size="sm"
+                                  className="shrink-0"
+                                >
+                                  {isUploadingHeroImage ? "Uploading..." : "Upload Hero Image"}
+                                </Button>
+                              )}
                               {(heroImagePreview || field.value) && (
                                 <Button
                                   type="button"
                                   variant="outline"
                                   size="icon"
                                   onClick={removeHeroImage}
+                                  className="shrink-0"
                                 >
                                   <X className="h-4 w-4" />
                                 </Button>
