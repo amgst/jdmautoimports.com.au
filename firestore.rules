@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow read/write access to website_settings collection
+    // Note: In production, you should add authentication and restrict access
+    match /website_settings/{document} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if true;
+    }
+    
+    // Allow read/write access to cars collection
+    match /cars/{carId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if true;
+    }
+    
+    // Allow read/write access to bookings collection
+    match /bookings/{bookingId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if true;
+    }
+    
+    // Allow read/write access to pricing_settings collection
+    match /pricing_settings/{document} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if true;
+    }
+    
+    // Catch-all rule for any other collections (development only)
+    // Remove this in production and add specific rules for each collection
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
+
