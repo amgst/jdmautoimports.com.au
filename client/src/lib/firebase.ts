@@ -3,12 +3,12 @@ import { getFirestore } from "firebase/firestore";
 
 // Firebase configuration from environment variables
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyCMdH8eoSXk9M8icxWB7cd3neS84faMbr0",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "cars-4ecea.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "cars-4ecea",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "cars-4ecea.firebasestorage.app",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "254741947742",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:254741947742:web:9cc7ec263ed8a8687c1bcf",
+  apiKey: "AIzaSyDh2SrZ0azQfANH-Rgb6y9lxtvmLF_B_Ao",
+  authDomain: "jdmautoimports-b52f0.firebaseapp.com",
+  projectId: "jdmautoimports-b52f0",
+  storageBucket: "jdmautoimports-b52f0.firebasestorage.app",
+  messagingSenderId: "866374087987",
+  appId: "1:866374087987:web:8873d8336a912cc2c0fa46"
 };
 
 const app = initializeApp(firebaseConfig);
