@@ -1,0 +1,108 @@
+import { db } from "./firebase";
+import {
+    collection,
+    addDoc,
+    getDocs,
+    query,
+    where,
+    orderBy,
+    updateDoc,
+} from "firebase/firestore";
+import type { Inquiry, InsertInquiry } from "@shared/schema";
+
+const INQUIRIES_COLLECTION = "inquiries";
+
+// Helper to generate a robust ID
+function generateId(): string {
+    try {
+        if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+            return crypto.randomUUID();
+        }
+    } catch (e) {
+        // Fallback
+    }
+    return Date.now().toString(36) + Math.random().toString(36).substring(2);
+}
+
+export async function createInquiryFirebase(
+    input: InsertInquiry,
+): Promise<Inquiry> {
+    try {
+        console.log("Creating inquiry with data:", input);
+
+        // Use the robust ID generator
+        const id = generateId();
+
+        const inquiry: Inquiry = {
+            carId: input.carId || "",
+            carName: input.carName || "",
+            firstName: input.firstName,
+            lastName: input.lastName,
+            email: input.email,
+            phone: input.phone,
+            address: input.address || "",
+            notes: input.notes || "",
+            budget: input.budget || "",
+            modelPreference: input.modelPreference || "",
+            yearRange: input.yearRange || "",
+            id,
+            status: "pending",
+            createdAt: new Date().toISOString(),
+        };
+
+        console.log("Saving inquiry to Firestore:", inquiry);
+        const docRef = await addDoc(collection(db, INQUIRIES_COLLECTION), inquiry);
+        console.log("Inquiry saved successfully with document ID:", docRef.id);
+
+        return inquiry;
+    } catch (error) {
+        console.error("Error creating inquiry in Firestore:", error);
+        throw new Error(`Failed to create inquiry: ${error instanceof Error ? error.message : String(error)}`);
+    }
+}
+
+export async function getAllInquiriesFirebase(): Promise<Inquiry[]> {
+    const q = query(
+        collection(db, INQUIRIES_COLLECTION),
+        orderBy("createdAt", "desc"),
+    );
+    const snap = await getDocs(q);
+    const inquiries: Inquiry[] = [];
+
+    snap.forEach((docSnap) => {
+        inquiries.push(docSnap.data() as Inquiry);
+    });
+
+    return inquiries;
+}
+
+export async function updateInquiryStatusFirebase(
+    id: string,
+    status: Inquiry["status"],
+): Promise<void> {
+    const q = query(
+        collection(db, INQUIRIES_COLLECTION),
+        where("id", "==", id),
+    );
+    const snap = await getDocs(q);
+    if (snap.empty) return;
+
+    const docRef = snap.docs[0].ref;
+    await updateDoc(docRef, { status });
+}
+
+export async function getInquiriesByCarFirebase(carId: string): Promise<Inquiry[]> {
+    const q = query(
+        collection(db, INQUIRIES_COLLECTION),
+        where("carId", "==", carId),
+        orderBy("createdAt", "desc"),
+    );
+    const snap = await getDocs(q);
+    const inquiries: Inquiry[] = [];
+
+    snap.forEach((docSnap) => {
+        inquiries.push(docSnap.data() as Inquiry);
+    });
+
+    return inquiries;
+}

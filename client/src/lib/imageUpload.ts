@@ -13,23 +13,35 @@ export async function uploadImage(file: File): Promise<string> {
   });
 
   if (!response.ok) {
-    // Check if response is HTML (error page) instead of JSON
     const contentType = response.headers.get("content-type");
-    if (contentType && contentType.includes("text/html")) {
-      const text = await response.text();
-      console.error("Server returned HTML instead of JSON:", text.substring(0, 200));
-      throw new Error("Server error: Received HTML response instead of JSON. Please check server logs.");
-    }
-    
-    try {
-      const error = await response.json();
-      throw new Error(error.error || "Failed to upload image");
-    } catch (e) {
-      if (e instanceof Error && e.message.includes("Server error")) {
-        throw e;
+    let errorMessage = `Upload failed: ${response.status} ${response.statusText}`;
+
+    if (contentType && contentType.includes("application/json")) {
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.error || errorMessage;
+      } catch (e) {
+        console.error("Failed to parse error JSON:", e);
       }
-      throw new Error("Upload failed: " + response.statusText);
+    } else if (contentType && contentType.includes("text/html")) {
+      try {
+        const text = await response.text();
+        console.error("Server returned HTML instead of JSON:", text.substring(0, 500));
+        errorMessage = `Server Error: Received HTML instead of JSON. (Status: ${response.status})`;
+      } catch (e) {
+        console.error("Failed to read error text:", e);
+      }
+    } else {
+      try {
+        const text = await response.text();
+        console.error("Server returned non-JSON response:", text.substring(0, 500));
+        errorMessage = text || errorMessage;
+      } catch (e) {
+        console.error("Failed to read error body:", e);
+      }
     }
+
+    throw new Error(errorMessage);
   }
 
   const data = await response.json();

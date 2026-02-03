@@ -1,4 +1,4 @@
-import { db } from "./firebase";
+import { db, isFirebaseInitialized } from "./firebase";
 import {
   collection,
   doc,
@@ -34,15 +34,56 @@ export interface WebsiteSettings {
   heroLearnMoreText?: string;
   heroLearnMoreLink?: string;
 
+  // Featured Section
+  featuredTitle?: string;
+  featuredSubtitle?: string;
+
+  // How It Works Section
+  howItWorksTitle?: string;
+  howItWorksSubtitle?: string;
+  howItWorksStep1Title?: string;
+  howItWorksStep1Description?: string;
+  howItWorksStep2Title?: string;
+  howItWorksStep2Description?: string;
+  howItWorksStep3Title?: string;
+  howItWorksStep3Description?: string;
+
+  // Stats Section
+  stats1Value?: string;
+  stats1Label?: string;
+  stats2Value?: string;
+  stats2Label?: string;
+  stats3Value?: string;
+  stats3Label?: string;
+  stats4Value?: string;
+  stats4Label?: string;
+
+  // Testimonials Section
+  testimonialsTitle?: string;
+  testimonialsSubtitle?: string;
+  testimonial1Name?: string;
+  testimonial1Role?: string;
+  testimonial1Content?: string;
+  testimonial2Name?: string;
+  testimonial2Role?: string;
+  testimonial2Content?: string;
+
+  // CTA Section
+  ctaTitle?: string;
+  ctaSubtitle?: string;
+  ctaButtonText?: string;
+  ctaButtonLink?: string;
+
   // Pages
   termsAndConditions?: string;
+  maintenanceMode?: boolean;
 }
 
 const defaultWebsiteSettings: WebsiteSettings = {
-  websiteName: "Premium Car Rentals Australia",
+  websiteName: "JDM Auto Imports",
   logo: "",
   favicon: "/favicon.png",
-  companyName: "Premium Car Rentals Australia",
+  companyName: "JDM Auto Imports",
   email: "info@premiumcarrentals.com.au",
   phone: "+61 2 9999 8888",
   address: "123 Premium Street, Sydney, NSW 2000, Australia",
@@ -51,17 +92,57 @@ const defaultWebsiteSettings: WebsiteSettings = {
   xUrl: "",
   instagramUrl: "",
   linkedinUrl: "",
-  metaDescription: "Premium car rental in Australia. Choose from luxury sedans, SUVs, sports cars and more. Best rates, flexible bookings, and exceptional service across Sydney, Melbourne, Brisbane, Perth, and Adelaide. Book your dream car today.",
-  metaKeywords: "car rental Australia, luxury car hire Australia, premium car rental Sydney, car hire Melbourne, rent car Brisbane, vehicle rental Perth, car rental Adelaide, Australia car hire, premium vehicles Australia, luxury cars Australia",
+  metaDescription: "JDM Auto Imports offers premium JDM and luxury car rentals in Australia. Choose from our exclusive fleet of Japanese imports and high-performance vehicles.",
+  metaKeywords: "JDM imports, car rental Australia, luxury car hire Australia, JDM Auto Imports, Japanese car rental Sydney, performance car hire Melbourne",
 
   // Hero Defaults
-  heroTitle: "Premium Car Rentals Australia",
-  heroSubtitle: "Experience luxury and performance with Australia's finest collection of premium vehicles. Available across Sydney, Melbourne, Brisbane, Perth, and Adelaide.",
+  heroTitle: "JDM Auto Imports",
+  heroSubtitle: "Experience luxury and performance with Australia's finest collection of premium vehicles.",
   heroImage: "", // Will fall back to default if empty
   heroButtonText: "Browse Our Fleet",
   heroButtonLink: "/cars",
   heroLearnMoreText: "Learn More",
   heroLearnMoreLink: "#features",
+
+  // Featured Defaults
+  featuredTitle: "Featured Vehicles",
+  featuredSubtitle: "Discover our most popular luxury and performance cars",
+
+  // How It Works Defaults
+  howItWorksTitle: "How It Works",
+  howItWorksSubtitle: "Renting a car has never been easier",
+  howItWorksStep1Title: "Choose Your Car",
+  howItWorksStep1Description: "Browse our extensive fleet and select the perfect vehicle for your needs",
+  howItWorksStep2Title: "Book Online",
+  howItWorksStep2Description: "Complete your reservation quickly and securely through our platform",
+  howItWorksStep3Title: "Hit the Road",
+  howItWorksStep3Description: "Pick up your vehicle and enjoy your journey with confidence",
+
+  // Stats Defaults
+  stats1Value: "1000+",
+  stats1Label: "Happy Customers",
+  stats2Value: "50+",
+  stats2Label: "Premium Vehicles",
+  stats3Value: "5",
+  stats3Label: "Locations",
+  stats4Value: "24/7",
+  stats4Label: "Support",
+
+  // Testimonials Defaults
+  testimonialsTitle: "What Our Customers Say",
+  testimonialsSubtitle: "Hear from those who have experienced our premium service",
+  testimonial1Name: "James Davidson",
+  testimonial1Role: "Business Executive",
+  testimonial1Content: "Outstanding service! The Tesla Model 3 was in perfect condition, and the booking process was seamless. JDM Auto Imports made my business trip incredibly convenient.",
+  testimonial2Name: "Sarah Martinez",
+  testimonial2Role: "Family Traveler",
+  testimonial2Content: "We rented the BMW X5 for our family vacation and it was perfect! Spacious, comfortable, and the customer support was fantastic. Highly recommend!",
+
+  // CTA Defaults
+  ctaTitle: "Ready to Start Your Journey?",
+  ctaSubtitle: "Book your premium vehicle today and experience the road like never before",
+  ctaButtonText: "Book Now",
+  ctaButtonLink: "/cars",
 
   // Pages Defaults
   termsAndConditions: `## Agreement to Terms
@@ -86,6 +167,7 @@ The materials appearing on our website could include technical, typographical, o
 
 ## 5. Governing Law
 These terms and conditions are governed by and construed in accordance with the laws of the location of our headquarters and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.`,
+  maintenanceMode: false,
 };
 
 /**
@@ -93,6 +175,8 @@ These terms and conditions are governed by and construed in accordance with the 
  */
 export async function getWebsiteSettings(): Promise<WebsiteSettings> {
   try {
+    if (!isFirebaseInitialized) return defaultWebsiteSettings;
+
     const docRef = doc(db, WEBSITE_SETTINGS_DOC, WEBSITE_SETTINGS_ID);
     const docSnap = await getDoc(docRef);
 
@@ -117,67 +201,38 @@ export async function saveWebsiteSettings(
   settings: WebsiteSettings
 ): Promise<void> {
   try {
+    if (!isFirebaseInitialized) {
+      throw new Error("Firebase is not initialized. Please check your environment variables (.env).");
+    }
+
     console.log("Attempting to save website settings:", settings);
     const docRef = doc(db, WEBSITE_SETTINGS_DOC, WEBSITE_SETTINGS_ID);
 
-    // Clean up the data - remove undefined values and ensure all required fields exist
-    const dataToSave: Record<string, any> = {
-      websiteName: settings.websiteName || "",
-      logo: settings.logo || "",
-      favicon: settings.favicon || "/favicon.png",
-      companyName: settings.companyName || "",
-      email: settings.email || "",
-      phone: settings.phone || "",
-      address: settings.address || "",
-      description: settings.description || "",
-    };
+    // Clean up the data - remove undefined values
+    const dataToSave: Record<string, any> = {};
 
-    // Only include optional fields if they have values (Firestore doesn't accept undefined)
-    if (settings.facebookUrl && settings.facebookUrl.trim()) {
-      dataToSave.facebookUrl = settings.facebookUrl;
-    }
-    if (settings.xUrl && settings.xUrl.trim()) {
-      dataToSave.xUrl = settings.xUrl;
-    }
-    if (settings.instagramUrl && settings.instagramUrl.trim()) {
-      dataToSave.instagramUrl = settings.instagramUrl;
-    }
-    if (settings.linkedinUrl && settings.linkedinUrl.trim()) {
-      dataToSave.linkedinUrl = settings.linkedinUrl;
-    }
-    if (settings.metaDescription && settings.metaDescription.trim()) {
-      dataToSave.metaDescription = settings.metaDescription;
-    }
-    if (settings.metaKeywords && settings.metaKeywords.trim()) {
-      dataToSave.metaKeywords = settings.metaKeywords;
-    }
+    // Spread all settings and then override/clean specific ones
+    Object.entries(settings).forEach(([key, value]) => {
+      if (value !== undefined) {
+        dataToSave[key] = value;
+      }
+    });
 
-    // Hero Section Fields
-    if (settings.heroTitle !== undefined) dataToSave.heroTitle = settings.heroTitle;
-    if (settings.heroSubtitle !== undefined) dataToSave.heroSubtitle = settings.heroSubtitle;
-    if (settings.heroImage !== undefined) dataToSave.heroImage = settings.heroImage;
-    if (settings.heroButtonText !== undefined) dataToSave.heroButtonText = settings.heroButtonText;
-    if (settings.heroButtonLink !== undefined) dataToSave.heroButtonLink = settings.heroButtonLink;
-    if (settings.heroLearnMoreText !== undefined) dataToSave.heroLearnMoreText = settings.heroLearnMoreText;
-    if (settings.heroLearnMoreLink !== undefined) dataToSave.heroLearnMoreLink = settings.heroLearnMoreLink;
-
-    // Pages
-    if (settings.termsAndConditions !== undefined) dataToSave.termsAndConditions = settings.termsAndConditions;
+    // Ensure core fields have defaults if empty
+    dataToSave.websiteName = dataToSave.websiteName || "JDM Auto Imports";
+    dataToSave.companyName = dataToSave.companyName || "JDM Auto Imports";
+    dataToSave.favicon = dataToSave.favicon || "/favicon.png";
+    dataToSave.maintenanceMode = !!dataToSave.maintenanceMode;
 
     console.log("Data to save to Firestore:", dataToSave);
     await setDoc(docRef, dataToSave, { merge: true });
     console.log("Successfully saved website settings to Firestore");
   } catch (error) {
     console.error("Error saving website settings:", error);
-    // Provide more detailed error information
     if (error instanceof Error) {
-      console.error("Error name:", error.name);
-      console.error("Error message:", error.message);
-      console.error("Error stack:", error.stack);
-      throw new Error(`Failed to save website settings: ${error.message}`);
-    } else {
-      const errorStr = String(error);
-      throw new Error(`Failed to save website settings: ${errorStr}`);
+      throw error;
     }
+    throw new Error(String(error));
   }
 }
+

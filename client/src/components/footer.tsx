@@ -27,7 +27,7 @@ const XIcon = ({ className }: { className?: string }) => (
 );
 
 export function Footer() {
-  const { settings } = useWebsiteSettings();
+  const { isLoading, ...settings } = useWebsiteSettings();
   const [logoError, setLogoError] = useState(false);
 
   const logoUrl = settings?.logo;
@@ -37,19 +37,19 @@ export function Footer() {
     setLogoError(false);
   }, [logoUrl]);
 
-  const websiteName = settings?.websiteName || "Tokyo Drive";
-  const companyName = settings?.companyName || "Tokyo Drive";
-  const description = settings?.description || "Premium car rental service with the finest vehicles and exceptional customer experience.";
-  const email = settings?.email || "info@tokyodrive.com";
-  const phone = settings?.phone || "+81 3-1234-5678";
-  const address = settings?.address || "123 Premium Avenue, Tokyo, Japan";
+  const websiteName = settings?.websiteName || "JDM Auto Imports Australia";
+  const companyName = settings?.companyName || "JDM Auto Imports Australia";
+  const description = settings?.description || "Australia's specialist in direct JDM imports. We source, ship, and comply high-quality Japanese vehicles directly for you.";
+  const email = settings?.email || "info@jdmautoimports.com.au";
+  const phone = settings?.phone || "+61 400 000 000";
+  const address = settings?.address || "Brisbane, Queensland, Australia";
   const facebookUrl = settings?.facebookUrl;
   const xUrl = settings?.xUrl;
   const instagramUrl = settings?.instagramUrl;
   const linkedinUrl = settings?.linkedinUrl;
 
   return (
-    <footer className="bg-card border-t">
+    <footer className="bg-card border-t text-left">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {/* Company Info */}
@@ -59,41 +59,43 @@ export function Footer() {
                 <img
                   src={logoUrl}
                   alt={websiteName}
-                  className="h-5 sm:h-6 w-auto object-contain"
+                  className="h-10 w-auto object-contain"
                   onError={() => setLogoError(true)}
                 />
               ) : (
-                <Car className="h-5 sm:h-6 w-5 sm:w-6 text-primary" />
+                <>
+                  <Car className="h-5 sm:h-6 w-5 sm:w-6 text-primary" />
+                  <span className="text-lg sm:text-xl font-bold">{websiteName}</span>
+                </>
               )}
-              <span className="text-lg sm:text-xl font-bold">{websiteName}</span>
             </div>
-            <p className="text-sm sm:text-base text-muted-foreground">
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
               {description}
             </p>
             <div className="flex gap-3 sm:gap-4">
               {facebookUrl && (
-                <Button variant="outline" size="icon" asChild>
+                <Button variant="outline" size="icon" asChild className="rounded-full shadow-sm">
                   <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
                     <Facebook className="h-4 w-4" />
                   </a>
                 </Button>
               )}
               {xUrl && (
-                <Button variant="outline" size="icon" asChild>
+                <Button variant="outline" size="icon" asChild className="rounded-full shadow-sm">
                   <a href={xUrl} target="_blank" rel="noopener noreferrer">
                     <XIcon className="h-4 w-4" />
                   </a>
                 </Button>
               )}
               {instagramUrl && (
-                <Button variant="outline" size="icon" asChild>
+                <Button variant="outline" size="icon" asChild className="rounded-full shadow-sm">
                   <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
                     <Instagram className="h-4 w-4" />
                   </a>
                 </Button>
               )}
               {linkedinUrl && (
-                <Button variant="outline" size="icon" asChild>
+                <Button variant="outline" size="icon" asChild className="rounded-full shadow-sm">
                   <a href={linkedinUrl} target="_blank" rel="noopener noreferrer">
                     <Linkedin className="h-4 w-4" />
                   </a>
@@ -104,31 +106,26 @@ export function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-3 sm:space-y-4">
-            <h3 className="text-base sm:text-lg font-semibold">Quick Links</h3>
+            <h3 className="text-base sm:text-lg font-bold uppercase tracking-wider text-foreground">Services</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Home
+                <Link href="/cars" className="text-muted-foreground hover:text-primary transition-colors font-medium">
+                  Inventory
                 </Link>
               </li>
               <li>
-                <Link href="/cars" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Our Fleet
+                <Link href="/find-me-a-car" className="text-muted-foreground hover:text-primary transition-colors font-medium">
+                  Find Me a Car
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-muted-foreground hover:text-foreground transition-colors">
-                  About Us
+                <Link href="/about" className="text-muted-foreground hover:text-primary transition-colors font-medium">
+                  How it Works
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Terms & Conditions
+                <Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors font-medium">
+                  Support
                 </Link>
               </li>
             </ul>
@@ -136,23 +133,23 @@ export function Footer() {
 
           {/* Contact Info */}
           <div className="space-y-3 sm:space-y-4">
-            <h3 className="text-base sm:text-lg font-semibold">Contact Us</h3>
-            <ul className="space-y-2 sm:space-y-3">
-              <li className="flex items-start gap-2 sm:gap-3">
-                <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-primary mt-0.5 flex-shrink-0" />
-                <span className="text-sm sm:text-base text-muted-foreground break-words">
+            <h3 className="text-base sm:text-lg font-bold uppercase tracking-wider text-foreground">Contact</h3>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3">
+                <MapPin className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                <span className="text-sm sm:text-base text-muted-foreground font-medium">
                   {address}
                 </span>
               </li>
-              <li className="flex items-center gap-2 sm:gap-3">
-                <Phone className="h-4 w-4 sm:h-5 sm:w-5 text-primary flex-shrink-0" />
-                <a href={`tel:${phone}`} className="text-sm sm:text-base text-muted-foreground hover:text-foreground transition-colors break-all">
+              <li className="flex items-center gap-3">
+                <Phone className="h-5 w-5 text-primary flex-shrink-0" />
+                <a href={`tel:${phone}`} className="text-sm sm:text-base text-muted-foreground hover:text-primary transition-colors font-medium">
                   {phone}
                 </a>
               </li>
-              <li className="flex items-center gap-2 sm:gap-3">
-                <Mail className="h-4 w-4 sm:h-5 sm:w-5 text-primary flex-shrink-0" />
-                <a href={`mailto:${email}`} className="text-sm sm:text-base text-muted-foreground hover:text-foreground transition-colors break-all">
+              <li className="flex items-center gap-3">
+                <Mail className="h-5 w-5 text-primary flex-shrink-0" />
+                <a href={`mailto:${email}`} className="text-sm sm:text-base text-muted-foreground hover:text-primary transition-colors font-medium">
                   {email}
                 </a>
               </li>
@@ -161,27 +158,31 @@ export function Footer() {
 
           {/* Newsletter */}
           <div className="space-y-3 sm:space-y-4 sm:col-span-2 lg:col-span-1">
-            <h3 className="text-base sm:text-lg font-semibold">Newsletter</h3>
+            <h3 className="text-base sm:text-lg font-bold uppercase tracking-wider text-foreground">Stay Updated</h3>
             <p className="text-sm sm:text-base text-muted-foreground">
-              Subscribe to get special offers and updates.
+              Get the latest auction picks and import news.
             </p>
-            <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex gap-2">
               <Input
                 type="email"
-                placeholder="Your email"
-                className="flex-1"
+                placeholder="Email address"
+                className="flex-1 rounded-lg border-primary/20 focus-visible:ring-primary"
               />
-              <Button size="icon">
+              <Button size="icon" className="shadow-lg">
                 <Send className="h-4 w-4" />
               </Button>
             </div>
           </div>
         </div>
 
-        <div className="border-t mt-8 sm:mt-12 pt-6 sm:pt-8 text-center">
-          <p className="text-xs sm:text-sm text-muted-foreground">
-            © {new Date().getFullYear()} {companyName}. All rights reserved.
+        <div className="border-t mt-8 sm:mt-12 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-xs sm:text-sm text-muted-foreground font-medium">
+            © {new Date().getFullYear()} {companyName}. Built for enthusiasts.
           </p>
+          <div className="flex gap-6 text-xs sm:text-sm text-muted-foreground">
+            <Link href="/terms" className="hover:text-primary transition-colors font-medium">Terms</Link>
+            <Link href="/privacy" className="hover:text-primary transition-colors font-medium">Privacy</Link>
+          </div>
         </div>
       </div>
     </footer>

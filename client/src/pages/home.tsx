@@ -32,47 +32,18 @@ export default function Home() {
     queryKey: ["cars"],
     queryFn: getAllCarsFirebase,
   });
-  const { settings } = useWebsiteSettings();
-  const websiteName = settings?.websiteName || "Premium Car Rentals Australia";
+  const { isLoading: isSettingsLoading, ...settings } = useWebsiteSettings();
+  const websiteName = settings?.websiteName || "Tokyo Drive Australia";
 
   const featuredCars = cars?.slice(0, 3) || [];
-  const popularTrips = [
-    {
-      title: "Alpine Escape",
-      route: "Tokyo → Hakuba → Karuizawa → Tokyo",
-      distance: "560 km • 4 days",
-      description:
-        "Switch between powder runs and fireside fondue. Our concierge stocks the roof box and heated blankets.",
-      image:
-        "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
-    },
-    {
-      title: "Neon Coast Cruise",
-      route: "Osaka → Awaji Island → Kobe",
-      distance: "210 km • 2 days",
-      description:
-        "Sunrise over Seto Inland Sea, Michelin izakayas at night. Includes toll pass + curated playlist.",
-      image:
-        "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1200&q=80",
-    },
-    {
-      title: "Volcanic Skyline",
-      route: "Kyoto → Mt. Aso → Beppu → Fukuoka",
-      distance: "720 km • 5 days",
-      description:
-        "Private onsen bookings, drone-ready scenic pullouts, and a backup EV charger in the trunk.",
-      image:
-        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
-    },
-  ];
 
   return (
     <>
       <SEO
-        title="Premium Car Rentals Australia"
-        description="Australia's premier car rental service offering luxury vehicles, premium sedans, SUVs, and sports cars. Book your perfect vehicle for your Australian adventure with exceptional service and competitive rates."
+        title="Direct JDM Imports to Australia - Tokyo Drive"
+        description="Tokyo Drive is Australia's premier JDM import specialist. We source, ship, and comply high-quality Japanese vehicles directly for you. Professional concierge and compliance services."
       />
-      <div>
+      <div className="text-left">
         <section className="relative h-screen min-h-[600px] flex items-center justify-center">
           <div
             className="absolute inset-0 bg-cover bg-center"
@@ -82,57 +53,55 @@ export default function Home() {
           </div>
 
           <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
-              {settings?.heroTitle || "Premium Car Rentals Australia"}
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight uppercase">
+              {settings?.heroTitle || "JDM Imports Delivered to Australia"}
             </h1>
             <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed max-w-2xl mx-auto">
-              {settings?.heroSubtitle || "Experience luxury and performance with Australia's finest collection of premium vehicles. Available across Sydney, Melbourne, Brisbane, Perth, and Adelaide."}
+              {settings?.heroSubtitle || "Your direct bridge to the Japanese car market. We source, ship, and comply the finest JDM vehicles for Australian roads."}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Link href={settings?.heroButtonLink || "/cars"}>
+              <Link href="/cars">
                 <Button
                   size="lg"
-                  className="px-8 py-6 text-lg font-semibold bg-primary text-primary-foreground border border-primary-border"
-                  data-testid="button-browse-cars"
+                  className="px-8 py-6 text-lg font-bold bg-primary text-primary-foreground border-2 border-primary shadow-xl hover:scale-105 transition-transform"
                 >
-                  {settings?.heroButtonText || "Browse Our Fleet"}
+                  Explore Inventory
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Link href={settings?.heroLearnMoreLink || "#features"}>
+              <Link href="/find-me-a-car">
                 <Button
                   size="lg"
                   variant="outline"
-                  className="px-8 py-6 text-lg font-semibold text-white border-2 border-white/30 bg-white/10 backdrop-blur-sm"
-                  data-testid="button-learn-more"
+                  className="px-8 py-6 text-lg font-bold text-white border-2 border-white/40 bg-white/10 backdrop-blur-md hover:bg-white/20 hover:scale-105 transition-transform"
                 >
-                  {settings?.heroLearnMoreText || "Learn More"}
+                  Find Me a Car
                 </Button>
               </Link>
             </div>
 
-            <Card className="p-6 bg-background/95 backdrop-blur-sm border-background/20">
+            <Card className="p-6 bg-background/95 backdrop-blur-md border-primary/20 shadow-2xl">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Select value={heroCategory} onValueChange={setHeroCategory}>
-                  <SelectTrigger data-testid="select-hero-category">
+                  <SelectTrigger className="font-semibold">
                     <SelectValue placeholder="Select Category" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Categories</SelectItem>
-                    <SelectItem value="sedan">Sedan</SelectItem>
-                    <SelectItem value="suv">SUV</SelectItem>
-                    <SelectItem value="sports">Sports</SelectItem>
-                    <SelectItem value="luxury">Luxury</SelectItem>
-                    <SelectItem value="electric">Electric</SelectItem>
+                    <SelectItem value="sports">Sports / Performance</SelectItem>
+                    <SelectItem value="sedan">Premium Sedans</SelectItem>
+                    <SelectItem value="suv">Luxury SUVs</SelectItem>
+                    <SelectItem value="van">Luxury MPVs / Vans</SelectItem>
+                    <SelectItem value="electric">Electric / Hybrid</SelectItem>
                   </SelectContent>
                 </Select>
 
                 <Select value={heroTransmission} onValueChange={setHeroTransmission}>
-                  <SelectTrigger data-testid="select-hero-transmission">
+                  <SelectTrigger className="font-semibold">
                     <SelectValue placeholder="Transmission" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Types</SelectItem>
+                    <SelectItem value="all">All Transmissions</SelectItem>
                     <SelectItem value="automatic">Automatic</SelectItem>
                     <SelectItem value="manual">Manual</SelectItem>
                   </SelectContent>
@@ -144,9 +113,9 @@ export default function Home() {
                   if (heroTransmission !== "all") params.set("transmission", heroTransmission);
                   return `/cars${params.toString() ? `?${params.toString()}` : ""}`;
                 })()}>
-                  <Button className="w-full" size="lg" data-testid="button-hero-search">
+                  <Button className="w-full font-bold" size="lg">
                     <Search className="mr-2 h-5 w-5" />
-                    Search Vehicles
+                    Search Inventory
                   </Button>
                 </Link>
               </div>
@@ -157,9 +126,9 @@ export default function Home() {
         <section className="py-16 md:py-24 px-6 bg-background">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Featured Vehicles</h2>
+              <h2 className="text-4xl font-bold mb-4">Latest Arrivals</h2>
               <p className="text-lg text-muted-foreground">
-                Discover our most popular luxury and performance cars
+                High-quality vehicles recently sourced or ready for import
               </p>
             </div>
 
@@ -180,7 +149,7 @@ export default function Home() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {featuredCars.map((car) => (
                   <Link key={car.id} href={`/cars/${car.slug}`}>
-                    <Card className="overflow-hidden hover-elevate active-elevate-2 cursor-pointer h-full" data-testid={`card-car-${car.id}`}>
+                    <Card className="overflow-hidden hover-elevate active-elevate-2 cursor-pointer h-full border-2 hover:border-primary/50 transition-colors">
                       <div className="aspect-[4/3] overflow-hidden">
                         <img
                           src={getThumbnailUrl(car.image, 720)}
@@ -191,39 +160,39 @@ export default function Home() {
                       <div className="p-6">
                         <div className="flex items-start justify-between mb-3">
                           <div>
-                            <h3 className="text-xl font-semibold mb-1" data-testid={`text-car-name-${car.id}`}>
+                            <h3 className="text-xl font-bold mb-1">
                               {car.name}
                             </h3>
-                            <Badge variant="secondary" className="text-xs">
-                              {car.category}
-                            </Badge>
+                            <div className="flex gap-2">
+                              <Badge variant="secondary" className="text-[10px] uppercase font-bold tracking-tight">
+                                {car.category}
+                              </Badge>
+                              <Badge variant="outline" className="text-[10px] uppercase font-bold tracking-tight border-blue-500 text-blue-500">
+                                {car.year}
+                              </Badge>
+                            </div>
                           </div>
                         </div>
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                          <div className="flex items-center gap-1">
-                            <SeatsIcon className="h-4 w-4" />
+                        <p className="text-sm text-muted-foreground mb-6 line-clamp-2">
+                          {car.description}
+                        </p>
+                        <div className="flex items-center gap-4 text-xs font-medium text-muted-foreground mb-6">
+                          <div className="flex items-center gap-1.5">
+                            <SeatsIcon className="h-3.5 w-3.5" />
                             <span>{car.seats}</span>
                           </div>
-                          <div className="flex items-center gap-1">
-                            <Settings className="h-4 w-4" />
+                          <div className="flex items-center gap-1.5">
+                            <Settings className="h-3.5 w-3.5" />
                             <span>{car.transmission}</span>
                           </div>
-                          <div className="flex items-center gap-1">
-                            <Fuel className="h-4 w-4" />
+                          <div className="flex items-center gap-1.5">
+                            <Fuel className="h-3.5 w-3.5" />
                             <span>{car.fuelType}</span>
                           </div>
                         </div>
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <span className="text-3xl font-bold" data-testid={`text-price-${car.id}`}>
-                              ${car.pricePerDay}
-                            </span>
-                            <span className="text-muted-foreground">/day</span>
-                          </div>
-                          <Badge variant={car.available ? "default" : "secondary"}>
-                            {car.available ? "Available" : "Booked"}
-                          </Badge>
-                        </div>
+                        <Button className="w-full font-bold group">
+                          View Details
+                        </Button>
                       </div>
                     </Card>
                   </Link>
@@ -233,8 +202,8 @@ export default function Home() {
 
             <div className="text-center mt-12">
               <Link href="/cars">
-                <Button size="lg" variant="outline" className="px-8" data-testid="button-view-all-cars">
-                  View All Vehicles
+                <Button size="lg" variant="outline" className="px-8 font-bold">
+                  View Full Inventory
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
@@ -242,80 +211,43 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-16 md:py-24 px-6 bg-muted/40">
-          <div className="max-w-7xl mx-auto">
-            <div className="mb-6">
-              <h2 className="text-3xl md:text-4xl font-bold">Popular Trips</h2>
-              <p className="text-muted-foreground">
-                Curated itineraries complete with charging stops, scenic cafes, and concierge support.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {popularTrips.map((trip) => (
-                <Card key={trip.title} className="overflow-hidden">
-                  <div className="aspect-video overflow-hidden">
-                    <img
-                      src={getThumbnailUrl(trip.image, 900)}
-                      alt={trip.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-5 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-xl font-semibold">{trip.title}</h3>
-                      <div className="flex items-center gap-1 text-amber-500">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="h-4 w-4 fill-current" />
-                        ))}
-                      </div>
-                    </div>
-                    <p className="text-sm text-muted-foreground">{trip.route}</p>
-                    <p className="text-sm text-muted-foreground">{trip.distance}</p>
-                    <p className="text-base">{trip.description}</p>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 md:py-24 px-6 bg-card">
+        <section className="py-16 md:py-24 px-6 bg-card" id="features">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">How It Works</h2>
+              <h2 className="text-4xl font-bold mb-4">The Direct Import Process</h2>
               <p className="text-lg text-muted-foreground">
-                Renting a car has never been easier
+                We handle the entire journey from Tokyo to your driveway
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               <div className="text-center">
-                <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
-                  <CarIcon className="h-8 w-8 text-primary" />
+                <div className="w-20 h-20 mx-auto mb-8 rounded-2xl bg-primary/10 flex items-center justify-center rotate-3 hover:rotate-0 transition-transform shadow-lg border border-primary/20">
+                  <Search className="h-10 w-10 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Choose Your Car</h3>
-                <p className="text-muted-foreground">
-                  Browse our extensive fleet and select the perfect vehicle for your needs
+                <h3 className="text-2xl font-bold mb-3">1. Sourcing</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  We scout auctions and dealers across Japan to find the highest-grade vehicles that meet Australian import standards.
                 </p>
               </div>
 
               <div className="text-center">
-                <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Shield className="h-8 w-8 text-primary" />
+                <div className="w-20 h-20 mx-auto mb-8 rounded-2xl bg-primary/10 flex items-center justify-center -rotate-3 hover:rotate-0 transition-transform shadow-lg border border-primary/20">
+                  <Shield className="h-10 w-10 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Book Online</h3>
-                <p className="text-muted-foreground">
-                  Complete your reservation quickly and securely through our platform
+                <h3 className="text-2xl font-bold mb-3">2. Shipping & Export</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  We manage all documentation, de-registration, and secure shipping ensuring your vehicle is fully insured during transit to Australia.
                 </p>
               </div>
 
               <div className="text-center">
-                <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
-                  <MapPin className="h-8 w-8 text-primary" />
+                <div className="w-20 h-20 mx-auto mb-8 rounded-2xl bg-primary/10 flex items-center justify-center rotate-6 hover:rotate-0 transition-transform shadow-lg border border-primary/20">
+                  <CarIcon className="h-10 w-10 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Hit the Road</h3>
-                <p className="text-muted-foreground">
-                  Pick up your vehicle and enjoy your journey with confidence
+                <h3 className="text-2xl font-bold mb-3">3. Compliance & Delivery</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Our network of SEVS compliance workshops handles all modifications and roadworthy items for final registration in your state.
                 </p>
               </div>
             </div>
@@ -326,20 +258,20 @@ export default function Home() {
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               <div>
-                <div className="text-5xl font-bold text-primary mb-2">1000+</div>
-                <div className="text-muted-foreground">Happy Customers</div>
+                <div className="text-6xl font-black text-primary mb-2 opacity-90">10+</div>
+                <div className="text-sm uppercase font-bold tracking-widest text-muted-foreground">Years Experience</div>
               </div>
               <div>
-                <div className="text-5xl font-bold text-primary mb-2">50+</div>
-                <div className="text-muted-foreground">Premium Vehicles</div>
+                <div className="text-6xl font-black text-primary mb-2 opacity-90">500+</div>
+                <div className="text-sm uppercase font-bold tracking-widest text-muted-foreground">Successfully Imported</div>
               </div>
               <div>
-                <div className="text-5xl font-bold text-primary mb-2">5</div>
-                <div className="text-muted-foreground">Locations</div>
+                <div className="text-6xl font-black text-primary mb-2 opacity-90">RAW</div>
+                <div className="text-sm uppercase font-bold tracking-widest text-muted-foreground">Compliance Network</div>
               </div>
               <div>
-                <div className="text-5xl font-bold text-primary mb-2">24/7</div>
-                <div className="text-muted-foreground">Support</div>
+                <div className="text-6xl font-black text-primary mb-2 opacity-90">100%</div>
+                <div className="text-sm uppercase font-bold tracking-widest text-muted-foreground">Grade Certified</div>
               </div>
             </div>
           </div>
@@ -348,40 +280,40 @@ export default function Home() {
         <section className="py-16 md:py-24 px-6 bg-card">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">What Our Customers Say</h2>
+              <h2 className="text-4xl font-bold mb-4">Australian Client Testimonials</h2>
               <p className="text-lg text-muted-foreground">
-                Hear from those who have experienced our premium service
+                Join the hundreds of satisfied owners across Australia
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <Card className="p-6">
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center text-xl font-bold">
-                    JD
+              <Card className="p-8 border-l-4 border-primary">
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center text-xl font-bold border-2 border-primary/20">
+                    M
                   </div>
                   <div>
-                    <h4 className="font-semibold">James Davidson</h4>
-                    <p className="text-sm text-muted-foreground">Business Executive</p>
+                    <h4 className="font-bold text-lg">Mark Henderson</h4>
+                    <p className="text-sm text-muted-foreground">Skyline R34 Owner, Brisbane</p>
                   </div>
                 </div>
-                <p className="text-muted-foreground italic">
-                  "Outstanding service! The Tesla Model 3 was in perfect condition, and the booking process was seamless. {websiteName} made my business trip incredibly convenient."
+                <p className="text-muted-foreground italic leading-relaxed">
+                  "The transparency during the sourcing process was incredible. I received photos and auction sheets for every car we looked at. My Skyline arrived in better condition than the auction grade led me to believe. Highly recommended!"
                 </p>
               </Card>
 
-              <Card className="p-6">
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center text-xl font-bold">
-                    SM
+              <Card className="p-8 border-l-4 border-primary">
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center text-xl font-bold border-2 border-primary/20">
+                    A
                   </div>
                   <div>
-                    <h4 className="font-semibold">Sarah Martinez</h4>
-                    <p className="text-sm text-muted-foreground">Family Traveler</p>
+                    <h4 className="font-bold text-lg">Alicia Chen</h4>
+                    <p className="text-sm text-muted-foreground">Alphard Executive Owner, Melbourne</p>
                   </div>
                 </div>
-                <p className="text-muted-foreground italic">
-                  "We rented the BMW X5 for our family vacation and it was perfect! Spacious, comfortable, and the customer support was fantastic. Highly recommend!"
+                <p className="text-muted-foreground italic leading-relaxed">
+                  "Importing a family van seemed daunting, but the team handled everything from the compliance to the interior detailing. It was road-ready and delivered to my door in Melbourne without any stress."
                 </p>
               </Card>
             </div>
@@ -389,27 +321,37 @@ export default function Home() {
         </section>
 
         <section
-          className="relative py-24 px-6"
+          className="relative py-32 px-6 overflow-hidden"
           style={{ backgroundImage: `url(${heroImage})` }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/60" />
+          <div className="absolute inset-0 bg-primary/90 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/80 to-transparent" />
           <div className="relative z-10 max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Ready to Start Your Journey?
+            <h2 className="text-4xl md:text-6xl font-black text-white mb-6 uppercase tracking-tighter">
+              Can't find your dream car?
             </h2>
-            <p className="text-xl text-white/90 mb-8">
-              Book your premium vehicle today and experience the road like never before
+            <p className="text-2xl text-white/90 mb-12 font-medium">
+              Our concierge service can source any vehicle directly from Japan to your exact specifications.
             </p>
-            <Link href="/cars">
-              <Button
-                size="lg"
-                className="px-8 py-6 text-lg font-semibold bg-white text-black hover:bg-white/90 border-0"
-                data-testid="button-book-now"
-              >
-                Book Now
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Link href="/find-me-a-car">
+                <Button
+                  size="lg"
+                  className="px-10 py-8 text-xl font-black bg-white text-black hover:bg-slate-100 border-0 shadow-2xl hover:scale-105 transition-transform"
+                >
+                  Start Sourcing Request
+                </Button>
+              </Link>
+              <Link href="/cars">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="px-10 py-8 text-xl font-bold text-white border-2 border-white/50 bg-white/5 hover:bg-white/10 hover:scale-105 transition-transform"
+                >
+                  View Inventory
+                </Button>
+              </Link>
+            </div>
           </div>
         </section>
       </div>

@@ -14,10 +14,11 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useWebsiteSettings } from "@/hooks/use-website-settings";
+import { SEO } from "@/components/seo";
 
 export default function Contact() {
   const { toast } = useToast();
-  const { settings } = useWebsiteSettings();
+  const { isLoading, ...settings } = useWebsiteSettings();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -75,140 +76,146 @@ export default function Contact() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="bg-card border-b">
-        <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
-          <div className="max-w-3xl">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">Contact Us</h1>
-            <p className="text-xl text-muted-foreground leading-relaxed">
-              Have a question or need assistance? We're here to help. Reach out to us through 
-              any of the methods below, and we'll get back to you as soon as possible.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
-          <div>
-            <Card className="p-8">
-              <h2 className="text-3xl font-bold mb-6">Send us a Message</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Name *</Label>
-                    <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      placeholder="Your full name"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email *</Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      placeholder="your.email@example.com"
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone</Label>
-                  <Input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="+81 90-1234-5678"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="subject">Subject *</Label>
-                  <Input
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    placeholder="What is this regarding?"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="message">Message *</Label>
-                  <Textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    placeholder="Tell us how we can help..."
-                    rows={6}
-                  />
-                </div>
-                <Button type="submit" size="lg" className="w-full">
-                  Send Message
-                  <Send className="ml-2 h-5 w-5" />
-                </Button>
-              </form>
-            </Card>
-          </div>
-
-          {/* Contact Information */}
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-3xl font-bold mb-6">Get in Touch</h2>
-              <p className="text-muted-foreground mb-8">
-                We're available to answer your questions and help you find the perfect vehicle 
-                for your needs. Choose the method that works best for you.
+    <>
+      <SEO
+        title={`Contact Us - ${settings?.websiteName || "JDM Auto Imports"}`}
+        description="Get in touch with Australia's JDM import specialists. We're here to help with your sourcing, shipping, and compliance needs."
+      />
+      <div className="min-h-screen bg-background text-left">
+        {/* Hero Section */}
+        <section className="bg-card border-b">
+          <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
+            <div className="max-w-3xl">
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 uppercase">Contact Us</h1>
+              <p className="text-xl text-muted-foreground leading-relaxed">
+                Have a question or need assistance? We're here to help. Reach out to us through
+                any of the methods below, and we'll get back to you as soon as possible.
               </p>
             </div>
+          </div>
+        </section>
 
-            <div className="space-y-4">
-              {contactInfo.map((info, index) => (
-                <Card key={index} className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <info.icon className="h-6 w-6 text-primary" />
+        <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Contact Form */}
+            <div>
+              <Card className="p-8">
+                <h2 className="text-3xl font-bold mb-6">Send us a Message</h2>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Name *</Label>
+                      <Input
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        placeholder="Your full name"
+                      />
                     </div>
-                    <div>
-                      <h3 className="font-semibold mb-2">{info.title}</h3>
-                      {info.details.map((detail, i) => (
-                        <p key={i} className="text-muted-foreground">
-                          {detail}
-                        </p>
-                      ))}
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email *</Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        placeholder="your.email@example.com"
+                      />
                     </div>
                   </div>
-                </Card>
-              ))}
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone</Label>
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="+81 90-1234-5678"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="subject">Subject *</Label>
+                    <Input
+                      id="subject"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      required
+                      placeholder="What is this regarding?"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="message">Message *</Label>
+                    <Textarea
+                      id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                      placeholder="Tell us how we can help..."
+                      rows={6}
+                    />
+                  </div>
+                  <Button type="submit" size="lg" className="w-full">
+                    Send Message
+                    <Send className="ml-2 h-5 w-5" />
+                  </Button>
+                </form>
+              </Card>
             </div>
 
-            <Card className="p-6 bg-primary/5 border-primary/20">
-              <div className="flex items-start gap-3">
-                <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                <div>
-                  <h3 className="font-semibold mb-2">Response Time</h3>
-                  <p className="text-sm text-muted-foreground">
-                    We typically respond to inquiries within 24 hours during business days. 
-                    For urgent matters, please call us directly.
-                  </p>
-                </div>
+            {/* Contact Information */}
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-3xl font-bold mb-6">Get in Touch</h2>
+                <p className="text-muted-foreground mb-8">
+                  We're available to answer your questions and help you find the perfect vehicle
+                  for your needs. Choose the method that works best for you.
+                </p>
               </div>
-            </Card>
+
+              <div className="space-y-4">
+                {contactInfo.map((info, index) => (
+                  <Card key={index} className="p-6">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <info.icon className="h-6 w-6 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold mb-2">{info.title}</h3>
+                        {info.details.map((detail, i) => (
+                          <p key={i} className="text-muted-foreground">
+                            {detail}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+
+              <Card className="p-6 bg-primary/5 border-primary/20">
+                <div className="flex items-start gap-3">
+                  <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold mb-2">Response Time</h3>
+                    <p className="text-sm text-muted-foreground">
+                      We typically respond to inquiries within 24 hours during business days.
+                      For urgent matters, please call us directly.
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

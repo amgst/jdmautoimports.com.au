@@ -13,173 +13,191 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useWebsiteSettings } from "@/hooks/use-website-settings";
+import { SEO } from "@/components/seo";
 
 export default function About() {
-  const { settings } = useWebsiteSettings();
-  const websiteName = settings?.websiteName || "Premium Car Rentals Australia";
+  const { isLoading, ...settings } = useWebsiteSettings();
+  const websiteName = settings?.websiteName || "JDM Auto Imports Australia";
   const companyName = settings?.companyName || websiteName;
   const values = [
     {
       icon: Shield,
-      title: "Safety First",
-      description: "All our vehicles undergo rigorous safety inspections and maintenance checks to ensure your peace of mind.",
+      title: "Full Compliance",
+      description: "Every vehicle we source is fully complied to Australian standards, ensuring total peace of mind for our enthusiasts.",
     },
     {
       icon: Award,
-      title: "Premium Quality",
-      description: "We maintain only the finest vehicles in our fleet, ensuring luxury and performance in every rental.",
+      title: "Premium Handpicks",
+      description: "We hand-select only the highest auction grade vehicles, maintaining the standard that JDM fans expect.",
     },
     {
       icon: Users,
-      title: "Customer Focused",
-      description: "Your satisfaction is our priority. We provide exceptional service and support throughout your journey.",
+      title: "Direct Concierge",
+      description: "Our concierge service is dedicated to finding your dream car. We handle the auction, shipping, and bureaucracy for you.",
     },
     {
       icon: Car,
-      title: "Wide Selection",
-      description: "From luxury sedans to powerful SUVs, we offer a diverse range of vehicles to suit every need.",
+      title: "Expert Sourcing",
+      description: "With years of experience in the Japanese market, we know where to find the best GTRs, Chasers, and 4WDs.",
     },
   ];
 
   const stats = [
-    { number: "1000+", label: "Happy Customers" },
-    { number: "50+", label: "Premium Vehicles" },
-    { number: "5", label: "Service Locations" },
-    { number: "24/7", label: "Customer Support" },
+    { number: "500+", label: "Vehicles Sourced" },
+    { number: "100%", label: "Compliance Rate" },
+    { number: "20+", label: "Auction Access" },
+    { number: "24/7", label: "Import Support" },
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="bg-card border-b">
-        <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
-          <div className="max-w-3xl">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">About {companyName}</h1>
-            <p className="text-xl text-muted-foreground leading-relaxed">
-              We are a premium car rental service dedicated to providing exceptional vehicles and 
-              outstanding customer experiences. Since our founding, we've been committed to making 
-              luxury and performance accessible to everyone.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Mission Section */}
-      <section className="py-16 md:py-24 px-6 bg-background">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-bold mb-6">Our Mission</h2>
-              <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
-                At {companyName}, our mission is to provide premium car rental services that exceed 
-                expectations. We believe that every journey should be comfortable, safe, and memorable.
+    <>
+      <SEO
+        title={`About - ${websiteName}`}
+        description={`Learn more about ${websiteName}, Australia's premier direct JDM import specialist. Bridging the gap between the Japanese car scene and Australian enthusiasts.`}
+      />
+      <div className="min-h-screen bg-background text-left">
+        {/* Hero Section */}
+        <section className="bg-card border-b relative overflow-hidden">
+          <div className="absolute inset-0 bg-primary/5 pattern-grid opacity-20" />
+          <div className="max-w-7xl mx-auto px-6 py-16 md:py-24 relative z-10">
+            <div className="max-w-3xl">
+              <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter uppercase">
+                About <span className="text-primary">{companyName}</span>
+              </h1>
+              <p className="text-xl text-muted-foreground leading-relaxed font-medium">
+                We are Australia's premier direct JDM import specialist. Our mission is to bridge the gap
+                between the legendary Japanese car scene and Australian enthusiasts, providing a seamless,
+                transparent, and professional importing experience.
               </p>
-              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                Whether you're traveling for business or pleasure, we offer a curated selection of 
-                luxury vehicles maintained to the highest standards, backed by exceptional customer service.
-              </p>
-              <Link href="/cars">
-                <Button size="lg" className="px-8">
-                  Explore Our Fleet
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
             </div>
-            <Card className="p-8 bg-muted/40">
-              <h3 className="text-2xl font-semibold mb-6">Why Choose Us?</h3>
-              <ul className="space-y-4">
-                {[
-                  "Premium vehicle selection",
-                  "Competitive pricing",
-                  "24/7 customer support",
-                  "Flexible rental terms",
-                  "Comprehensive insurance options",
-                  "Easy online booking",
-                ].map((item, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </Card>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Values Section */}
-      <section className="py-16 md:py-24 px-6 bg-muted/40">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Our Values</h2>
-            <p className="text-lg text-muted-foreground">
-              The principles that guide everything we do
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
-              <Card key={index} className="p-6 text-center">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
-                  <value.icon className="h-8 w-8 text-primary" />
+        {/* Mission Section */}
+        <section className="py-16 md:py-24 px-6 bg-background">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-16 items-center">
+              <div>
+                <h2 className="text-4xl font-black mb-6 uppercase tracking-tight">Our Mission</h2>
+                <p className="text-lg text-muted-foreground mb-4 leading-relaxed font-medium">
+                  At {companyName}, our mission is to provide a transparent gateway to the Japanese car auctions.
+                  We believe that every enthusiast deserves a high-quality, authentic JDM vehicle without
+                  the stress of navigating international shipping and Australian compliance.
+                </p>
+                <p className="text-lg text-muted-foreground mb-8 leading-relaxed font-medium">
+                  Whether you're looking for a track-ready monster or a pristine 4WD export, we offer a
+                  curated concierge service that handles everything from the initial bid to the final delivery.
+                </p>
+                <div className="flex gap-4">
+                  <Link href="/cars">
+                    <Button size="lg" className="px-8 font-bold shadow-lg shadow-primary/20">
+                      View Inventory
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </Link>
+                  <Link href="/find-me-a-car">
+                    <Button size="lg" variant="outline" className="px-8 font-bold">
+                      Start Sourcing
+                    </Button>
+                  </Link>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">{value.title}</h3>
-                <p className="text-muted-foreground">{value.description}</p>
+              </div>
+              <Card className="p-8 bg-muted/40 border-none shadow-xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full" />
+                <h3 className="text-2xl font-bold mb-6 uppercase tracking-wider">The Direct Advantage</h3>
+                <ul className="space-y-4">
+                  {[
+                    "Direct access to all Japanese auctions",
+                    "Transparent fixed-fee sourcing",
+                    "Verified auction sheets & translations",
+                    "Specialized interstate delivery",
+                    "Full Australian compliance handling",
+                    "Post-import enthusiast support",
+                  ].map((item, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                      <span className="text-muted-foreground font-bold text-sm tracking-tight">{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </Card>
-            ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Stats Section */}
-      <section className="py-16 md:py-24 px-6 bg-background">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {stats.map((stat, index) => (
-              <div key={index}>
-                <div className="text-5xl font-bold text-primary mb-2">{stat.number}</div>
-                <div className="text-muted-foreground">{stat.label}</div>
-              </div>
-            ))}
+        {/* Values Section */}
+        <section className="py-16 md:py-24 px-6 bg-muted/20">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-black mb-4 uppercase tracking-tighter">Our Core Values</h2>
+              <p className="text-lg text-muted-foreground font-medium">
+                The standards we uphold for every import project
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {values.map((value, index) => (
+                <Card key={index} className="p-8 text-center border-none shadow-md hover:shadow-xl transition-all hover:-translate-y-1">
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-primary/10 flex items-center justify-center transform rotate-3">
+                    <value.icon className="h-8 w-8 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-black mb-3 uppercase tracking-tight">{value.title}</h3>
+                  <p className="text-muted-foreground text-sm font-medium leading-relaxed">{value.description}</p>
+                </Card>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Contact CTA Section */}
-      <section className="py-16 md:py-24 px-6 bg-card">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-6">Get in Touch</h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            Have questions? We'd love to hear from you. Reach out to our team for any inquiries.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            {settings?.phone && (
-              <div className="flex items-center justify-center gap-3">
-                <Phone className="h-5 w-5 text-primary" />
-                <span className="text-muted-foreground">{settings.phone}</span>
-              </div>
-            )}
-            {settings?.email && (
-              <div className="flex items-center justify-center gap-3">
-                <Mail className="h-5 w-5 text-primary" />
-                <span className="text-muted-foreground">{settings.email}</span>
-              </div>
-            )}
-            {settings?.address && (
-              <div className="flex items-center justify-center gap-3">
-                <MapPin className="h-5 w-5 text-primary" />
-                <span className="text-muted-foreground">{settings.address}</span>
-              </div>
-            )}
+        {/* Stats Section */}
+        <section className="py-24 px-6 bg-primary text-primary-foreground relative overflow-hidden">
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=2070&auto=format&fit=crop')] opacity-10 grayscale" />
+          <div className="max-w-7xl mx-auto relative z-10">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+              {stats.map((stat, index) => (
+                <div key={index}>
+                  <div className="text-6xl font-black mb-4 tracking-tighter">{stat.number}</div>
+                  <div className="text-sm font-bold uppercase tracking-widest opacity-80">{stat.label}</div>
+                </div>
+              ))}
+            </div>
           </div>
-          <Link href="/contact">
-            <Button size="lg" className="px-8">
-              Contact Us
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
-        </div>
-      </section>
-    </div>
+        </section>
+
+        {/* Contact CTA Section */}
+        <section className="py-16 md:py-24 px-6 bg-background">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-5xl font-black mb-6 uppercase tracking-tighter">Contact the Garage</h2>
+            <p className="text-xl text-muted-foreground mb-12 font-medium">
+              Ready to start your next import project? Our specialists are standing by to answer your technical questions.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-8 justify-center mb-12">
+              {settings?.phone && (
+                <div className="flex items-center justify-center gap-3 group">
+                  <div className="w-10 h-10 rounded-full bg-primary/5 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                    <Phone className="h-5 w-5 text-primary" />
+                  </div>
+                  <span className="text-lg font-bold text-muted-foreground">{settings.phone}</span>
+                </div>
+              )}
+              {settings?.email && (
+                <div className="flex items-center justify-center gap-3 group">
+                  <div className="w-10 h-10 rounded-full bg-primary/5 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                    <Mail className="h-5 w-5 text-primary" />
+                  </div>
+                  <span className="text-lg font-bold text-muted-foreground underline underline-offset-4 decoration-primary/30">{settings.email}</span>
+                </div>
+              )}
+            </div>
+            <Link href="/contact">
+              <Button size="lg" className="px-12 font-black italic uppercase tracking-tighter h-14 text-lg shadow-2xl shadow-primary/30">
+                Get Started
+                <ArrowRight className="ml-2 h-6 w-6" />
+              </Button>
+            </Link>
+          </div>
+        </section>
+      </div>
+    </>
   );
 }
 

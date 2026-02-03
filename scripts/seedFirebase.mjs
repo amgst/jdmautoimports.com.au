@@ -3,12 +3,12 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 // Firebase client config – same as in client/src/lib/firebase.ts
 const firebaseConfig = {
-  apiKey: "AIzaSyDh2SrZ0azQfANH-Rgb6y9lxtvmLF_B_Ao",
-  authDomain: "jdmautoimports-b52f0.firebaseapp.com",
-  projectId: "jdmautoimports-b52f0",
-  storageBucket: "jdmautoimports-b52f0.firebasestorage.app",
-  messagingSenderId: "866374087987",
-  appId: "1:866374087987:web:8873d8336a912cc2c0fa46"
+  apiKey: "AIzaSyCMdH8eoSXk9M8icxWB7cd3neS84faMbr0",
+  authDomain: "cars-4ecea.firebaseapp.com",
+  projectId: "cars-4ecea",
+  storageBucket: "cars-4ecea.firebasestorage.app",
+  messagingSenderId: "254741947742",
+  appId: "1:254741947742:web:9cc7ec263ed8a8687c1bcf",
 };
 
 const app = initializeApp(firebaseConfig);

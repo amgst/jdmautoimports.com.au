@@ -11,12 +11,11 @@ import {
 
 export function Navbar() {
   const [location] = useLocation();
-  const { settings } = useWebsiteSettings();
+  const { websiteName: settingsWebsiteName, logo: logoUrl, isLoading } = useWebsiteSettings();
   const [logoError, setLogoError] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const websiteName = settings?.websiteName || "Tokyo Drive";
-  const logoUrl = settings?.logo;
+  const websiteName = settingsWebsiteName || "JDM Auto Imports";
 
   // Reset logo error when logo URL changes
   useEffect(() => {
@@ -30,7 +29,8 @@ export function Navbar() {
 
   const navLinks = [
     { href: "/", label: "Home", testId: "link-home" },
-    { href: "/cars", label: "Our Fleet", testId: "link-cars" },
+    { href: "/cars", label: "Inventory", testId: "link-cars" },
+    { href: "/find-me-a-car", label: "Find Me a Car", testId: "link-find-car" },
     { href: "/about", label: "About Us", testId: "link-about" },
     { href: "/contact", label: "Contact", testId: "link-contact" },
   ];
@@ -51,13 +51,15 @@ export function Navbar() {
                 <img
                   src={logoUrl}
                   alt={websiteName}
-                  className="h-5 sm:h-6 w-auto object-contain"
+                  className="h-8 sm:h-10 w-auto object-contain"
                   onError={() => setLogoError(true)}
                 />
               ) : (
-                <Car className="h-5 sm:h-6 w-5 sm:w-6" />
+                <>
+                  <Car className="h-5 sm:h-6 w-5 sm:w-6" />
+                  <span className="text-lg sm:text-xl font-bold truncate max-w-[120px] sm:max-w-none">{websiteName}</span>
+                </>
               )}
-              <span className="text-lg sm:text-xl font-bold truncate max-w-[120px] sm:max-w-none">{websiteName}</span>
             </div>
           </Link>
 
@@ -97,13 +99,15 @@ export function Navbar() {
                     <img
                       src={logoUrl}
                       alt={websiteName}
-                      className="h-6 w-auto object-contain"
+                      className="h-10 w-auto object-contain"
                       onError={() => setLogoError(true)}
                     />
                   ) : (
-                    <Car className="h-6 w-6" />
+                    <>
+                      <Car className="h-6 w-6" />
+                      <span className="text-xl font-bold">{websiteName}</span>
+                    </>
                   )}
-                  <span className="text-xl font-bold">{websiteName}</span>
                 </div>
                 {navLinks.map((link) => (
                   <Link key={link.href} href={link.href}>

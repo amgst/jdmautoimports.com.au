@@ -10,7 +10,7 @@ import {
   SidebarMenuItem,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import { Car, LayoutDashboard, Plus, DollarSign, CalendarDays, Settings, ExternalLink, LogOut } from "lucide-react";
+import { Car, LayoutDashboard, Plus, Mail, Settings, ExternalLink, LogOut, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useWebsiteSettings } from "@/hooks/use-website-settings";
 
@@ -21,7 +21,7 @@ const menuItems = [
     icon: LayoutDashboard,
   },
   {
-    title: "All Cars",
+    title: "Inventory",
     url: "/admin/cars",
     icon: Car,
   },
@@ -31,19 +31,19 @@ const menuItems = [
     icon: Plus,
   },
   {
-    title: "Pricing Settings",
-    url: "/admin/pricing",
-    icon: DollarSign,
+    title: "Inspection Bookings",
+    url: "/admin/bookings",
+    icon: Calendar,
+  },
+  {
+    title: "General Inquiries",
+    url: "/admin/inquiries",
+    icon: Mail,
   },
   {
     title: "Website Settings",
     url: "/admin/website-settings",
     icon: Settings,
-  },
-  {
-    title: "Bookings",
-    url: "/admin/bookings",
-    icon: CalendarDays,
   },
   {
     title: "View Website",
@@ -54,7 +54,7 @@ const menuItems = [
 
 export function AppSidebar() {
   const [location, setLocation] = useLocation();
-  const { settings } = useWebsiteSettings();
+  const { isLoading, ...settings } = useWebsiteSettings();
   const { toast } = useToast();
 
   const handleLogout = () => {
@@ -66,17 +66,17 @@ export function AppSidebar() {
     setLocation("/admin/login");
   };
 
-  const websiteName = settings?.websiteName || "Tokyo Drive";
+  const websiteName = settings?.websiteName || "Tokyo Drive Australia";
 
   return (
     <Sidebar>
       <SidebarHeader className="p-6 border-b">
         <h2 className="text-xl font-bold">{websiteName}</h2>
-        <p className="text-sm text-muted-foreground">Admin Panel</p>
+        <p className="text-sm text-muted-foreground uppercase tracking-widest font-bold">Admin Portal</p>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Management</SidebarGroupLabel>
+          <SidebarGroupLabel className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-muted-foreground/60">Management</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
@@ -85,11 +85,11 @@ export function AppSidebar() {
                     asChild
                     className={
                       location === item.url || location.startsWith(item.url + "/")
-                        ? "bg-sidebar-accent"
-                        : ""
+                        ? "bg-sidebar-accent text-primary font-bold border-r-4 border-primary rounded-none"
+                        : "hover:text-primary transition-colors"
                     }
                   >
-                    <Link href={item.url} data-testid={`link-${item.title.toLowerCase().replace(/\s+/g, '-')}`}>
+                    <Link href={item.url}>
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
                     </Link>
@@ -104,9 +104,9 @@ export function AppSidebar() {
         <SidebarContent>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton onClick={handleLogout} className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20">
+              <SidebarMenuButton onClick={handleLogout} className="text-red-500 hover:text-red-600 hover:bg-red-50 font-bold">
                 <LogOut className="h-4 w-4" />
-                <span>Logout</span>
+                <span>Logout Admin</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>

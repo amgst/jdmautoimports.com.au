@@ -60,7 +60,7 @@ export default function CarForm() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const isEdit = !!id;
-  
+
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
   const [imageUrlInput, setImageUrlInput] = useState("");
   const [isUploading, setIsUploading] = useState(false);
@@ -210,7 +210,7 @@ export default function CarForm() {
     return { coverUrl: cover.url, galleryUrls: others };
   };
 
-  const { data: car, isLoading, error } = useQuery<Car>({
+  const { data: car, isLoading, error } = useQuery<Car | undefined>({
     queryKey: ["carById", id],
     enabled: isEdit && !!id,
     queryFn: () => {
@@ -229,7 +229,6 @@ export default function CarForm() {
       description: "",
       image: "",
       images: [],
-      pricePerDay: 0,
       seats: 5,
       transmission: "Automatic",
       fuelType: "Petrol",
@@ -241,6 +240,12 @@ export default function CarForm() {
       hasAC: true,
       hasUSB: false,
       available: true,
+      consumption: "",
+      engine: "",
+      power: "",
+      drivetrain: "RWD",
+      exteriorColor: "",
+      interiorColor: "",
     },
   });
 
@@ -252,24 +257,30 @@ export default function CarForm() {
   // Only reset the form when car data is loaded and the form hasn't been modified
   useEffect(() => {
     if (isEdit && car && !form.formState.isDirty) {
+      const carData = car as Car;
       form.reset({
-        name: car.name,
-        category: car.category,
-        description: car.description,
-        image: car.image,
-        images: car.images || [],
-        pricePerDay: car.pricePerDay,
-        seats: car.seats,
-        transmission: car.transmission,
-        fuelType: car.fuelType,
-        luggage: car.luggage,
-        doors: car.doors,
-        year: car.year,
-        hasGPS: car.hasGPS,
-        hasBluetooth: car.hasBluetooth,
-        hasAC: car.hasAC,
-        hasUSB: car.hasUSB,
-        available: car.available,
+        name: carData.name as string,
+        category: carData.category as string,
+        description: carData.description as string,
+        image: carData.image as string,
+        images: carData.images || [],
+        seats: carData.seats as number,
+        transmission: carData.transmission as string,
+        fuelType: carData.fuelType as string,
+        luggage: carData.luggage as number,
+        doors: carData.doors as number,
+        year: carData.year as number,
+        hasGPS: carData.hasGPS as boolean,
+        hasBluetooth: carData.hasBluetooth as boolean,
+        hasAC: carData.hasAC as boolean,
+        hasUSB: carData.hasUSB as boolean,
+        available: carData.available as boolean,
+        consumption: (carData.consumption as string) || "",
+        engine: (carData.engine as string) || "",
+        power: (carData.power as string) || "",
+        drivetrain: (carData.drivetrain as string) || "RWD",
+        exteriorColor: (carData.exteriorColor as string) || "",
+        interiorColor: (carData.interiorColor as string) || "",
       });
     }
   }, [car, isEdit, form, form.formState.isDirty]);
@@ -280,11 +291,11 @@ export default function CarForm() {
       if (car.image) {
         existing.push({
           id: crypto.randomUUID(),
-          url: car.image,
+          url: car.image as string,
           isCover: true,
         });
       }
-      (car.images || []).forEach((url) => {
+      ((car.images as string[]) || []).forEach((url: string) => {
         if (!url) return;
         existing.push({
           id: crypto.randomUUID(),
@@ -329,7 +340,7 @@ export default function CarForm() {
         title: "Success",
         description: "Car created successfully",
       });
-      setLocation("/admin/cars");
+      // Remain on page after save
     },
     onError: () => {
       setIsUploading(false);
@@ -351,7 +362,7 @@ export default function CarForm() {
         title: "Success",
         description: "Car updated successfully",
       });
-      setLocation("/admin/cars");
+      // Remain on page after save
     },
     onError: () => {
       setIsUploading(false);
@@ -388,64 +399,6 @@ export default function CarForm() {
       });
       setIsUploading(false);
     }
-  };
-
-  // Handle main image file selection
-  const handleMainImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (!isImageFile(file)) {
-        toast({
-          title: "Invalid File",
-          description: "Please select an image file",
-          variant: "destructive",
-        });
-        return;
-      }
-      if (!isValidFileSize(file)) {
-        toast({
-          title: "File Too Large",
-          description: "Image must be less than 5MB",
-          variant: "destructive",
-        });
-        return;
-      }
-      setMainImageFile(file);
-      const preview = createImagePreview(file);
-      setMainImagePreview(preview);
-      // Don't update form field with blob URL - keep original URL or empty
-      // The blob URL is only for preview, actual upload happens on submit
-    }
-  };
-
-  // Handle additional images file selection
-  const handleAdditionalImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    if (files.length === 0) return;
-
-    // Validate all files
-    for (const file of files) {
-      if (!isImageFile(file)) {
-        toast({
-          title: "Invalid File",
-          description: "All files must be image files",
-          variant: "destructive",
-        });
-        return;
-      }
-      if (!isValidFileSize(file)) {
-        toast({
-          title: "File Too Large",
-          description: "All images must be less than 5MB",
-          variant: "destructive",
-        });
-        return;
-      }
-    }
-
-    setAdditionalImageFiles((prev) => [...prev, ...files]);
-    const previews = files.map((file) => createImagePreview(file));
-    setAdditionalImagePreviews((prev) => [...prev, ...previews]);
   };
 
 
@@ -502,19 +455,41 @@ export default function CarForm() {
 
   return (
     <div className="max-w-4xl">
-      <Button
-        variant="ghost"
-        onClick={() => setLocation("/admin/cars")}
-        className="mb-8"
-        data-testid="button-back"
-      >
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        Back to Cars
-      </Button>
-
-      <h1 className="text-4xl font-bold mb-8">
-        {isEdit ? "Edit Car" : "Add New Car"}
-      </h1>
+      <div className="flex items-center justify-between gap-4 mb-8">
+        <div className="flex items-center gap-4">
+          <Button
+            variant="ghost"
+            onClick={() => setLocation("/admin/cars")}
+            data-testid="button-back"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Inventory
+          </Button>
+          <h1 className="text-3xl font-bold">
+            {isEdit ? "Edit Vehicle" : "Add New Vehicle"}
+          </h1>
+        </div>
+        <div className="flex items-center gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setLocation("/admin/cars")}
+            data-testid="button-close"
+          >
+            <X className="mr-2 h-4 w-4" />
+            Close
+          </Button>
+          <Button
+            type="submit"
+            disabled={isUploading}
+            className="min-w-[120px]"
+            data-testid="button-save"
+          >
+            <Save className="mr-2 h-4 w-4" />
+            {isUploading ? "Saving..." : "Save Changes"}
+          </Button>
+        </div>
+      </div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -528,9 +503,9 @@ export default function CarForm() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Car Name</FormLabel>
+                    <FormLabel>Car Model / Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. Tesla Model 3" {...field} data-testid="input-name" />
+                      <Input placeholder="e.g. Nissan Skyline R34 GT-R" {...field} data-testid="input-name" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -699,35 +674,16 @@ export default function CarForm() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Pricing & Specifications</CardTitle>
+              <CardTitle>Vehicle Specifications</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-2 gap-6">
-                <FormField
-                  control={form.control}
-                  name="pricePerDay"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Price Per Day ($)</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          value={field.value || ''}
-                          onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
-                          data-testid="input-price"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
+              <div className="grid grid-cols-1 gap-6">
                 <FormField
                   control={form.control}
                   name="year"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Year</FormLabel>
+                      <FormLabel>Production Year</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -846,6 +802,103 @@ export default function CarForm() {
                           onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
                           data-testid="input-luggage"
                         />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="engine"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Engine</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g. 2.0L petrol engine" {...field} value={field.value || ""} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="power"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Power</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g. 134 hp" {...field} value={field.value || ""} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="consumption"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Consumption</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g. 10.0L/100Km" {...field} value={field.value || ""} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="drivetrain"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Drivetrain</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value || ""}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select drivetrain" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="RWD">RWD</SelectItem>
+                          <SelectItem value="FWD">FWD</SelectItem>
+                          <SelectItem value="AWD">AWD</SelectItem>
+                          <SelectItem value="4WD">4WD</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="exteriorColor"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Exterior Color</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g. Arctic White" {...field} value={field.value || ""} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="interiorColor"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Interior Color</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g. Black Leather" {...field} value={field.value || ""} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -977,10 +1030,10 @@ export default function CarForm() {
               {isUploading
                 ? "Uploading Images..."
                 : createMutation.isPending || updateMutation.isPending
-                ? "Saving..."
-                : isEdit
-                ? "Update Car"
-                : "Create Car"}
+                  ? "Saving..."
+                  : isEdit
+                    ? "Update Car"
+                    : "Create Car"}
             </Button>
             <Button
               type="button"

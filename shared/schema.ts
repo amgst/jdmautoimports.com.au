@@ -11,7 +11,6 @@ export const cars = pgTable("cars", {
   description: text("description").notNull(),
   image: text("image").notNull(),
   images: text("images").array().default(sql`'{}'`),
-  pricePerDay: integer("price_per_day").notNull(),
   seats: integer("seats").notNull(),
   transmission: text("transmission").notNull(),
   fuelType: text("fuel_type").notNull(),
@@ -23,6 +22,13 @@ export const cars = pgTable("cars", {
   hasAC: boolean("has_ac").notNull().default(true),
   hasUSB: boolean("has_usb").notNull().default(false),
   available: boolean("available").notNull().default(true),
+  // Technical Specifications
+  consumption: text("consumption"),
+  engine: text("engine"),
+  power: text("power"),
+  drivetrain: text("drivetrain"),
+  exteriorColor: text("exterior_color"),
+  interiorColor: text("interior_color"),
 });
 
 // Custom URL validator that accepts both full URLs and relative paths
@@ -69,34 +75,57 @@ export const insertUserSchema = createInsertSchema(users).pick({
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 
-// Booking schema
-export const bookingStatusSchema = z.enum([
+// Inquiry schema (rebranded from Bookings)
+export const inquiryStatusSchema = z.enum([
   "pending",
-  "confirmed",
-  "completed",
+  "contacted",
+  "fulfilled",
   "cancelled",
 ]);
 
-export const insertBookingSchema = z.object({
-  carId: z.string().min(1, "Car ID is required"),
-  carName: z.string().min(1, "Car name is required"),
-  startDate: z.string().min(1, "Start date is required"),
-  endDate: z.string().min(1, "End date is required"),
+export const insertInquirySchema = z.object({
+  carId: z.string().optional(), // Optional for "Find Me a Car"
+  carName: z.string().optional(), // Optional for "Find Me a Car"
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Invalid email address"),
   phone: z.string().min(1, "Phone number is required"),
   address: z.string().optional().or(z.literal("")),
   notes: z.string().optional().or(z.literal("")),
-  totalPrice: z.number().min(0),
+  // "Find Me a Car" specific fields
+  budget: z.string().optional(),
+  modelPreference: z.string().optional(),
+  yearRange: z.string().optional(),
 });
 
-export type InsertBooking = z.infer<typeof insertBookingSchema>;
+export type InsertInquiry = z.infer<typeof insertInquirySchema>;
 
-export const bookingSchema = insertBookingSchema.extend({
+export const inquirySchema = insertInquirySchema.extend({
   id: z.string().min(1),
-  status: bookingStatusSchema.default("pending"),
+  status: inquiryStatusSchema.default("pending"),
   createdAt: z.string(),
 });
 
-export type Booking = z.infer<typeof bookingSchema>;
+export type Inquiry = z.infer<typeof inquirySchema>;
+// Booking schema (for Inspection Bookings)
+export const bookings = pgTable("bookings", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  carId: text("car_id"),
+  carName: text("car_name"),
+  inspectionDate: text("inspection_date").notNull(),
+  inspectionTime: text("inspection_time").notNull(),
+  fullName: text("full_name").notNull(),
+  phoneNumber: text("phone_number").notNull(),
+  email: text("email").notNull(),
+  status: text("status").notNull().default("pending"),
+  createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
+});
+
+export const insertBookingSchema = createInsertSchema(bookings).omit({
+  id: true,
+  createdAt: true,
+  status: true,
+});
+
+export type InsertBooking = z.infer<typeof insertBookingSchema>;
+export type Booking = typeof bookings.$inferSelect;

@@ -17,7 +17,7 @@ export function useWebsiteSettings() {
 
     // Update document title
     if (settings.websiteName) {
-      document.title = `${settings.websiteName} - Premium Car Rentals`;
+      document.title = `${settings.websiteName} - JDM Auto Imports`;
     }
 
     // Update favicon
@@ -72,10 +72,13 @@ export function useWebsiteSettings() {
         ogTitle.setAttribute("property", "og:title");
         document.head.appendChild(ogTitle);
       }
-      ogTitle.content = `${settings.websiteName} - Premium Car Rentals`;
+      ogTitle.content = `${settings.websiteName} - JDM Auto Imports`;
     }
   }, [settings]);
 
-  return { settings, isLoading };
+  return {
+    ...settings,
+    isLoading
+  };
 }
 

@@ -12,7 +12,7 @@ export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
-  
+
   getAllCars(): Promise<Car[]>;
   getCar(id: string): Promise<Car | undefined>;
   getCarBySlug(slug: string): Promise<Car | undefined>;
@@ -68,7 +68,6 @@ export class MemStorage implements IStorage {
           "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1200&q=80",
           "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1000&q=80"
         ],
-        pricePerDay: 180,
         seats: 7,
         transmission: "Automatic",
         fuelType: "Diesel",
@@ -80,6 +79,12 @@ export class MemStorage implements IStorage {
         hasAC: true,
         hasUSB: true,
         available: true,
+        consumption: "8.5L/100Km",
+        engine: "3.0L V6 Turbo Diesel",
+        power: "282 hp",
+        drivetrain: "AWD",
+        exteriorColor: "Carrara White",
+        interiorColor: "Black Leather",
       },
       {
         name: "Range Rover Evoque",
@@ -270,18 +275,13 @@ export class MemStorage implements IStorage {
         images: [
           "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1350&q=80&hue=20"
         ],
-        pricePerDay: 160,
-        seats: 8,
-        transmission: "Automatic",
-        fuelType: "Petrol",
-        luggage: 5,
-        doors: 5,
-        year: 2023,
-        hasGPS: true,
-        hasBluetooth: true,
-        hasAC: true,
-        hasUSB: true,
         available: false,
+        consumption: "14.7L/100Km",
+        engine: "5.3L V8",
+        power: "355 hp",
+        drivetrain: "4WD",
+        exteriorColor: "Black",
+        interiorColor: "Tan Leather",
       },
       {
         name: "Jeep Wrangler Rubicon",
@@ -563,9 +563,9 @@ export class MemStorage implements IStorage {
     sampleCars.forEach((carData) => {
       const id = randomUUID();
       const slug = generateSlug(carData.name);
-      const car: Car = { 
-        ...carData, 
-        id, 
+      const car: Car = {
+        ...carData,
+        id,
         slug,
         images: carData.images || []
       };
@@ -612,9 +612,9 @@ export class MemStorage implements IStorage {
       ...insertCar,
       images: insertCar.images || []
     };
-    const car: Car = { 
-      ...carData, 
-      id, 
+    const car: Car = {
+      ...carData,
+      id,
       slug,
       images: carData.images || []
     };
@@ -633,9 +633,9 @@ export class MemStorage implements IStorage {
       ...insertCar,
       images: insertCar.images || []
     };
-    const updatedCar: Car = { 
-      ...carData, 
-      id, 
+    const updatedCar: Car = {
+      ...carData,
+      id,
       slug,
       images: carData.images || []
     };

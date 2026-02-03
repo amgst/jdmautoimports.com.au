@@ -33,29 +33,11 @@ export default function Cars() {
   const [transmissionFilter, setTransmissionFilter] = useState<string>(initialFilters.transmission);
   const [seatsFilter, setSeatsFilter] = useState<string>("all");
   const [sortOption, setSortOption] = useState<string>("recommended");
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
 
   const { data: cars, isLoading } = useQuery<Car[]>({
     queryKey: ["cars"],
     queryFn: getAllCarsFirebase,
   });
-
-  const priceBounds = useMemo(() => {
-    if (!cars || cars.length === 0) {
-      return { min: 0, max: 1000 };
-    }
-    const prices = cars.map((car) => car.pricePerDay);
-    return {
-      min: Math.min(...prices),
-      max: Math.max(...prices),
-    };
-  }, [cars]);
-
-  useEffect(() => {
-    if (cars && cars.length > 0) {
-      setPriceRange([priceBounds.min, priceBounds.max]);
-    }
-  }, [cars, priceBounds.min, priceBounds.max]);
 
   // Update filters when URL parameters change
   useEffect(() => {
@@ -79,20 +61,13 @@ export default function Cars() {
     const matchesCategory = categoryFilter === "all" || car.category.toLowerCase() === categoryFilter.toLowerCase();
     const matchesTransmission = transmissionFilter === "all" || car.transmission.toLowerCase() === transmissionFilter.toLowerCase();
     const matchesSeats = seatsFilter === "all" || car.seats === Number(seatsFilter);
-    const matchesPrice =
-      car.pricePerDay >= priceRange[0] && car.pricePerDay <= priceRange[1];
-    
-    return matchesSearch && matchesCategory && matchesTransmission && matchesSeats && matchesPrice;
+    return matchesSearch && matchesCategory && matchesTransmission && matchesSeats;
   }) || [];
 
   const sortedCars = useMemo(() => {
     const list = [...filteredCars];
     list.sort((a, b) => {
       switch (sortOption) {
-        case "price-asc":
-          return a.pricePerDay - b.pricePerDay;
-        case "price-desc":
-          return b.pricePerDay - a.pricePerDay;
         case "seats-desc":
           return b.seats - a.seats;
         case "newest":
@@ -114,7 +89,6 @@ export default function Cars() {
       const categoryExists = categories.some(
         (cat) => cat.toLowerCase() === categoryFilter.toLowerCase()
       );
-      
       // If it doesn't match exactly, find the normalized version
       if (!categoryExists || !categories.includes(categoryFilter)) {
         const normalizedCategory = categories.find(
@@ -134,7 +108,6 @@ export default function Cars() {
       const transmissionExists = transmissions.some(
         (trans) => trans.toLowerCase() === transmissionFilter.toLowerCase()
       );
-      
       // If it doesn't match exactly, find the normalized version
       if (!transmissionExists || !transmissions.includes(transmissionFilter)) {
         const normalizedTransmission = transmissions.find(
@@ -149,229 +122,204 @@ export default function Cars() {
 
   return (
     <>
-      <SEO 
-        title="Car Rental Fleet - Premium Vehicles Australia"
-        description="Browse our premium car rental fleet in Australia. Luxury sedans, SUVs, sports cars, and electric vehicles available for rent. Best rates and flexible booking options across Sydney, Melbourne, Brisbane, Perth, and Adelaide."
+      <SEO
+        title="Inventory - JDM Auto Imports Australia"
+        description="Browse our high-quality JDM vehicles ready for import to Australia. Tokyo Drive specializes in sourcing, shipping, and compliance for Japanese performance cars."
       />
-      <div className="min-h-screen bg-background">
-      <div className="bg-card border-b">
-        <div className="max-w-7xl mx-auto px-6 py-12">
-          <h1 className="text-5xl font-bold mb-4">Our Fleet</h1>
-          <p className="text-lg text-muted-foreground">
-            Browse our collection of premium vehicles
-          </p>
+      <div className="min-h-screen bg-background text-left">
+        <div className="bg-card border-b">
+          <div className="max-w-7xl mx-auto px-6 py-12">
+            <h1 className="text-5xl font-bold mb-4 uppercase">Inventory</h1>
+            <p className="text-lg text-muted-foreground">
+              Browse vehicles sourced directly from Japan for the Australian market
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="mb-8 space-y-6">
-          <div className="flex flex-col xl:flex-row gap-4 items-center">
-            <div className="relative flex-1 w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search cars by name or description..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-                data-testid="input-search-cars"
-              />
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          <div className="mb-8 space-y-6">
+            <div className="flex flex-col xl:flex-row gap-4 items-center">
+              <div className="relative flex-1 w-full text-left">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Input
+                  type="search"
+                  placeholder="Search cars by name or description..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex gap-4 w-full xl:w-auto text-left">
+                <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                  <SelectTrigger className="w-full md:w-[180px]">
+                    <SlidersHorizontal className="h-4 w-4 mr-2" />
+                    <SelectValue placeholder="Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Categories</SelectItem>
+                    {categories.map((cat) => (
+                      <SelectItem key={cat} value={cat}>
+                        {cat}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                <Select value={transmissionFilter} onValueChange={setTransmissionFilter}>
+                  <SelectTrigger className="w-full md:w-[180px]">
+                    <Settings className="h-4 w-4 mr-2" />
+                    <SelectValue placeholder="Transmission" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Types</SelectItem>
+                    {transmissions.map((trans) => (
+                      <SelectItem key={trans} value={trans}>
+                        {trans}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                <Select value={seatsFilter} onValueChange={setSeatsFilter}>
+                  <SelectTrigger className="w-full md:w-[160px]">
+                    <SeatsIcon className="h-4 w-4 mr-2" />
+                    <SelectValue placeholder="Seats" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Seats</SelectItem>
+                    {seatOptions.map((seat) => (
+                      <SelectItem key={seat} value={String(seat)}>
+                        {seat}+ seats
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                <Select value={sortOption} onValueChange={setSortOption}>
+                  <SelectTrigger className="w-full md:w-[180px]">
+                    <ArrowUpAZ className="h-4 w-4 mr-2" />
+                    <SelectValue placeholder="Sort by" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="recommended">Recommended</SelectItem>
+                    <SelectItem value="seats-desc">Seats: Most to Least</SelectItem>
+                    <SelectItem value="newest">Model Year: Newest</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setSearchTerm("");
+                    setCategoryFilter("all");
+                    setTransmissionFilter("all");
+                    setSeatsFilter("all");
+                    setSortOption("recommended");
+                  }}
+                >
+                  Reset
+                </Button>
+              </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex gap-4 w-full xl:w-auto">
-              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                <SelectTrigger className="w-full md:w-[180px]" data-testid="select-category-filter">
-                  <SlidersHorizontal className="h-4 w-4 mr-2" />
-                  <SelectValue placeholder="Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  {categories.map((cat) => (
-                    <SelectItem key={cat} value={cat}>
-                      {cat}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+          </div>
 
-              <Select value={transmissionFilter} onValueChange={setTransmissionFilter}>
-                <SelectTrigger className="w-full md:w-[180px]" data-testid="select-transmission-filter">
-                  <Settings className="h-4 w-4 mr-2" />
-                  <SelectValue placeholder="Transmission" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Types</SelectItem>
-                  {transmissions.map((trans) => (
-                    <SelectItem key={trans} value={trans}>
-                      {trans}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              <Select value={seatsFilter} onValueChange={setSeatsFilter}>
-                <SelectTrigger className="w-full md:w-[160px]" data-testid="select-seats-filter">
-                  <SeatsIcon className="h-4 w-4 mr-2" />
-                  <SelectValue placeholder="Seats" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Seats</SelectItem>
-                  {seatOptions.map((seat) => (
-                    <SelectItem key={seat} value={String(seat)}>
-                      {seat}+ seats
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              <Select value={sortOption} onValueChange={setSortOption}>
-                <SelectTrigger className="w-full md:w-[180px]" data-testid="select-sort">
-                  <ArrowUpAZ className="h-4 w-4 mr-2" />
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="recommended">Recommended</SelectItem>
-                  <SelectItem value="price-asc">Price: Low to High</SelectItem>
-                  <SelectItem value="price-desc">Price: High to Low</SelectItem>
-                  <SelectItem value="seats-desc">Seats: Most to Least</SelectItem>
-                  <SelectItem value="newest">Model Year: Newest</SelectItem>
-                </SelectContent>
-              </Select>
-
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <Card key={i} className="overflow-hidden">
+                  <Skeleton className="h-64 w-full" />
+                  <div className="p-6 space-y-4 text-left">
+                    <Skeleton className="h-6 w-3/4" />
+                    <Skeleton className="h-4 w-1/2" />
+                    <Skeleton className="h-10 w-full" />
+                  </div>
+                </Card>
+              ))}
+            </div>
+          ) : sortedCars.length === 0 ? (
+            <div className="text-center py-16">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
+                <Search className="h-8 w-8 text-muted-foreground" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">No vehicles found</h3>
+              <p className="text-muted-foreground mb-6">
+                Try adjusting your filters or search terms
+              </p>
               <Button
-                variant="outline"
                 onClick={() => {
                   setSearchTerm("");
                   setCategoryFilter("all");
                   setTransmissionFilter("all");
                   setSeatsFilter("all");
                   setSortOption("recommended");
-                  setPriceRange([priceBounds.min, priceBounds.max]);
                 }}
+                variant="outline"
+                data-testid="button-clear-filters"
               >
-                Reset
+                Clear Filters
               </Button>
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-sm text-muted-foreground">
-              <span>Price range</span>
-              <span>
-                ${priceRange[0].toLocaleString()} – ${priceRange[1].toLocaleString()}
-              </span>
-            </div>
-            <Slider
-              value={priceRange}
-              min={Math.max(0, priceBounds.min - 20)}
-              max={priceBounds.max + 20}
-              step={5}
-              className="w-full"
-              onValueChange={(value) => setPriceRange(value as [number, number])}
-            />
-          </div>
+          ) : (
+            <>
+              <div className="mb-6 text-sm text-muted-foreground text-left">
+                Showing {sortedCars.length} {sortedCars.length === 1 ? "vehicle" : "vehicles"}
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+                {sortedCars.map((car) => (
+                  <Link key={car.id} href={`/cars/${car.slug}`}>
+                    <Card className="overflow-hidden hover-elevate active-elevate-2 cursor-pointer h-full border-2 hover:border-primary/50 transition-colors">
+                      <div className="aspect-[4/3] overflow-hidden">
+                        <img
+                          src={getThumbnailUrl(car.image, 720)}
+                          alt={car.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="p-6">
+                        <div className="flex items-start justify-between mb-3">
+                          <div>
+                            <h3 className="text-xl font-bold mb-1">
+                              {car.name}
+                            </h3>
+                            <div className="flex gap-2">
+                              <Badge variant="secondary" className="text-[10px] uppercase font-bold tracking-tight">
+                                {car.category}
+                              </Badge>
+                              <Badge variant="outline" className="text-[10px] uppercase font-bold tracking-tight border-blue-500 text-blue-500">
+                                {car.year}
+                              </Badge>
+                            </div>
+                          </div>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-6 line-clamp-2">
+                          {car.description}
+                        </p>
+                        <div className="flex items-center gap-4 text-xs font-medium text-muted-foreground mb-6">
+                          <div className="flex items-center gap-1.5">
+                            <SeatsIcon className="h-3.5 w-3.5" />
+                            <span>{car.seats}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <Settings className="h-3.5 w-3.5" />
+                            <span>{car.transmission}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <Fuel className="h-3.5 w-3.5" />
+                            <span>{car.fuelType}</span>
+                          </div>
+                        </div>
+                        <Button className="w-full font-bold group">
+                          View Details
+                        </Button>
+                      </div>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            </>
+          )}
         </div>
-
-        {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <Card key={i} className="overflow-hidden">
-                <Skeleton className="h-64 w-full" />
-                <div className="p-6 space-y-4">
-                  <Skeleton className="h-6 w-3/4" />
-                  <Skeleton className="h-4 w-1/2" />
-                  <Skeleton className="h-10 w-full" />
-                </div>
-              </Card>
-            ))}
-          </div>
-        ) : sortedCars.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
-              <Search className="h-8 w-8 text-muted-foreground" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">No vehicles found</h3>
-            <p className="text-muted-foreground mb-6">
-              Try adjusting your filters or search terms
-            </p>
-            <Button
-              onClick={() => {
-                setSearchTerm("");
-                setCategoryFilter("all");
-                setTransmissionFilter("all");
-                setSeatsFilter("all");
-                setSortOption("recommended");
-                setPriceRange([priceBounds.min, priceBounds.max]);
-              }}
-              variant="outline"
-              data-testid="button-clear-filters"
-            >
-              Clear Filters
-            </Button>
-          </div>
-        ) : (
-          <>
-            <div className="mb-6 text-sm text-muted-foreground">
-              Showing {sortedCars.length} {sortedCars.length === 1 ? "vehicle" : "vehicles"}
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {sortedCars.map((car) => (
-                <Link key={car.id} href={`/cars/${car.slug}`}>
-                  <Card className="overflow-hidden hover-elevate active-elevate-2 cursor-pointer h-full" data-testid={`card-car-${car.id}`}>
-                    <div className="aspect-[4/3] overflow-hidden">
-                      <img
-                        src={getThumbnailUrl(car.image, 720)}
-                        alt={car.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="p-6">
-                      <div className="flex items-start justify-between mb-3">
-                        <div>
-                          <h3 className="text-xl font-semibold mb-1" data-testid={`text-car-name-${car.id}`}>
-                            {car.name}
-                          </h3>
-                          <Badge variant="secondary" className="text-xs">
-                            {car.category}
-                          </Badge>
-                        </div>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                        {car.description}
-                      </p>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                        <div className="flex items-center gap-1">
-                          <SeatsIcon className="h-4 w-4" />
-                          <span>{car.seats}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Settings className="h-4 w-4" />
-                          <span>{car.transmission}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Fuel className="h-4 w-4" />
-                          <span>{car.fuelType}</span>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <span className="text-3xl font-bold" data-testid={`text-price-${car.id}`}>
-                            ${car.pricePerDay}
-                          </span>
-                          <span className="text-muted-foreground">/day</span>
-                        </div>
-                        <Badge variant={car.available ? "default" : "secondary"}>
-                          {car.available ? "Available" : "Booked"}
-                        </Badge>
-                      </div>
-                    </div>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          </>
-        )}
       </div>
-    </div>
     </>
   );
 }

@@ -23,9 +23,11 @@ import {
   saveWebsiteSettings,
   type WebsiteSettings,
 } from "@/lib/websiteSettingsFirebase";
-import { Save, Upload, X } from "lucide-react";
+import { Upload, X, Save } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { uploadImage, isImageFile, isValidFileSize } from "@/lib/imageUpload";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Switch } from "@/components/ui/switch";
 
 // Custom URL validator that accepts both full URLs and relative paths
 const urlOrPath = z.string().refine(
@@ -68,8 +70,49 @@ const websiteSettingsSchema = z.object({
   heroLearnMoreText: z.string().optional(),
   heroLearnMoreLink: urlOrPath.or(z.literal("")),
 
+  // Featured Section
+  featuredTitle: z.string().optional(),
+  featuredSubtitle: z.string().optional(),
+
+  // How It Works Section
+  howItWorksTitle: z.string().optional(),
+  howItWorksSubtitle: z.string().optional(),
+  howItWorksStep1Title: z.string().optional(),
+  howItWorksStep1Description: z.string().optional(),
+  howItWorksStep2Title: z.string().optional(),
+  howItWorksStep2Description: z.string().optional(),
+  howItWorksStep3Title: z.string().optional(),
+  howItWorksStep3Description: z.string().optional(),
+
+  // Stats Section
+  stats1Value: z.string().optional(),
+  stats1Label: z.string().optional(),
+  stats2Value: z.string().optional(),
+  stats2Label: z.string().optional(),
+  stats3Value: z.string().optional(),
+  stats3Label: z.string().optional(),
+  stats4Value: z.string().optional(),
+  stats4Label: z.string().optional(),
+
+  // Testimonials Section
+  testimonialsTitle: z.string().optional(),
+  testimonialsSubtitle: z.string().optional(),
+  testimonial1Name: z.string().optional(),
+  testimonial1Role: z.string().optional(),
+  testimonial1Content: z.string().optional(),
+  testimonial2Name: z.string().optional(),
+  testimonial2Role: z.string().optional(),
+  testimonial2Content: z.string().optional(),
+
+  // CTA Section
+  ctaTitle: z.string().optional(),
+  ctaSubtitle: z.string().optional(),
+  ctaButtonText: z.string().optional(),
+  ctaButtonLink: urlOrPath.or(z.literal("")),
+
   // Pages
   termsAndConditions: z.string().optional(),
+  maintenanceMode: z.boolean().default(false),
 });
 
 type WebsiteSettingsForm = z.infer<typeof websiteSettingsSchema>;
@@ -96,32 +139,73 @@ export default function WebsiteSettings() {
   const form = useForm<WebsiteSettingsForm>({
     resolver: zodResolver(websiteSettingsSchema),
     defaultValues: {
-      websiteName: "Premium Car Rentals Australia",
+      websiteName: "JDM Auto Imports Australia",
       logo: "",
       favicon: "/favicon.png",
-      companyName: "Premium Car Rentals Australia",
-      email: "info@premiumcarrentals.com.au",
-      phone: "+61 2 9999 8888",
-      address: "123 Premium Street, Sydney, NSW 2000, Australia",
-      description: "Australia's premier car rental service offering luxury vehicles, premium sedans, SUVs, and sports cars. Book your perfect vehicle for your Australian adventure with exceptional service and competitive rates.",
+      companyName: "JDM Auto Imports Australia",
+      email: "info@jdmautoimports.com.au",
+      phone: "+61 400 000 000",
+      address: "Brisbane, QLD, Australia",
+      description: "Australia's premier JDM import specialist. We source high-quality Japanese performance cars, handling everything from auction to compliance and delivery.",
       facebookUrl: "",
       xUrl: "",
       instagramUrl: "",
       linkedinUrl: "",
-      metaDescription: "Premium car rental in Australia. Choose from luxury sedans, SUVs, sports cars and more. Best rates, flexible bookings, and exceptional service across Sydney, Melbourne, Brisbane, Perth, and Adelaide. Book your dream car today.",
-      metaKeywords: "car rental Australia, luxury car hire Australia, premium car rental Sydney, car hire Melbourne, rent car Brisbane, vehicle rental Perth, car rental Adelaide, Australia car hire, premium vehicles Australia, luxury cars Australia",
+      metaDescription: "Direct JDM imports to Australia. Specialist sourcing for GTR, Skyline, Supra, and more. Full compliance handling and Australia-wide delivery.",
+      metaKeywords: "JDM imports Australia, Japanese car imports, GTR import Sydney, Skyline import Brisbane, JDM concierge service",
 
       // Hero Defaults
-      heroTitle: "Premium Car Rentals Australia",
-      heroSubtitle: "Experience luxury and performance with Australia's finest collection of premium vehicles. Available across Sydney, Melbourne, Brisbane, Perth, and Adelaide.",
+      heroTitle: "Direct JDM Imports",
+      heroSubtitle: "Australia's trusted gateway to the finest Japanese performance and classic vehicles.",
       heroImage: "",
-      heroButtonText: "Browse Our Fleet",
+      heroButtonText: "View Inventory",
       heroButtonLink: "/cars",
-      heroLearnMoreText: "Learn More",
-      heroLearnMoreLink: "#features",
+      heroLearnMoreText: "Start Sourcing",
+      heroLearnMoreLink: "/find-me-a-car",
+
+      // Featured Defaults
+      featuredTitle: "Featured Vehicles",
+      featuredSubtitle: "Discover our most popular luxury and performance cars",
+
+      // How It Works Defaults
+      howItWorksTitle: "How It Works",
+      howItWorksSubtitle: "Importing your dream JDM car is simple and transparent",
+      howItWorksStep1Title: "Source & Bid",
+      howItWorksStep1Description: "We help you find the perfect car at Japanese auctions and handle the bidding process",
+      howItWorksStep2Title: "Shipping & Transit",
+      howItWorksStep2Description: "We manage international logistics, insurance, and arrival at Australian ports",
+      howItWorksStep3Title: "Compliance & Delivery",
+      howItWorksStep3Description: "Full RAWS compliance and registration before delivering to your door",
+
+      // Stats Defaults
+      stats1Value: "500+",
+      stats1Label: "Vehicles Sourced",
+      stats2Value: "100%",
+      stats2Label: "Compliance Rate",
+      stats3Value: "20+",
+      stats3Label: "Auction Tiers",
+      stats4Value: "24/7",
+      stats4Label: "Support",
+
+      // Testimonials Defaults
+      testimonialsTitle: "What Our Customers Say",
+      testimonialsSubtitle: "Hear from those who have experienced our premium service",
+      testimonial1Name: "James Davidson",
+      testimonial1Role: "Business Executive",
+      testimonial1Content: "Outstanding service! The Tesla Model 3 was in perfect condition, and the booking process was seamless. JDM Auto Imports made my business trip incredibly convenient.",
+      testimonial2Name: "Sarah Martinez",
+      testimonial2Role: "Family Traveler",
+      testimonial2Content: "We rented the BMW X5 for our family vacation and it was perfect! Spacious, comfortable, and the customer support was fantastic. Highly recommend!",
+
+      // CTA Defaults
+      ctaTitle: "Ready to Start Your Import Project?",
+      ctaSubtitle: "Contact our specialists today and secure your piece of Japanese automotive history",
+      ctaButtonText: "Enquire Now",
+      ctaButtonLink: "/contact",
 
       // Pages
       termsAndConditions: "",
+      maintenanceMode: false,
     },
   });
 
@@ -145,16 +229,57 @@ export default function WebsiteSettings() {
         metaKeywords: settings.metaKeywords || "",
 
         // Hero
-        heroTitle: settings.heroTitle || "Premium Car Rentals Australia",
-        heroSubtitle: settings.heroSubtitle || "Experience luxury and performance with Australia's finest collection of premium vehicles. Available across Sydney, Melbourne, Brisbane, Perth, and Adelaide.",
+        heroTitle: settings.heroTitle || "JDM Auto Imports",
+        heroSubtitle: settings.heroSubtitle || "Experience luxury and performance with Australia's finest collection of JDM and premium vehicles.",
         heroImage: settings.heroImage || "",
         heroButtonText: settings.heroButtonText || "Browse Our Fleet",
         heroButtonLink: settings.heroButtonLink || "/cars",
         heroLearnMoreText: settings.heroLearnMoreText || "Learn More",
         heroLearnMoreLink: settings.heroLearnMoreLink || "#features",
 
+        // Featured
+        featuredTitle: settings.featuredTitle || "Featured Vehicles",
+        featuredSubtitle: settings.featuredSubtitle || "Discover our most popular luxury and performance cars",
+
+        // How It Works
+        howItWorksTitle: settings.howItWorksTitle || "How It Works",
+        howItWorksSubtitle: settings.howItWorksSubtitle || "Renting a car has never been easier",
+        howItWorksStep1Title: settings.howItWorksStep1Title || "Choose Your Car",
+        howItWorksStep1Description: settings.howItWorksStep1Description || "Browse our extensive fleet and select the perfect vehicle for your needs",
+        howItWorksStep2Title: settings.howItWorksStep2Title || "Book Online",
+        howItWorksStep2Description: settings.howItWorksStep2Description || "Complete your reservation quickly and securely through our platform",
+        howItWorksStep3Title: settings.howItWorksStep3Title || "Hit the Road",
+        howItWorksStep3Description: settings.howItWorksStep3Description || "Pick up your vehicle and enjoy your journey with confidence",
+
+        // Stats
+        stats1Value: settings.stats1Value || "1000+",
+        stats1Label: settings.stats1Label || "Happy Customers",
+        stats2Value: settings.stats2Value || "50+",
+        stats2Label: settings.stats2Label || "Premium Vehicles",
+        stats3Value: settings.stats3Value || "5",
+        stats3Label: settings.stats3Label || "Locations",
+        stats4Value: settings.stats4Value || "24/7",
+        stats4Label: settings.stats4Label || "Support",
+
+        // Testimonials
+        testimonialsTitle: settings.testimonialsTitle || "What Our Customers Say",
+        testimonialsSubtitle: settings.testimonialsSubtitle || "Hear from those who have experienced our premium service",
+        testimonial1Name: settings.testimonial1Name || "James Davidson",
+        testimonial1Role: settings.testimonial1Role || "Business Executive",
+        testimonial1Content: settings.testimonial1Content || "Outstanding service! The Tesla Model 3 was in perfect condition, and the booking process was seamless. JDM Auto Imports made my business trip incredibly convenient.",
+        testimonial2Name: settings.testimonial2Name || "Sarah Martinez",
+        testimonial2Role: settings.testimonial2Role || "Family Traveler",
+        testimonial2Content: settings.testimonial2Content || "We rented the BMW X5 for our family vacation and it was perfect! Spacious, comfortable, and the customer support was fantastic. Highly recommend!",
+
+        // CTA
+        ctaTitle: settings.ctaTitle || "Ready to Start Your Journey?",
+        ctaSubtitle: settings.ctaSubtitle || "Book your premium vehicle today and experience the road like never before",
+        ctaButtonText: settings.ctaButtonText || "Book Now",
+        ctaButtonLink: settings.ctaButtonLink || "/cars",
+
         // Pages
         termsAndConditions: settings.termsAndConditions || "",
+        maintenanceMode: settings.maintenanceMode || false,
       });
       if (settings.logo) {
         setLogoPreview(settings.logo);
@@ -196,8 +321,49 @@ export default function WebsiteSettings() {
         heroLearnMoreText: data.heroLearnMoreText || undefined,
         heroLearnMoreLink: data.heroLearnMoreLink || undefined,
 
+        // Featured Section
+        featuredTitle: data.featuredTitle || undefined,
+        featuredSubtitle: data.featuredSubtitle || undefined,
+
+        // How It Works Section
+        howItWorksTitle: data.howItWorksTitle || undefined,
+        howItWorksSubtitle: data.howItWorksSubtitle || undefined,
+        howItWorksStep1Title: data.howItWorksStep1Title || undefined,
+        howItWorksStep1Description: data.howItWorksStep1Description || undefined,
+        howItWorksStep2Title: data.howItWorksStep2Title || undefined,
+        howItWorksStep2Description: data.howItWorksStep2Description || undefined,
+        howItWorksStep3Title: data.howItWorksStep3Title || undefined,
+        howItWorksStep3Description: data.howItWorksStep3Description || undefined,
+
+        // Stats Section
+        stats1Value: data.stats1Value || undefined,
+        stats1Label: data.stats1Label || undefined,
+        stats2Value: data.stats2Value || undefined,
+        stats2Label: data.stats2Label || undefined,
+        stats3Value: data.stats3Value || undefined,
+        stats3Label: data.stats3Label || undefined,
+        stats4Value: data.stats4Value || undefined,
+        stats4Label: data.stats4Label || undefined,
+
+        // Testimonials Section
+        testimonialsTitle: data.testimonialsTitle || undefined,
+        testimonialsSubtitle: data.testimonialsSubtitle || undefined,
+        testimonial1Name: data.testimonial1Name || undefined,
+        testimonial1Role: data.testimonial1Role || undefined,
+        testimonial1Content: data.testimonial1Content || undefined,
+        testimonial2Name: data.testimonial2Name || undefined,
+        testimonial2Role: data.testimonial2Role || undefined,
+        testimonial2Content: data.testimonial2Content || undefined,
+
+        // CTA Section
+        ctaTitle: data.ctaTitle || undefined,
+        ctaSubtitle: data.ctaSubtitle || undefined,
+        ctaButtonText: data.ctaButtonText || undefined,
+        ctaButtonLink: data.ctaButtonLink || undefined,
+
         // Pages
         termsAndConditions: data.termsAndConditions || undefined,
+        maintenanceMode: data.maintenanceMode,
       };
       return saveWebsiteSettings(cleanedData);
     },
@@ -208,9 +374,7 @@ export default function WebsiteSettings() {
         description: "Website settings saved successfully",
       });
       // Update document title if available
-      if (typeof document !== "undefined") {
-        document.title = `${data.websiteName} - Premium Car Rentals`;
-      }
+      document.title = `${data.websiteName} - JDM Auto Imports`;
     },
     onError: (error: unknown) => {
       console.error("Error saving website settings:", error);
@@ -294,6 +458,7 @@ export default function WebsiteSettings() {
       const url = await uploadImage(logoFile);
       form.setValue("logo", url);
       setLogoFile(null);
+      // setLogoPreview(url); // Keep the preview but clear the file object
       if (!silent) {
         toast({
           title: "Success",
@@ -310,7 +475,7 @@ export default function WebsiteSettings() {
           variant: "destructive",
         });
       }
-      throw error; // Re-throw so onSubmit can handle it
+      throw error;
     } finally {
       setIsUploadingLogo(false);
     }
@@ -339,7 +504,7 @@ export default function WebsiteSettings() {
           variant: "destructive",
         });
       }
-      throw error; // Re-throw so onSubmit can handle it
+      throw error;
     } finally {
       setIsUploadingFavicon(false);
     }
@@ -409,41 +574,31 @@ export default function WebsiteSettings() {
     try {
       let uploadErrors: string[] = [];
 
+      // Ensure we use the latest values from form if they were updated via individual uploads
+      const currentValues = form.getValues();
+      const submissionData = { ...data, ...currentValues };
+
       // Upload logo if a new file was selected (silent mode - no toast during submit)
       if (logoFile) {
         try {
           const logoUrl = await uploadLogo(true);
           if (logoUrl) {
-            data.logo = logoUrl;
+            submissionData.logo = logoUrl;
           }
         } catch (error) {
           uploadErrors.push("Logo upload failed");
-          console.error("Logo upload error:", error);
-          // Keep existing logo value if upload fails
-          if (data.logo) {
-            // Use existing value
-          } else {
-            data.logo = ""; // Ensure empty string if no existing value
-          }
         }
       }
 
-      // Upload favicon if a new file was selected (silent mode - no toast during submit)
+      // Upload favicon if a new file was selected
       if (faviconFile) {
         try {
           const faviconUrl = await uploadFavicon(true);
           if (faviconUrl) {
-            data.favicon = faviconUrl;
+            submissionData.favicon = faviconUrl;
           }
         } catch (error) {
           uploadErrors.push("Favicon upload failed");
-          console.error("Favicon upload error:", error);
-          // Keep existing favicon value if upload fails
-          if (data.favicon) {
-            // Use existing value
-          } else {
-            data.favicon = "/favicon.png"; // Use default if no existing value
-          }
         }
       }
 
@@ -452,15 +607,10 @@ export default function WebsiteSettings() {
         try {
           const heroImageUrl = await uploadHeroImage(true);
           if (heroImageUrl) {
-            data.heroImage = heroImageUrl;
+            submissionData.heroImage = heroImageUrl;
           }
         } catch (error) {
           uploadErrors.push("Hero image upload failed");
-          console.error("Hero image upload error:", error);
-          // Keep existing value
-          if (!data.heroImage) {
-            data.heroImage = "";
-          }
         }
       }
 
@@ -473,9 +623,7 @@ export default function WebsiteSettings() {
         });
       }
 
-      // Save the settings (this will use existing logo/favicon if uploads failed)
-      console.log("Saving website settings:", data);
-      saveMutation.mutate(data);
+      saveMutation.mutate(submissionData);
     } catch (error) {
       console.error("Error in onSubmit:", error);
       toast({
@@ -515,540 +663,1109 @@ export default function WebsiteSettings() {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Branding</CardTitle>
-              <CardDescription>
-                Set your website name, logo, and favicon
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <FormField
-                control={form.control}
-                name="websiteName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Website Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Tokyo Drive" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      The name displayed in the browser title and navigation
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <Tabs defaultValue="general" className="w-full">
+            <TabsList className="mb-4">
+              <TabsTrigger value="general">General Settings</TabsTrigger>
+              <TabsTrigger value="home">Home Page Content</TabsTrigger>
+            </TabsList>
 
-              <FormField
-                control={form.control}
-                name="companyName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Company Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Tokyo Drive" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      Your official company name
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="logo"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Logo</FormLabel>
-                    <FormControl>
-                      <div className="space-y-4">
-                        <div className="flex items-center gap-4">
-                          <Input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleLogoChange}
-                            className="flex-1"
-                          />
-                          {(logoPreview || field.value) && (
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="icon"
-                              onClick={removeLogo}
-                            >
-                              <X className="h-4 w-4" />
-                            </Button>
-                          )}
+            <TabsContent value="general" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Branding & Site Status</CardTitle>
+                  <CardDescription>
+                    Configure site visibility and basic information
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="maintenanceMode"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 bg-yellow-50/50 border-yellow-200">
+                        <div className="space-y-0.5">
+                          <FormLabel className="text-base text-yellow-900 font-bold">Maintenance Mode</FormLabel>
+                          <FormDescription className="text-yellow-800">
+                            When enabled, public users will see a "Coming Soon" page. Admins can still access the site.
+                          </FormDescription>
                         </div>
-                        {(logoPreview || field.value) && (
-                          <div className="relative w-48 h-32 border rounded-md overflow-hidden bg-muted">
-                            <img
-                              src={logoPreview || field.value}
-                              alt="Logo preview"
-                              className="w-full h-full object-contain p-2"
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="websiteName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Website Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Tokyo Drive" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                          The name displayed in the browser title and navigation
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="companyName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Company Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Tokyo Drive" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                          Your official company name
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="logo"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Logo</FormLabel>
+                        <FormControl>
+                          <div className="space-y-4">
+                            <div className="flex items-center gap-2">
+                              <Input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleLogoChange}
+                                className="flex-1"
+                              />
+                              {logoFile && (
+                                <Button
+                                  type="button"
+                                  onClick={() => uploadLogo()}
+                                  disabled={isUploadingLogo}
+                                  size="sm"
+                                  className="shrink-0"
+                                >
+                                  {isUploadingLogo ? "Uploading..." : "Upload Logo"}
+                                </Button>
+                              )}
+                              {(logoPreview || field.value) && (
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="icon"
+                                  onClick={removeLogo}
+                                  className="shrink-0"
+                                >
+                                  <X className="h-4 w-4" />
+                                </Button>
+                              )}
+                            </div>
+                            {(logoPreview || field.value) && (
+                              <div className="relative w-48 h-32 border rounded-md overflow-hidden bg-muted">
+                                <img
+                                  src={logoPreview || field.value}
+                                  alt="Logo preview"
+                                  className="w-full h-full object-contain p-2"
+                                />
+                              </div>
+                            )}
+                            <Input
+                              type="text"
+                              placeholder="https://example.com/logo.png or /logo.png"
+                              {...field}
                             />
                           </div>
-                        )}
-                        <Input
-                          type="text"
-                          placeholder="https://example.com/logo.png or /logo.png"
-                          {...field}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormDescription>
-                      Upload a logo image or enter a URL/path. Recommended size: 200x60px
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                        </FormControl>
+                        <FormDescription>
+                          Upload a logo image or enter a URL/path. Recommended size: 200x60px
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              <FormField
-                control={form.control}
-                name="favicon"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Favicon</FormLabel>
-                    <FormControl>
-                      <div className="space-y-4">
-                        <div className="flex items-center gap-4">
-                          <Input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleFaviconChange}
-                            className="flex-1"
-                          />
-                          {(faviconPreview || field.value) && (
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="icon"
-                              onClick={removeFavicon}
-                            >
-                              <X className="h-4 w-4" />
-                            </Button>
-                          )}
-                        </div>
-                        {(faviconPreview || field.value) && (
-                          <div className="relative w-16 h-16 border rounded-md overflow-hidden bg-muted">
-                            <img
-                              src={faviconPreview || field.value}
-                              alt="Favicon preview"
-                              className="w-full h-full object-contain p-1"
+                  <FormField
+                    control={form.control}
+                    name="favicon"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Favicon</FormLabel>
+                        <FormControl>
+                          <div className="space-y-4">
+                            <div className="flex items-center gap-2">
+                              <Input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFaviconChange}
+                                className="flex-1"
+                              />
+                              {faviconFile && (
+                                <Button
+                                  type="button"
+                                  onClick={() => uploadFavicon()}
+                                  disabled={isUploadingFavicon}
+                                  size="sm"
+                                  className="shrink-0"
+                                >
+                                  {isUploadingFavicon ? "Uploading..." : "Upload Favicon"}
+                                </Button>
+                              )}
+                              {(faviconPreview || field.value) && (
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="icon"
+                                  onClick={removeFavicon}
+                                  className="shrink-0"
+                                >
+                                  <X className="h-4 w-4" />
+                                </Button>
+                              )}
+                            </div>
+                            {(faviconPreview || field.value) && (
+                              <div className="relative w-16 h-16 border rounded-md overflow-hidden bg-muted">
+                                <img
+                                  src={faviconPreview || field.value}
+                                  alt="Favicon preview"
+                                  className="w-full h-full object-contain p-1"
+                                />
+                              </div>
+                            )}
+                            <Input
+                              type="text"
+                              placeholder="/favicon.png"
+                              {...field}
                             />
                           </div>
-                        )}
-                        <Input
-                          type="text"
-                          placeholder="/favicon.png"
-                          {...field}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormDescription>
-                      Upload a favicon image or enter a URL/path. Recommended size: 32x32px or 64x64px
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
+                        </FormControl>
+                        <FormDescription>
+                          Upload a favicon image or enter a URL/path. Recommended size: 32x32px or 64x64px
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Company Information</CardTitle>
-              <CardDescription>
-                Update your company details and description
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Premium car rental service with the finest vehicles..."
-                        rows={4}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      A brief description of your business
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Contact Information</CardTitle>
-              <CardDescription>
-                Set your contact details displayed in the footer
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input type="email" placeholder="info@example.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone</FormLabel>
-                    <FormControl>
-                      <Input type="tel" placeholder="+1 234-567-8900" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Address</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="123 Street Name, City, Country"
-                        rows={2}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Social Media</CardTitle>
-              <CardDescription>
-                Add links to your social media profiles (optional)
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormField
-                  control={form.control}
-                  name="facebookUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Facebook URL</FormLabel>
-                      <FormControl>
-                        <Input type="url" placeholder="https://facebook.com/yourpage" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="xUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>X (Twitter) URL</FormLabel>
-                      <FormControl>
-                        <Input type="url" placeholder="https://x.com/yourcompany" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="instagramUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Instagram URL</FormLabel>
-                      <FormControl>
-                        <Input type="url" placeholder="https://instagram.com/yourhandle" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="linkedinUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>LinkedIn URL</FormLabel>
-                      <FormControl>
-                        <Input type="url" placeholder="https://linkedin.com/company/yourcompany" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Hero Section</CardTitle>
-              <CardDescription>
-                Customize the main banner on the home page
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <FormField
-                control={form.control}
-                name="heroTitle"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Hero Title</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Premium Car Rentals Australia" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="heroSubtitle"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Hero Subtitle</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Experience luxury and performance..."
-                        rows={2}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="heroImage"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Hero Background Image</FormLabel>
-                    <FormControl>
-                      <div className="space-y-4">
-                        <div className="flex items-center gap-4">
-                          <Input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleHeroImageChange}
-                            className="flex-1"
+              <Card>
+                <CardHeader>
+                  <CardTitle>Company Information</CardTitle>
+                  <CardDescription>
+                    Update your company details and description
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Description</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Premium car rental service with the finest vehicles..."
+                            rows={4}
+                            {...field}
                           />
-                          {(heroImagePreview || field.value) && (
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="icon"
-                              onClick={removeHeroImage}
-                            >
-                              <X className="h-4 w-4" />
-                            </Button>
-                          )}
-                        </div>
-                        {(heroImagePreview || field.value) && (
-                          <div className="relative w-full h-48 border rounded-md overflow-hidden bg-muted">
-                            <img
-                              src={heroImagePreview || field.value}
-                              alt="Hero Preview"
-                              className="w-full h-full object-cover"
+                        </FormControl>
+                        <FormDescription>
+                          A brief description of your business
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Contact Information</CardTitle>
+                  <CardDescription>
+                    Set your contact details displayed in the footer
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="info@example.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phone</FormLabel>
+                        <FormControl>
+                          <Input type="tel" placeholder="+1 234-567-8900" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="address"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Address</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="123 Street Name, City, Country"
+                            rows={2}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Social Media</CardTitle>
+                  <CardDescription>
+                    Add links to your social media profiles (optional)
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="facebookUrl"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Facebook URL</FormLabel>
+                          <FormControl>
+                            <Input type="url" placeholder="https://facebook.com/yourpage" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="xUrl"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>X (Twitter) URL</FormLabel>
+                          <FormControl>
+                            <Input type="url" placeholder="https://x.com/yourcompany" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="instagramUrl"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Instagram URL</FormLabel>
+                          <FormControl>
+                            <Input type="url" placeholder="https://instagram.com/yourhandle" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="linkedinUrl"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>LinkedIn URL</FormLabel>
+                          <FormControl>
+                            <Input type="url" placeholder="https://linkedin.com/company/yourcompany" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+
+            </TabsContent>
+
+            <TabsContent value="home" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Hero Section</CardTitle>
+                  <CardDescription>
+                    Customize the main banner on the home page
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="heroTitle"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Hero Title</FormLabel>
+                        <FormControl>
+                          <Input placeholder="JDM Auto Imports" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="heroSubtitle"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Hero Subtitle</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Experience luxury and performance..."
+                            rows={2}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="heroImage"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Hero Background Image</FormLabel>
+                        <FormControl>
+                          <div className="space-y-4">
+                            <div className="flex items-center gap-2">
+                              <Input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleHeroImageChange}
+                                className="flex-1"
+                              />
+                              {heroImageFile && (
+                                <Button
+                                  type="button"
+                                  onClick={() => uploadHeroImage()}
+                                  disabled={isUploadingHeroImage}
+                                  size="sm"
+                                  className="shrink-0"
+                                >
+                                  {isUploadingHeroImage ? "Uploading..." : "Upload Hero Image"}
+                                </Button>
+                              )}
+                              {(heroImagePreview || field.value) && (
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="icon"
+                                  onClick={removeHeroImage}
+                                  className="shrink-0"
+                                >
+                                  <X className="h-4 w-4" />
+                                </Button>
+                              )}
+                            </div>
+                            {(heroImagePreview || field.value) && (
+                              <div className="relative w-full h-48 border rounded-md overflow-hidden bg-muted">
+                                <img
+                                  src={heroImagePreview || field.value}
+                                  alt="Hero Preview"
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                            )}
+                            <Input
+                              type="text"
+                              placeholder="https://example.com/banner.jpg"
+                              {...field}
                             />
                           </div>
+                        </FormControl>
+                        <FormDescription>
+                          Upload a high-quality banner image (recommended 1920x1080px)
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <h3 className="text-sm font-medium">Primary Button</h3>
+                      <FormField
+                        control={form.control}
+                        name="heroButtonText"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Button Text</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Browse Our Fleet" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
                         )}
-                        <Input
-                          type="text"
-                          placeholder="https://example.com/banner.jpg"
-                          {...field}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormDescription>
-                      Upload a high-quality banner image (recommended 1920x1080px)
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <h3 className="text-sm font-medium">Primary Button</h3>
-                  <FormField
-                    control={form.control}
-                    name="heroButtonText"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Button Text</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Browse Our Fleet" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="heroButtonLink"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Button Link</FormLabel>
-                        <FormControl>
-                          <Input placeholder="/cars" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="space-y-4">
-                  <h3 className="text-sm font-medium">Secondary Button (Learn More)</h3>
-                  <FormField
-                    control={form.control}
-                    name="heroLearnMoreText"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Button Text</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Learn More" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="heroLearnMoreLink"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Button Link</FormLabel>
-                        <FormControl>
-                          <Input placeholder="#features" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>SEO Settings</CardTitle>
-              <CardDescription>
-                Configure meta tags for search engines (optional)
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <FormField
-                control={form.control}
-                name="metaDescription"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Meta Description</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Discover our premium car rental collection..."
-                        rows={3}
-                        {...field}
                       />
-                    </FormControl>
-                    <FormDescription>
-                      Brief description shown in search engine results (150-160 characters recommended)
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="metaKeywords"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Meta Keywords</FormLabel>
-                    <FormControl>
-                      <Input placeholder="car rental, luxury cars, premium vehicles" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      Comma-separated keywords for SEO
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Pages Content</CardTitle>
-              <CardDescription>
-                Edit the content for specific pages
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <FormField
-                control={form.control}
-                name="termsAndConditions"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Terms and Conditions</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Enter terms and conditions content using Markdown..."
-                        className="min-h-[300px] font-mono text-sm"
-                        {...field}
-                        value={field.value || ""}
+                      <FormField
+                        control={form.control}
+                        name="heroButtonLink"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Button Link</FormLabel>
+                            <FormControl>
+                              <Input placeholder="/cars" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
-                    </FormControl>
-                    <FormDescription>
-                      Use Markdown for formatting (## for headers, * for lists)
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
+                    </div>
 
-          <div className="flex gap-4">
+                    <div className="space-y-4">
+                      <h3 className="text-sm font-medium">Secondary Button (Learn More)</h3>
+                      <FormField
+                        control={form.control}
+                        name="heroLearnMoreText"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Button Text</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Learn More" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="heroLearnMoreLink"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Button Link</FormLabel>
+                            <FormControl>
+                              <Input placeholder="#features" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+
+
+              {/* Featured Section */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Featured Vehicles Section</CardTitle>
+                  <CardDescription>
+                    Customize the section header for your featured cars
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="featuredTitle"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Section Title</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Featured Vehicles" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="featuredSubtitle"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Section Subtitle</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Discover our most popular luxury and performance cars" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* How It Works Section */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>How It Works Section</CardTitle>
+                  <CardDescription>
+                    Customize the steps shown in the "How It Works" section
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="howItWorksTitle"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Section Title</FormLabel>
+                          <FormControl>
+                            <Input placeholder="How It Works" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="howItWorksSubtitle"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Section Subtitle</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Renting a car has never been easier" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="space-y-4 border rounded-md p-4">
+                    <h3 className="font-medium">Step 1</h3>
+                    <FormField
+                      control={form.control}
+                      name="howItWorksStep1Title"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Title</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Choose Your Car" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="howItWorksStep1Description"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Description</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Browse our extensive fleet..." {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="space-y-4 border rounded-md p-4">
+                    <h3 className="font-medium">Step 2</h3>
+                    <FormField
+                      control={form.control}
+                      name="howItWorksStep2Title"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Title</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Book Online" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="howItWorksStep2Description"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Description</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Complete your reservation..." {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="space-y-4 border rounded-md p-4">
+                    <h3 className="font-medium">Step 3</h3>
+                    <FormField
+                      control={form.control}
+                      name="howItWorksStep3Title"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Title</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Hit the Road" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="howItWorksStep3Description"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Description</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Pick up your vehicle..." {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Stats Section */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Statistics Section</CardTitle>
+                  <CardDescription>
+                    Customize the statistics shown on the home page
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="border rounded-md p-4 space-y-4">
+                      <h3 className="font-medium">Stat 1</h3>
+                      <FormField
+                        control={form.control}
+                        name="stats1Value"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Value</FormLabel>
+                            <FormControl>
+                              <Input placeholder="1000+" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="stats1Label"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Label</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Happy Customers" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <div className="border rounded-md p-4 space-y-4">
+                      <h3 className="font-medium">Stat 2</h3>
+                      <FormField
+                        control={form.control}
+                        name="stats2Value"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Value</FormLabel>
+                            <FormControl>
+                              <Input placeholder="50+" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="stats2Label"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Label</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Premium Vehicles" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <div className="border rounded-md p-4 space-y-4">
+                      <h3 className="font-medium">Stat 3</h3>
+                      <FormField
+                        control={form.control}
+                        name="stats3Value"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Value</FormLabel>
+                            <FormControl>
+                              <Input placeholder="5" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="stats3Label"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Label</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Locations" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <div className="border rounded-md p-4 space-y-4">
+                      <h3 className="font-medium">Stat 4</h3>
+                      <FormField
+                        control={form.control}
+                        name="stats4Value"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Value</FormLabel>
+                            <FormControl>
+                              <Input placeholder="24/7" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="stats4Label"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Label</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Support" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Testimonials Section */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Testimonials Section</CardTitle>
+                  <CardDescription>
+                    Customize the customer reviews section
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="testimonialsTitle"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Section Title</FormLabel>
+                          <FormControl>
+                            <Input placeholder="What Our Customers Say" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="testimonialsSubtitle"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Section Subtitle</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Hear from those who have experienced our premium service" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="space-y-4 border rounded-md p-4">
+                    <h3 className="font-medium">Testimonial 1</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="testimonial1Name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Name</FormLabel>
+                            <FormControl>
+                              <Input placeholder="James Davidson" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="testimonial1Role"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Role/Title</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Business Executive" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <FormField
+                      control={form.control}
+                      name="testimonial1Content"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Review Content</FormLabel>
+                          <FormControl>
+                            <Textarea placeholder="Outstanding service..." rows={3} {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="space-y-4 border rounded-md p-4">
+                    <h3 className="font-medium">Testimonial 2</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="testimonial2Name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Name</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Sarah Martinez" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="testimonial2Role"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Role/Title</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Family Traveler" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <FormField
+                      control={form.control}
+                      name="testimonial2Content"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Review Content</FormLabel>
+                          <FormControl>
+                            <Textarea placeholder="We rented the BMW X5..." rows={3} {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Call to Action Section */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Call to Action Section</CardTitle>
+                  <CardDescription>
+                    Customize the bottom CTA section
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="ctaTitle"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Title</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Ready to Start Your Journey?" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="ctaSubtitle"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Subtitle</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Book your premium vehicle today..." {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="ctaButtonText"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Button Text</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Book Now" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="ctaButtonLink"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Button Link</FormLabel>
+                          <FormControl>
+                            <Input placeholder="/cars" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>SEO Settings</CardTitle>
+                  <CardDescription>
+                    Configure meta tags for search engines (optional)
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="metaDescription"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Meta Description</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Discover our premium car rental collection..."
+                            rows={3}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          Brief description shown in search engine results (150-160 characters recommended)
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="metaKeywords"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Meta Keywords</FormLabel>
+                        <FormControl>
+                          <Input placeholder="car rental, luxury cars, premium vehicles" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                          Comma-separated keywords for SEO
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Pages Content</CardTitle>
+                  <CardDescription>
+                    Edit the content for specific pages
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="termsAndConditions"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Terms and Conditions</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Enter terms and conditions content using Markdown..."
+                            className="min-h-[300px] font-mono text-sm"
+                            {...field}
+                            value={field.value || ""}
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          Use Markdown for formatting (## for headers, * for lists)
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+
+          <div className="flex justify-end sticky bottom-6 bg-background/80 backdrop-blur-sm p-4 border-t z-10 w-full rounded-b-lg">
             <Button
               type="submit"
               size="lg"
@@ -1060,8 +1777,8 @@ export default function WebsiteSettings() {
                 : "Save Settings"}
             </Button>
           </div>
-        </form>
-      </Form>
-    </div>
+        </form >
+      </Form >
+    </div >
   );
 }

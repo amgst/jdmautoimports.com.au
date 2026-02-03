@@ -12,7 +12,7 @@ interface SEOProps {
 
 export function SEO({ title, description, image, type = "website", noindex = false }: SEOProps) {
   const [location] = useLocation();
-  const { settings } = useWebsiteSettings();
+  const { isLoading, ...settings } = useWebsiteSettings();
 
   const getAbsoluteUrl = (url?: string | null) => {
     if (!url) return undefined;
@@ -33,12 +33,12 @@ export function SEO({ title, description, image, type = "website", noindex = fal
     if (!settings) return;
 
     // Update document title
-    const siteName = settings.websiteName || "Premium Car Rentals Australia";
+    const siteName = settings.websiteName || "JDM Auto Imports Australia";
     const pageTitle = title ? `${siteName} | ${title}` : siteName;
     document.title = pageTitle;
 
     // Update meta description
-    const metaDesc = description || settings.metaDescription || settings.description || "";
+    const metaDesc = description || settings.metaDescription || settings.description || "Direct JDM import specialist in Australia. Sourcing, shipping, and compliance for Japanese performance cars.";
     let metaDescription = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     if (!metaDescription) {
       metaDescription = document.createElement("meta");
@@ -73,7 +73,7 @@ export function SEO({ title, description, image, type = "website", noindex = fal
     const ogDesc = description || settings.metaDescription || settings.description || "";
     const defaultOgImage =
       getAbsoluteUrl(settings.logo) ||
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80";
+      "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=1200&q=80"; // Updated to a more JDM-style car image
     const ogImage = getAbsoluteUrl(image) || defaultOgImage;
 
     const updateOGTag = (property: string, content: string) => {
@@ -129,29 +129,29 @@ export function SEO({ title, description, image, type = "website", noindex = fal
       robots.content = "noindex, nofollow";
     }
 
-    // Add structured data (JSON-LD) for LocalBusiness
+    // Add structured data (JSON-LD) for LocalBusiness / AutoDealer
     const structuredData = {
       "@context": "https://schema.org",
-      "@type": "CarRental",
-      "name": settings.companyName || settings.websiteName || "Premium Car Rentals Australia",
-      "description": settings.description || settings.metaDescription || "",
+      "@type": "AutoDealer",
+      "name": settings.companyName || settings.websiteName || "JDM Auto Imports Australia",
+      "description": settings.description || settings.metaDescription || "Specialist in high-quality JDM vehicle imports and compliance in Australia.",
       "url": canonicalUrl,
       "telephone": settings.phone || "",
       "email": settings.email || "",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": settings.address?.split(",")[0] || "",
-        "addressLocality": settings.address?.match(/[A-Za-z]+/g)?.[0] || "Sydney",
-        "addressRegion": settings.address?.match(/NSW|VIC|QLD|WA|SA|TAS|NT|ACT/)?.[0] || "NSW",
+        "streetAddress": settings.address?.split(",")[0] || "Brisbane",
+        "addressLocality": settings.address?.match(/[A-Za-z]+/g)?.[1] || "Brisbane",
+        "addressRegion": settings.address?.match(/NSW|VIC|QLD|WA|SA|TAS|NT|ACT/)?.[0] || "QLD",
         "postalCode": settings.address?.match(/\d{4}/)?.[0] || "",
         "addressCountry": "AU"
       },
       "geo": {
         "@type": "GeoCoordinates",
-        "latitude": "-33.8688",
-        "longitude": "151.2093"
+        "latitude": "-27.4698",
+        "longitude": "153.0251"
       },
-      "priceRange": "$$-$$$",
+      "priceRange": "Enquire",
       "areaServed": {
         "@type": "Country",
         "name": "Australia"

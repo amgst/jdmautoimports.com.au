@@ -1,5 +1,5 @@
 import { Switch, Route, useLocation } from "wouter";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -24,6 +24,9 @@ import AdminBookings from "@/pages/admin/bookings";
 import { useWebsiteSettings } from "@/hooks/use-website-settings";
 import { SEO } from "@/components/seo";
 import AdminLogin from "@/pages/admin-login";
+import SetupGuide from "@/components/setup-guide";
+import { isFirebaseInitialized } from "@/lib/firebase";
+import ComingSoon from "@/pages/coming-soon";
 
 // Simple Protected Route Component
 function ProtectedRoute({ component: Component, ...rest }: any) {
@@ -137,8 +140,27 @@ function Router() {
 }
 
 function AppContent() {
-  // Update HTML head with website settings
-  useWebsiteSettings();
+  const { maintenanceMode, isLoading } = useWebsiteSettings();
+  const isAdminAuthenticated = localStorage.getItem("isAdminAuthenticated") === "true";
+  const [location] = useLocation();
+  const isAdminRoute = location.startsWith("/admin");
+
+  // If we are loading and not on an admin route, show nothing or a minimal loader
+  // This prevents the main website from flickering
+  if (isLoading && !isAdminRoute) {
+    return null; // Or a beautiful minimal loader
+  }
+
+  // If maintenance mode is active, not an admin, and not on an admin route
+  // Show only the Coming Soon page - completely separate from the main Router
+  if (maintenanceMode && !isAdminAuthenticated && !isAdminRoute) {
+    return (
+      <>
+        <SEO />
+        <ComingSoon />
+      </>
+    );
+  }
 
   return (
     <>
@@ -150,6 +172,12 @@ function AppContent() {
 }
 
 function App() {
+  const [demoMode, setDemoMode] = useState(false);
+
+  if (!isFirebaseInitialized && !demoMode) {
+    return <SetupGuide onSkip={() => setDemoMode(true)} />;
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>

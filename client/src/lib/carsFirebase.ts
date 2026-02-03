@@ -1,4 +1,4 @@
-import { db } from "./firebase";
+import { db, isFirebaseInitialized } from "./firebase";
 import {
   collection,
   getDocs,
@@ -26,6 +26,7 @@ function ensureArray<T>(value: T[] | null | undefined): T[] {
 }
 
 export async function getAllCarsFirebase(): Promise<Car[]> {
+  if (!isFirebaseInitialized) return [];
   const snap = await getDocs(collection(db, CARS_COLLECTION));
   const cars: Car[] = [];
 
@@ -43,6 +44,7 @@ export async function getAllCarsFirebase(): Promise<Car[]> {
 }
 
 export async function getCarBySlugFirebase(slug: string): Promise<Car | undefined> {
+  if (!isFirebaseInitialized) return undefined;
   const q = query(
     collection(db, CARS_COLLECTION),
     where("slug", "==", slug),
@@ -59,6 +61,7 @@ export async function getCarBySlugFirebase(slug: string): Promise<Car | undefine
 }
 
 export async function getCarByIdFirebase(id: string): Promise<Car | undefined> {
+  if (!isFirebaseInitialized) return undefined;
   if (!id) {
     console.error("getCarByIdFirebase: id is required");
     return undefined;
@@ -137,6 +140,25 @@ export async function updateCarFirebase(id: string, input: InsertCar): Promise<C
 
   await updateDoc(docRef, updated as any);
   return updated;
+}
+
+export async function duplicateCarFirebase(id: string): Promise<Car | undefined> {
+  const originalCar = await getCarByIdFirebase(id);
+  if (!originalCar) return undefined;
+
+  const newId = crypto.randomUUID();
+  const newName = `${originalCar.name} (Copy)`;
+  const newSlug = `${originalCar.slug}-copy-${Math.floor(Math.random() * 1000)}`;
+
+  const duplicatedCar: Car = {
+    ...originalCar,
+    id: newId,
+    name: newName,
+    slug: newSlug,
+  };
+
+  await addDoc(collection(db, CARS_COLLECTION), duplicatedCar);
+  return duplicatedCar;
 }
 
 export async function deleteCarFirebase(id: string): Promise<boolean> {
