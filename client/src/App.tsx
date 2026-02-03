@@ -18,15 +18,17 @@ import Terms from "@/pages/terms";
 import AdminDashboard from "@/pages/admin/dashboard";
 import CarsList from "@/pages/admin/cars-list";
 import CarForm from "@/pages/admin/car-form";
-import PricingSettings from "@/pages/admin/pricing-settings";
 import WebsiteSettings from "@/pages/admin/website-settings";
 import AdminBookings from "@/pages/admin/bookings";
+import AdminInquiries from "@/pages/admin/inquiries";
 import { useWebsiteSettings } from "@/hooks/use-website-settings";
 import { SEO } from "@/components/seo";
 import AdminLogin from "@/pages/admin-login";
 import SetupGuide from "@/components/setup-guide";
 import { isFirebaseInitialized } from "@/lib/firebase";
 import ComingSoon from "@/pages/coming-soon";
+import Booking from "@/pages/booking";
+import FindMeACar from "@/pages/find-me-a-car";
 
 // Simple Protected Route Component
 function ProtectedRoute({ component: Component, ...rest }: any) {
@@ -89,9 +91,9 @@ function AdminRouter() {
                 <Route path="/admin/cars/new" component={CarForm} />
                 <Route path="/admin/cars/:id/edit" component={CarForm} />
                 <Route path="/admin/cars" component={CarsList} />
-                <Route path="/admin/pricing" component={PricingSettings} />
                 <Route path="/admin/website-settings" component={WebsiteSettings} />
                 <Route path="/admin/bookings" component={AdminBookings} />
+                <Route path="/admin/inquiries" component={AdminInquiries} />
                 <Route path="/admin" component={AdminDashboard} />
                 <Route component={NotFound} />
               </Switch>
@@ -112,6 +114,8 @@ function PublicRouter() {
           <Route path="/" component={Home} />
           <Route path="/cars" component={Cars} />
           <Route path="/cars/:slug" component={CarDetail} />
+          <Route path="/find-me-a-car" component={FindMeACar} />
+          <Route path="/booking" component={Booking} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
           <Route path="/terms" component={Terms} />
@@ -130,9 +134,9 @@ function Router() {
       <ProtectedRoute path="/admin/cars/new" component={AdminRouter} />
       <ProtectedRoute path="/admin/cars/:id/edit" component={AdminRouter} />
       <ProtectedRoute path="/admin/cars" component={AdminRouter} />
-      <ProtectedRoute path="/admin/pricing" component={AdminRouter} />
       <ProtectedRoute path="/admin/website-settings" component={AdminRouter} />
       <ProtectedRoute path="/admin/bookings" component={AdminRouter} />
+      <ProtectedRoute path="/admin/inquiries" component={AdminRouter} />
       <ProtectedRoute path="/admin" component={AdminRouter} />
       <Route component={PublicRouter} />
     </Switch>
