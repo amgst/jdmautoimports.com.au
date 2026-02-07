@@ -37,6 +37,11 @@ export async function getAllCarsFirebase(): Promise<Car[]> {
       ...data,
       id: data.id || docSnap.id, // Use document ID if id field is missing
       images: ensureArray(data.images as any),
+      features: ensureArray((data as any).features),
+      enhancements: ensureArray((data as any).enhancements),
+      badges: ensureArray((data as any).badges),
+      timelineTitles: ensureArray((data as any).timelineTitles),
+      timelineDescs: ensureArray((data as any).timelineDescs),
     });
   });
 
@@ -57,6 +62,11 @@ export async function getCarBySlugFirebase(slug: string): Promise<Car | undefine
     ...data,
     id: data.id || snap.docs[0].id, // Ensure id is set using document ID if missing
     images: ensureArray(data.images as any),
+    features: ensureArray((data as any).features),
+    enhancements: ensureArray((data as any).enhancements),
+    badges: ensureArray((data as any).badges),
+    timelineTitles: ensureArray((data as any).timelineTitles),
+    timelineDescs: ensureArray((data as any).timelineDescs),
   };
 }
 
@@ -88,6 +98,11 @@ export async function getCarByIdFirebase(id: string): Promise<Car | undefined> {
           ...data,
           id: data.id || docSnap.id,
           images: ensureArray(data.images as any),
+          features: ensureArray((data as any).features),
+          enhancements: ensureArray((data as any).enhancements),
+          badges: ensureArray((data as any).badges),
+          timelineTitles: ensureArray((data as any).timelineTitles),
+          timelineDescs: ensureArray((data as any).timelineDescs),
         };
       }
     } catch (err) {
@@ -102,6 +117,11 @@ export async function getCarByIdFirebase(id: string): Promise<Car | undefined> {
     ...data,
     id: data.id || snap.docs[0].id, // Ensure id is set
     images: ensureArray(data.images as any),
+    features: ensureArray((data as any).features),
+    enhancements: ensureArray((data as any).enhancements),
+    badges: ensureArray((data as any).badges),
+    timelineTitles: ensureArray((data as any).timelineTitles),
+    timelineDescs: ensureArray((data as any).timelineDescs),
   };
 }
 

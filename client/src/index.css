@@ -28,18 +28,21 @@
   --popover: 0 0% 94%;
   --popover-foreground: 0 0% 9%;
   --popover-border: 0 0% 89%;
-  --primary: 0 0% 15%;
-  --primary-foreground: 0 0% 98%;
-  --secondary: 0 0% 88%;
-  --secondary-foreground: 0 0% 9%;
+  --primary: 0 0% 0%; /* black */
+  --primary-foreground: 0 0% 100%; /* white */
+  --primary-bright: 0 0% 15%; /* Dark gray for highlights */
+  --secondary: 0 0% 100%; /* white */
+  --accent-red: 0 100% 50%; /* #ed1b24 red for accents */
+  --text-primary: 0 0% 0%; /* Black for text readability */
+  --secondary-foreground: 0 0% 100%; /* white */
   --muted: 0 0% 92%;
-  --muted-foreground: 0 0% 45%;
+  --muted-foreground: 0 0% 35%;
   --accent: 0 2% 90%;
   --accent-foreground: 0 0% 9%;
   --destructive: 0 84% 35%;
   --destructive-foreground: 0 0% 98%;
   --input: 0 0% 72%;
-  --ring: 0 0% 15%;
+  --ring: 0 0% 0%; /* black */
   --chart-1: 210 92% 35%;
   --chart-2: 173 58% 32%;
   --chart-3: 43 74% 38%;
@@ -117,18 +120,19 @@
   --popover: 0 0% 14%;
   --popover-foreground: 0 0% 98%;
   --popover-border: 0 0% 18%;
-  --primary: 0 0% 85%;
-  --primary-foreground: 0 0% 9%;
-  --secondary: 0 0% 20%;
-  --secondary-foreground: 0 0% 98%;
+  --primary: 0 0% 100%; /* white */
+  --primary-foreground: 0 0% 0%; /* black */
+  --secondary: 0 0% 0%; /* black */
+  --secondary-foreground: 0 0% 100%; /* white */
   --muted: 0 0% 18%;
-  --muted-foreground: 0 0% 65%;
+  --muted-foreground: 0 0% 75%;
   --accent: 0 2% 17%;
   --accent-foreground: 0 0% 98%;
   --destructive: 0 84% 35%;
   --destructive-foreground: 0 0% 98%;
   --input: 0 0% 32%;
-  --ring: 0 0% 85%;
+  --accent-red: 0 100% 50%; /* #ed1b24 red for accents */
+  --ring: 0 0% 100%; /* white */
   --chart-1: 210 92% 65%;
   --chart-2: 173 58% 68%;
   --chart-3: 43 74% 68%;
@@ -300,5 +304,19 @@
   .border.active-elevate-2:not(.no-active-interaction-elevate)::after,
   .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
     inset: -1px;
+  }
+
+  /* Custom hover border for car cards */
+  .hover\:border-red-500:hover {
+    border-color: hsl(var(--accent-red));
+  }
+
+  /* Custom shadow glow for primary buttons */
+  .shadow-glow-primary {
+    box-shadow: 0 0 15px hsl(var(--primary) / 0.4), 0 0 30px hsl(var(--primary) / 0.2);
+  }
+
+  .shadow-glow-primary\/20 {
+    box-shadow: 0 0 15px hsl(var(--primary) / 0.2), 0 0 30px hsl(var(--primary) / 0.1);
   }
 }

@@ -1,6 +1,6 @@
 import { useParams, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Car } from "@shared/schema";
 import { Button } from "@/components/ui/button";
@@ -25,16 +25,29 @@ import {
   Globe,
   Gauge,
   Compass,
+  Ship,
+  FileText,
+  ShieldAlert,
+  MapPin,
+  Clock,
+  History,
+  CheckCircle2,
+  ChevronRight,
+  Calculator,
 } from "lucide-react";
-import { getCarBySlugFirebase } from "@/lib/carsFirebase";
+import { getCarBySlugFirebase, getAllCarsFirebase } from "@/lib/carsFirebase";
 import { InquiryForm } from "@/components/inquiry-form";
 import { getOptimizedImageUrl, getThumbnailUrl } from "@/lib/imageUtils";
 import { SEO } from "@/components/seo";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { addDays, format } from "date-fns";
 
 export default function CarDetail() {
   const { slug } = useParams();
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
   const [isInquiryOpen, setIsInquiryOpen] = useState(false);
+  const [selectedState, setSelectedState] = useState<string>("NSW");
+  const [showStickyBar, setShowStickyBar] = useState(false);
 
   const { data: car, isLoading } = useQuery({
     queryKey: ["carBySlug", slug],
@@ -45,6 +58,23 @@ export default function CarDetail() {
       return result;
     },
   });
+
+  const { data: allCars } = useQuery({
+    queryKey: ["allCars"],
+    queryFn: getAllCarsFirebase,
+  });
+
+  const similarCars = allCars
+    ?.filter((c) => c.category === car?.category && c.id !== car?.id)
+    .slice(0, 3) || [];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowStickyBar(window.scrollY > 400);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const allImages = car
     ? [
@@ -142,7 +172,7 @@ export default function CarDetail() {
               className="pb-6"
             >
               <div className="flex items-center gap-2 mb-4">
-                <Badge variant="secondary" className="bg-blue-600 text-white hover:bg-blue-700 border-none px-3 py-1">
+                <Badge variant="default" className="bg-primary text-primary-foreground px-3 py-1">
                   PREMIUM SELECTION
                 </Badge>
                 <Badge variant="outline" className="text-white border-white/40 backdrop-blur-sm px-3 py-1">
@@ -190,7 +220,7 @@ export default function CarDetail() {
 
               {/* Gallery System */}
               <div className="space-y-6">
-                <div className="aspect-[16/9] rounded-[32px] overflow-hidden bg-muted shadow-2xl border border-border/50 relative group">
+                <div className="aspect-[16/10] rounded-[32px] overflow-hidden bg-muted shadow-2xl border border-border/50 relative group">
                   <AnimatePresence mode="wait">
                     <motion.img
                       key={selectedImageIndex}
@@ -226,12 +256,93 @@ export default function CarDetail() {
                 )}
               </div>
 
+              {/* The Dossier Trust Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="p-8 md:p-12 rounded-[40px] bg-slate-900 text-white relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 p-8 opacity-10">
+                  <ShieldCheck className="w-48 h-48" />
+                </div>
+                <div className="relative z-10">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-widest mb-6">
+                    <CheckCircle2 className="h-3 w-3" />
+                    <span>Verified Asset Dossier</span>
+                  </div>
+                  <h2 className="text-3xl md:text-5xl font-black mb-8 uppercase tracking-tighter">Vehicle Integrity</h2>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                    <div className="space-y-4">
+                      <h3 className="text-xl font-bold flex items-center gap-2">
+                        <FileText className="text-blue-400" />
+                        Auction Sheet Decode
+                      </h3>
+                      <p className="text-slate-400 text-sm leading-relaxed">
+                        Every JDM vehicle we source includes a verified Japanese auction sheet. Our experts decode the technical shorthand to ensure the grade matches the actual condition.
+                      </p>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-center">
+                        <p className="text-[10px] font-bold text-blue-400 uppercase mb-1">Mileage</p>
+                        <p className="font-bold text-lg">Verified</p>
+                      </div>
+                      <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-center">
+                        <p className="text-[10px] font-bold text-blue-400 uppercase mb-1">Accident</p>
+                        <p className="font-bold text-lg">None</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-4">
+                    <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30 px-4 py-2 text-xs font-bold">STRUCTURE PASSED</Badge>
+                  {(car.badges && car.badges.length > 0 ? car.badges : ["MILEAGE CERTIFIED","NON-SMOKER"]).map((b, i) => (
+                    <Badge key={i} className="bg-blue-500/20 text-blue-400 border-blue-500/30 px-4 py-2 text-xs font-bold">
+                      {b}
+                    </Badge>
+                  ))}
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Import Timeline */}
+              <div className="space-y-8">
+                <div className="flex items-center gap-4">
+                  <div className="h-px flex-1 bg-border" />
+                  <h2 className="text-sm font-black uppercase tracking-[0.3em] text-muted-foreground whitespace-nowrap">The Import Journey</h2>
+                  <div className="h-px flex-1 bg-border" />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {(() => {
+                    const titles = (car as any).timelineTitles && (car as any).timelineTitles.length > 0
+                      ? (car as any).timelineTitles
+                      : ["1. Sourcing","2. Purchase","3. Transit","4. Compliance","5. Registration","6. Delivery"];
+                    const descs = (car as any).timelineDescs && (car as any).timelineDescs.length > 0
+                      ? (car as any).timelineDescs
+                      : [
+                        "JDM Auto Imports Australia team scouts auctions for the perfect unit.",
+                        "Secure export-grade vehicle after 100-point check.",
+                        "Roll-on/Roll-off shipping to major Australian ports.",
+                        "SEVS workshop handles mods and documentation.",
+                        "State-specific roadworthy and final plating.",
+                        "Doorstep delivery anywhere across Australia.",
+                      ];
+                    const icons = [<History />, <CheckCircle2 />, <Ship />, <FileText />, <ShieldCheck />, <MapPin />];
+                    return titles.map((t: string, idx: number) => (
+                      <TimelineStep key={idx} icon={icons[idx % icons.length]} title={t} desc={descs[idx] || ""} active={idx === 0} />
+                    ));
+                  })()}
+                </div>
+              </div>
+
               {/* Description */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="space-y-6"
+                className="space-y-6 pt-8"
               >
                 <div className="inline-flex items-center gap-2 text-blue-600 font-bold uppercase tracking-widest text-xs">
                   <Info className="w-4 h-4" />
@@ -285,6 +396,25 @@ export default function CarDetail() {
                     </div>
                   </div>
                 </div>
+
+                {/* Premium Enhancements */}
+                <div className="pt-8 space-y-6">
+                  <div className="flex items-center justify-between border-b border-border pb-6">
+                    <h3 className="text-2xl font-bold">Included Enhancements</h3>
+                    <Badge variant="default" className="bg-primary text-primary-foreground rounded-lg px-3 py-1 text-xs font-bold uppercase tracking-widest">
+                      JDM SPECIALIST PACKAGE
+                    </Badge>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {(car.enhancements && car.enhancements.length > 0
+                      ? car.enhancements
+                      : ["Apple CarPlay|Conversion","Android Auto|Conversion","English Menu|Enabled","Verified ODO|Japanese Cert"]
+                    ).map((e, i) => {
+                      const [label, sub] = (e || "").split("|");
+                      return <EnhancementBadge key={i} label={label || ""} sub={sub || ""} />;
+                    })}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -305,9 +435,12 @@ export default function CarDetail() {
                   </p>
 
                   <div className="space-y-5 mb-10">
-                    <FeatureItem text="Export condition report included" />
-                    <FeatureItem text="Door-to-door Australia delivery" />
-                    <FeatureItem text="Full compliance management" />
+                    {(car.features && car.features.length > 0
+                      ? car.features
+                      : ["Export condition report included","Door-to-door Australia delivery","Full compliance management"]
+                    ).map((f, i) => (
+                      <FeatureItem key={i} text={f} />
+                    ))}
                   </div>
 
                   <div className="space-y-4">
@@ -333,24 +466,138 @@ export default function CarDetail() {
                   </p>
                 </Card>
 
-                {/* Import Logistics Note */}
-                <div className="mt-8 p-8 bg-muted/40 backdrop-blur-md rounded-[32px] border border-border/50">
-                  <div className="flex gap-4 items-start">
-                    <div className="p-3 rounded-2xl bg-blue-600/10 text-blue-600">
-                      <Globe className="h-5 w-5 shrink-0" />
+                {/* Logistics Estimator */}
+                <div className="mt-8 p-10 bg-slate-50 dark:bg-slate-900/40 backdrop-blur-md rounded-[40px] border border-border/50">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-3 rounded-2xl bg-blue-600 text-white">
+                      <Calculator className="h-5 w-5" />
                     </div>
-                    <div className="space-y-1">
-                      <h4 className="font-bold">Shipping Logistics</h4>
-                      <p className="text-xs text-muted-foreground leading-relaxed">
-                        Typical transit time from Japanese port to Sydney/Melbourne is 8 weeks. All port duties and handling included in landing estimates.
-                      </p>
+                    <div>
+                      <h4 className="font-bold">Logistics Estimator</h4>
+                      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Australian Landing</p>
                     </div>
+                  </div>
+
+                  <div className="space-y-6">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Select Delivery State</label>
+                      <Select value={selectedState} onValueChange={setSelectedState}>
+                        <SelectTrigger className="h-14 rounded-2xl border-border bg-background font-bold px-5">
+                          <SelectValue placeholder="Select State" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="NSW">New South Wales</SelectItem>
+                          <SelectItem value="VIC">Victoria</SelectItem>
+                          <SelectItem value="QLD">Queensland</SelectItem>
+                          <SelectItem value="WA">Western Australia</SelectItem>
+                          <SelectItem value="SA">South Australia</SelectItem>
+                          <SelectItem value="TAS">Tasmania</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-4 p-5 rounded-3xl bg-white dark:bg-black/20 border border-border/50">
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-muted-foreground font-medium">Est. Arrival</span>
+                        <span className="font-bold text-blue-600">{format(addDays(new Date(), 60), "MMMM yyyy")}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-muted-foreground font-medium">Compliance</span>
+                        <span className="font-bold">Included</span>
+                      </div>
+                      <div className="flex justify-between items-center text-sm border-t border-border pt-4">
+                        <span className="text-muted-foreground font-medium">State {selectedState} Plating</span>
+                        <span className="font-bold">Managed</span>
+                      </div>
+                    </div>
+
+                    <p className="text-[10px] text-muted-foreground leading-relaxed italic text-center px-4">
+                      *Estimates based on current RoRo shipping schedules from Nagoya Port. Final landing costs subject to currency fluctuation.
+                    </p>
                   </div>
                 </div>
               </motion.div>
             </div>
           </div>
         </section>
+
+        {/* Similar Imports */}
+        {similarCars.length > 0 && (
+          <section className="py-24 border-t border-border bg-slate-50/50 dark:bg-transparent">
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="flex items-end justify-between mb-12">
+                <div className="space-y-2">
+                  <div className="inline-flex items-center gap-2 text-blue-600 font-bold uppercase tracking-widest text-xs">
+                    <ChevronRight className="w-4 h-4" />
+                    Market Availability
+                  </div>
+                  <h2 className="text-4xl font-bold tracking-tight">Similar Imports</h2>
+                </div>
+                <Link href="/cars">
+                  <Button variant="ghost" className="font-bold group">
+                    View All Inventory
+                    <ChevronRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {similarCars.map((c) => (
+                  <Link key={c.id} href={`/cars/${c.slug}`}>
+                    <Card className="overflow-hidden group cursor-pointer border-0 shadow-lg hover:shadow-2xl transition-all duration-500 rounded-3xl">
+                      <div className="aspect-[4/3] overflow-hidden relative">
+                        <img
+                          src={getThumbnailUrl(c.image, 720)}
+                          alt={c.name}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        />
+                        <div className="absolute top-4 left-4">
+                          <Badge className="bg-white/90 backdrop-blur-md text-black border-0 font-bold font-mono">{c.year}</Badge>
+                        </div>
+                      </div>
+                      <div className="p-6">
+                        <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors uppercase">{c.name}</h3>
+                        <div className="flex items-center gap-4 text-xs font-bold text-muted-foreground uppercase tracking-widest">
+                          <div className="flex items-center gap-1.5">
+                            <Gauge className="h-3.5 w-3.5" />
+                            <span>{c.transmission}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <Fuel className="h-3.5 w-3.5" />
+                            <span>{c.fuelType}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Floating Context Bar (Mobile) */}
+        <AnimatePresence>
+          {showStickyBar && (
+            <motion.div
+              initial={{ y: 100 }}
+              animate={{ y: 0 }}
+              exit={{ y: 100 }}
+              className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-background/80 backdrop-blur-2xl border-t border-border flex items-center justify-between gap-4 md:hidden"
+            >
+              <div className="min-w-0">
+                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground truncate">{car.name}</p>
+                <p className="font-bold text-sm">{car.year} Model</p>
+              </div>
+              <Button
+                className="bg-blue-600 hover:bg-blue-700 font-bold px-6 shrink-0"
+                onClick={() => setIsInquiryOpen(true)}
+              >
+                Enquire
+              </Button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Inquiry Form Dialog */}
         <InquiryForm
@@ -364,6 +611,18 @@ export default function CarDetail() {
   );
 }
 
+function TimelineStep({ icon, title, desc, active = false }: { icon: React.ReactNode, title: string, desc: string, active?: boolean }) {
+  return (
+    <div className={`p-6 rounded-3xl border transition-all duration-500 ${active ? "bg-blue-600 text-white border-blue-600 shadow-xl shadow-blue-500/20" : "bg-card border-border hover:border-blue-500/30"}`}>
+      <div className={`p-3 rounded-2xl mb-4 inline-block ${active ? "bg-white/20" : "bg-muted"}`}>
+        {React.cloneElement(icon as React.ReactElement, { className: "h-5 w-5" })}
+      </div>
+      <h4 className={`font-bold text-lg mb-2 ${active ? "text-white" : "text-black"}`}>{title}</h4>
+      <p className={`text-sm leading-relaxed ${active ? "text-white/80" : "text-muted-foreground"}`}>{desc}</p>
+    </div>
+  );
+}
+
 function SpecCard({ icon, label, value }: { icon: React.ReactNode, label: string, value: string | null }) {
   return (
     <div className="flex items-center p-7 rounded-[28px] bg-card border border-border group hover:border-blue-500/40 hover:shadow-2xl hover:shadow-blue-500/5 transition-all duration-500">
@@ -373,6 +632,17 @@ function SpecCard({ icon, label, value }: { icon: React.ReactNode, label: string
       <div className="ml-5">
         <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-1">{label}</p>
         <p className="text-lg font-bold text-foreground leading-tight tracking-tight">{value || "N/A"}</p>
+      </div>
+    </div>
+  );
+}
+
+function EnhancementBadge({ label, sub }: { label: string, sub: string }) {
+  return (
+    <div className="p-4 rounded-2xl bg-card border border-border group hover:border-blue-500/40 hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-all duration-300">
+      <div className="flex flex-col">
+        <span className="text-sm font-bold text-foreground mb-0.5">{label}</span>
+        <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest">{sub}</span>
       </div>
     </div>
   );

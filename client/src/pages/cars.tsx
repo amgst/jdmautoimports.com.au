@@ -9,6 +9,15 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { Fuel, Settings, Users as SeatsIcon, Search, SlidersHorizontal, ArrowUpAZ } from "lucide-react";
 import { getAllCarsFirebase } from "@/lib/carsFirebase";
 import { getThumbnailUrl } from "@/lib/imageUtils";
@@ -33,6 +42,13 @@ export default function Cars() {
   const [transmissionFilter, setTransmissionFilter] = useState<string>(initialFilters.transmission);
   const [seatsFilter, setSeatsFilter] = useState<string>("all");
   const [sortOption, setSortOption] = useState<string>("recommended");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(9);
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, categoryFilter, transmissionFilter, seatsFilter, sortOption]);
 
   const { data: cars, isLoading } = useQuery<Car[]>({
     queryKey: ["cars"],
@@ -79,6 +95,11 @@ export default function Cars() {
     return list;
   }, [filteredCars, sortOption]);
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentCars = sortedCars.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(sortedCars.length / itemsPerPage);
+
   const categories = Array.from(new Set(cars?.map((car) => car.category) || []));
   const transmissions = Array.from(new Set(cars?.map((car) => car.transmission) || []));
 
@@ -124,7 +145,7 @@ export default function Cars() {
     <>
       <SEO
         title="Inventory - JDM Auto Imports Australia"
-        description="Browse our high-quality JDM vehicles ready for import to Australia. Tokyo Drive specializes in sourcing, shipping, and compliance for Japanese performance cars."
+        description="Browse our high-quality JDM vehicles ready for import to Australia. JDM Auto Imports Australia specializes in sourcing, shipping, and compliance for Japanese performance cars."
       />
       <div className="min-h-screen bg-background text-left">
         <div className="bg-card border-b">
@@ -236,7 +257,7 @@ export default function Cars() {
                 </Card>
               ))}
             </div>
-          ) : sortedCars.length === 0 ? (
+          ) : currentCars.length === 0 ? (
             <div className="text-center py-16">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
                 <Search className="h-8 w-8 text-muted-foreground" />
@@ -261,13 +282,32 @@ export default function Cars() {
             </div>
           ) : (
             <>
-              <div className="mb-6 text-sm text-muted-foreground text-left">
-                Showing {sortedCars.length} {sortedCars.length === 1 ? "vehicle" : "vehicles"}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 text-left">
+                <div className="text-sm text-muted-foreground">
+                  Showing {Math.min(indexOfLastItem, sortedCars.length)} of {sortedCars.length} {sortedCars.length === 1 ? "vehicle" : "vehicles"}
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="text-sm text-muted-foreground">Items per page:</div>
+                  <Select value={itemsPerPage.toString()} onValueChange={(value) => {
+                    setItemsPerPage(Number(value));
+                    setCurrentPage(1); // Reset to first page when changing items per page
+                  }}>
+                    <SelectTrigger className="w-[80px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="9">9</SelectItem>
+                      <SelectItem value="12">12</SelectItem>
+                      <SelectItem value="18">18</SelectItem>
+                      <SelectItem value="24">24</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
-                {sortedCars.map((car) => (
+                {currentCars.map((car) => (
                   <Link key={car.id} href={`/cars/${car.slug}`}>
-                    <Card className="overflow-hidden hover-elevate active-elevate-2 cursor-pointer h-full border-2 hover:border-primary/50 transition-colors">
+                    <Card className="overflow-hidden hover-elevate active-elevate-2 cursor-pointer h-full border-2 hover:border-red-500 transition-colors">
                       <div className="aspect-[4/3] overflow-hidden">
                         <img
                           src={getThumbnailUrl(car.image, 720)}
@@ -282,7 +322,7 @@ export default function Cars() {
                               {car.name}
                             </h3>
                             <div className="flex gap-2">
-                              <Badge variant="secondary" className="text-[10px] uppercase font-bold tracking-tight">
+                              <Badge variant="default" className="text-[10px] uppercase font-bold tracking-tight bg-primary text-primary-foreground">
                                 {car.category}
                               </Badge>
                               <Badge variant="outline" className="text-[10px] uppercase font-bold tracking-tight border-blue-500 text-blue-500">
@@ -316,6 +356,52 @@ export default function Cars() {
                   </Link>
                 ))}
               </div>
+              {totalPages > 1 && (
+                <div className="mt-12 flex justify-center">
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious 
+                          href="#" 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (currentPage > 1) {
+                              setCurrentPage(currentPage - 1);
+                            }
+                          }}
+                          className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                        />
+                      </PaginationItem>
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                        <PaginationItem key={page}>
+                          <PaginationLink
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setCurrentPage(page);
+                            }}
+                            isActive={currentPage === page}
+                          >
+                            {page}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+                      <PaginationItem>
+                        <PaginationNext 
+                          href="#" 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (currentPage < totalPages) {
+                              setCurrentPage(currentPage + 1);
+                            }
+                          }}
+                          className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              )}
             </>
           )}
         </div>

@@ -12,6 +12,7 @@ import { getAllCarsFirebase } from "@/lib/carsFirebase";
 import { getOptimizedImageUrl, getThumbnailUrl } from "@/lib/imageUtils";
 import { SEO } from "@/components/seo";
 import { useWebsiteSettings } from "@/hooks/use-website-settings";
+import { motion } from "framer-motion";
 import {
   Users,
   Car as CarIcon,
@@ -23,6 +24,10 @@ import {
   Users as SeatsIcon,
   Search,
   Star,
+  CheckCircle2,
+  Clock,
+  Briefcase,
+  ChevronDown,
 } from "lucide-react";
 
 export default function Home() {
@@ -33,95 +38,177 @@ export default function Home() {
     queryFn: getAllCarsFirebase,
   });
   const { isLoading: isSettingsLoading, ...settings } = useWebsiteSettings();
-  const websiteName = settings?.websiteName || "Tokyo Drive Australia";
+  const websiteName = settings?.websiteName || "JDM Auto Imports Australia";
 
   const featuredCars = cars?.slice(0, 3) || [];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
+  };
 
   return (
     <>
       <SEO
-        title="Direct JDM Imports to Australia - Tokyo Drive"
-        description="Tokyo Drive is Australia's premier JDM import specialist. We source, ship, and comply high-quality Japanese vehicles directly for you. Professional concierge and compliance services."
+        title="Direct JDM Imports to Australia - JDM Auto Imports Australia"
+        description="JDM Auto Imports Australia is Australia's premier JDM import specialist. We source, ship, and comply high-quality Japanese vehicles directly for you. Professional concierge and compliance services."
       />
-      <div className="text-left">
-        <section className="relative h-screen min-h-[600px] flex items-center justify-center">
-          <div
+      <div className="text-left overflow-x-hidden">
+        <section className="relative h-[95vh] min-h-[700px] flex items-center justify-center overflow-hidden">
+          <motion.div
+            initial={{ scale: 1.1, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: `url(${getOptimizedImageUrl(settings?.heroImage || heroImage, { width: 2400 })})` }}
           >
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
-          </div>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-background" />
+          </motion.div>
 
-          <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight uppercase">
-              {settings?.heroTitle || "JDM Imports Delivered to Australia"}
-            </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed max-w-2xl mx-auto">
-              {settings?.heroSubtitle || "Your direct bridge to the Japanese car market. We source, ship, and comply the finest JDM vehicles for Australian roads."}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="relative z-10 text-center px-6 max-w-5xl mx-auto flex flex-col items-center"
+          >
+            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 border border-white/30 backdrop-blur-md text-white text-xs font-bold uppercase tracking-widest mb-6">
+              <Star className="h-3 w-3 fill-white text-white" />
+              <span>Australia's #1 JDM Importer</span>
+            </motion.div>
+
+            <motion.h1 
+              variants={itemVariants}
+              className="text-5xl md:text-8xl font-black text-white mb-6 tracking-tighter uppercase leading-[0.9] drop-shadow-2xl"
+            >
+              {settings?.heroTitle || "Direct JDM Imports"}
+              <span className="block text-white drop-shadow-2xl">Delivered to You</span>
+            </motion.h1>
+
+            <motion.p 
+              variants={itemVariants}
+              className="text-lg md:text-xl text-white mb-10 leading-relaxed max-w-2xl mx-auto font-medium"
+            >
+              {settings?.heroSubtitle || "Your direct bridge to the Japanese car market. Sourcing, shipping, and compliance handled with professional expertise."}
+            </motion.p>
+
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center mb-16 w-full max-w-md sm:max-w-none">
               <Link href="/cars">
                 <Button
                   size="lg"
-                  className="px-8 py-6 text-lg font-bold bg-primary text-primary-foreground border-2 border-primary shadow-xl hover:scale-105 transition-transform"
+                  className="w-full sm:w-auto px-10 py-7 text-lg font-black bg-primary text-primary-foreground border-0 shadow-2xl hover:scale-105 transition-all group relative overflow-hidden"
                 >
-                  Explore Inventory
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <span className="relative z-10 flex items-center">
+                    Explore Inventory
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                 </Button>
               </Link>
               <Link href="/find-me-a-car">
                 <Button
                   size="lg"
                   variant="outline"
-                  className="px-8 py-6 text-lg font-bold text-white border-2 border-white/40 bg-white/10 backdrop-blur-md hover:bg-white/20 hover:scale-105 transition-transform"
+                  className="w-full sm:w-auto px-10 py-7 text-lg font-black text-white border-2 border-white/20 bg-white/5 backdrop-blur-xl hover:bg-white/10 hover:border-white/40 hover:scale-105 transition-all"
                 >
                   Find Me a Car
                 </Button>
               </Link>
-            </div>
+            </motion.div>
 
-            <Card className="p-6 bg-background/95 backdrop-blur-md border-primary/20 shadow-2xl">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Select value={heroCategory} onValueChange={setHeroCategory}>
-                  <SelectTrigger className="font-semibold">
-                    <SelectValue placeholder="Select Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
-                    <SelectItem value="sports">Sports / Performance</SelectItem>
-                    <SelectItem value="sedan">Premium Sedans</SelectItem>
-                    <SelectItem value="suv">Luxury SUVs</SelectItem>
-                    <SelectItem value="van">Luxury MPVs / Vans</SelectItem>
-                    <SelectItem value="electric">Electric / Hybrid</SelectItem>
-                  </SelectContent>
-                </Select>
+            <motion.div 
+              variants={itemVariants}
+              className="w-full max-w-4xl"
+            >
+              <Card className="p-4 md:p-6 bg-white border shadow-xl rounded-2xl md:rounded-3xl">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-4">
+                  <div className="md:col-span-4 py-1">
+                    <Select value={heroCategory} onValueChange={setHeroCategory}>
+                      <SelectTrigger className="h-12 md:h-12 rounded-xl md:rounded-2xl">
+                        <SelectValue placeholder="All Categories" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Categories</SelectItem>
+                        <SelectItem value="sports">Sports / Performance</SelectItem>
+                        <SelectItem value="sedan">Premium Sedans</SelectItem>
+                        <SelectItem value="suv">Luxury SUVs</SelectItem>
+                        <SelectItem value="van">Luxury MPVs / Vans</SelectItem>
+                        <SelectItem value="electric">Electric / Hybrid</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-                <Select value={heroTransmission} onValueChange={setHeroTransmission}>
-                  <SelectTrigger className="font-semibold">
-                    <SelectValue placeholder="Transmission" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Transmissions</SelectItem>
-                    <SelectItem value="automatic">Automatic</SelectItem>
-                    <SelectItem value="manual">Manual</SelectItem>
-                  </SelectContent>
-                </Select>
+                  <div className="md:col-span-4 py-1">
+                    <Select value={heroTransmission} onValueChange={setHeroTransmission}>
+                      <SelectTrigger className="h-12 md:h-12 rounded-xl md:rounded-2xl">
+                        <SelectValue placeholder="All Types" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Types</SelectItem>
+                        <SelectItem value="automatic">Automatic</SelectItem>
+                        <SelectItem value="manual">Manual</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-                <Link href={(() => {
-                  const params = new URLSearchParams();
-                  if (heroCategory !== "all") params.set("category", heroCategory);
-                  if (heroTransmission !== "all") params.set("transmission", heroTransmission);
-                  return `/cars${params.toString() ? `?${params.toString()}` : ""}`;
-                })()}>
-                  <Button className="w-full font-bold" size="lg">
-                    <Search className="mr-2 h-5 w-5" />
-                    Search Inventory
-                  </Button>
-                </Link>
+                  <div className="md:col-span-4 py-1">
+                    <Link href={(() => {
+                      const params = new URLSearchParams();
+                      if (heroCategory !== "all") params.set("category", heroCategory);
+                      if (heroTransmission !== "all") params.set("transmission", heroTransmission);
+                      return `/cars${params.toString() ? `?${params.toString()}` : ""}`;
+                    })()} className="h-full">
+                      <Button className="w-full h-12 md:h-12 font-semibold text-base rounded-xl md:rounded-2xl shadow-sm bg-black text-white hover:bg-black/90" size="lg">
+                        <Search className="mr-2 h-5 w-5" />
+                        Search Vehicles
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </Card>
+
+              <div className="mt-8 flex flex-wrap justify-center gap-6 md:gap-12 opacity-60">
+                <div className="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest">
+                  <CheckCircle2 className="h-4 w-4 text-white" />
+                  <span>Grade Certified</span>
+                </div>
+                <div className="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest">
+                  <Clock className="h-4 w-4 text-white" />
+                  <span>24/7 Support</span>
+                </div>
+                <div className="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest">
+                  <Briefcase className="h-4 w-4 text-white" />
+                  <span>Full Compliance</span>
+                </div>
               </div>
-            </Card>
-          </div>
+            </motion.div>
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5, duration: 1 }}
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/20 select-none hidden md:flex"
+          >
+            <span className="text-[10px] font-black uppercase tracking-[0.2em]">Scroll to discover</span>
+            <ChevronDown className="h-5 w-5 animate-bounce" />
+          </motion.div>
         </section>
+
 
         <section className="py-16 md:py-24 px-6 bg-background">
           <div className="max-w-7xl mx-auto">
@@ -149,7 +236,7 @@ export default function Home() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {featuredCars.map((car) => (
                   <Link key={car.id} href={`/cars/${car.slug}`}>
-                    <Card className="overflow-hidden hover-elevate active-elevate-2 cursor-pointer h-full border-2 hover:border-primary/50 transition-colors">
+                    <Card className="overflow-hidden hover-elevate active-elevate-2 cursor-pointer h-full border-2 hover:border-red-500 transition-colors">
                       <div className="aspect-[4/3] overflow-hidden">
                         <img
                           src={getThumbnailUrl(car.image, 720)}
@@ -164,7 +251,7 @@ export default function Home() {
                               {car.name}
                             </h3>
                             <div className="flex gap-2">
-                              <Badge variant="secondary" className="text-[10px] uppercase font-bold tracking-tight">
+                              <Badge variant="default" className="text-[10px] uppercase font-bold tracking-tight bg-primary text-primary-foreground">
                                 {car.category}
                               </Badge>
                               <Badge variant="outline" className="text-[10px] uppercase font-bold tracking-tight border-blue-500 text-blue-500">
@@ -211,41 +298,41 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-16 md:py-24 px-6 bg-card" id="features">
+        <section className="py-16 md:py-24 px-6 bg-gradient-to-b from-card to-background" id="features">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">The Direct Import Process</h2>
               <p className="text-lg text-muted-foreground">
-                We handle the entire journey from Tokyo to your driveway
+                We handle the entire journey from Japan to your driveway
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               <div className="text-center">
-                <div className="w-20 h-20 mx-auto mb-8 rounded-2xl bg-primary/10 flex items-center justify-center rotate-3 hover:rotate-0 transition-transform shadow-lg border border-primary/20">
-                  <Search className="h-10 w-10 text-primary" />
+                <div className="w-20 h-20 mx-auto mb-8 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center rotate-3 hover:rotate-0 transition-all duration-500 shadow-lg border border-primary/30 hover:shadow-xl hover:scale-105">
+                  <Search className="h-10 w-10 text-black" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">1. Sourcing</h3>
+                <h3 className="text-2xl font-bold text-white mb-3">1. Sourcing</h3>
                 <p className="text-muted-foreground leading-relaxed">
                   We scout auctions and dealers across Japan to find the highest-grade vehicles that meet Australian import standards.
                 </p>
               </div>
 
               <div className="text-center">
-                <div className="w-20 h-20 mx-auto mb-8 rounded-2xl bg-primary/10 flex items-center justify-center -rotate-3 hover:rotate-0 transition-transform shadow-lg border border-primary/20">
-                  <Shield className="h-10 w-10 text-primary" />
+                <div className="w-20 h-20 mx-auto mb-8 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center -rotate-3 hover:rotate-0 transition-all duration-500 shadow-lg border border-primary/30 hover:shadow-xl hover:scale-105">
+                  <Shield className="h-10 w-10 text-black" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">2. Shipping & Export</h3>
+                <h3 className="text-2xl font-bold text-white mb-3">2. Shipping & Export</h3>
                 <p className="text-muted-foreground leading-relaxed">
                   We manage all documentation, de-registration, and secure shipping ensuring your vehicle is fully insured during transit to Australia.
                 </p>
               </div>
 
               <div className="text-center">
-                <div className="w-20 h-20 mx-auto mb-8 rounded-2xl bg-primary/10 flex items-center justify-center rotate-6 hover:rotate-0 transition-transform shadow-lg border border-primary/20">
-                  <CarIcon className="h-10 w-10 text-primary" />
+                <div className="w-20 h-20 mx-auto mb-8 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center rotate-6 hover:rotate-0 transition-all duration-500 shadow-lg border border-primary/30 hover:shadow-xl hover:scale-105">
+                  <CarIcon className="h-10 w-10 text-black" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">3. Compliance & Delivery</h3>
+                <h3 className="text-2xl font-bold text-white mb-3">3. Compliance & Delivery</h3>
                 <p className="text-muted-foreground leading-relaxed">
                   Our network of SEVS compliance workshops handles all modifications and roadworthy items for final registration in your state.
                 </p>
@@ -257,20 +344,20 @@ export default function Home() {
         <section className="py-16 md:py-24 px-6 bg-background">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <div>
-                <div className="text-6xl font-black text-primary mb-2 opacity-90">10+</div>
+              <div className="p-6 rounded-2xl bg-gradient-to-b from-card/50 to-background/50 backdrop-blur-sm border border-border/30 transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <div className="text-6xl font-black text-primary mb-2">10+</div>
                 <div className="text-sm uppercase font-bold tracking-widest text-muted-foreground">Years Experience</div>
               </div>
-              <div>
-                <div className="text-6xl font-black text-primary mb-2 opacity-90">500+</div>
+              <div className="p-6 rounded-2xl bg-gradient-to-b from-card/50 to-background/50 backdrop-blur-sm border border-border/30 transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <div className="text-6xl font-black text-primary mb-2">500+</div>
                 <div className="text-sm uppercase font-bold tracking-widest text-muted-foreground">Successfully Imported</div>
               </div>
-              <div>
-                <div className="text-6xl font-black text-primary mb-2 opacity-90">RAW</div>
+              <div className="p-6 rounded-2xl bg-gradient-to-b from-card/50 to-background/50 backdrop-blur-sm border border-border/30 transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <div className="text-6xl font-black text-primary mb-2">RAW</div>
                 <div className="text-sm uppercase font-bold tracking-widest text-muted-foreground">Compliance Network</div>
               </div>
-              <div>
-                <div className="text-6xl font-black text-primary mb-2 opacity-90">100%</div>
+              <div className="p-6 rounded-2xl bg-gradient-to-b from-card/50 to-background/50 backdrop-blur-sm border border-border/30 transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <div className="text-6xl font-black text-primary mb-2">100%</div>
                 <div className="text-sm uppercase font-bold tracking-widest text-muted-foreground">Grade Certified</div>
               </div>
             </div>
@@ -287,13 +374,14 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <Card className="p-8 border-l-4 border-primary">
+              <Card className="p-8 border-0 bg-gradient-to-br from-card/70 to-background/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl overflow-hidden relative">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary"></div>
                 <div className="flex items-start gap-4 mb-6">
                   <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center text-xl font-bold border-2 border-primary/20">
                     M
                   </div>
                   <div>
-                    <h4 className="font-bold text-lg">Mark Henderson</h4>
+                    <h4 className="font-bold text-lg text-white">Mark Henderson</h4>
                     <p className="text-sm text-muted-foreground">Skyline R34 Owner, Brisbane</p>
                   </div>
                 </div>
@@ -302,13 +390,14 @@ export default function Home() {
                 </p>
               </Card>
 
-              <Card className="p-8 border-l-4 border-primary">
+              <Card className="p-8 border-0 bg-gradient-to-br from-card/70 to-background/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl overflow-hidden relative">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary"></div>
                 <div className="flex items-start gap-4 mb-6">
                   <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center text-xl font-bold border-2 border-primary/20">
                     A
                   </div>
                   <div>
-                    <h4 className="font-bold text-lg">Alicia Chen</h4>
+                    <h4 className="font-bold text-lg text-white">Alicia Chen</h4>
                     <p className="text-sm text-muted-foreground">Alphard Executive Owner, Melbourne</p>
                   </div>
                 </div>

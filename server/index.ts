@@ -87,14 +87,14 @@ app.use((req, res, next) => {
   if (process.platform === 'win32') {
     server.listen({
       port,
-      host: "localhost",
+      host: "0.0.0.0",
     }, () => {
       log(`serving on port ${port}`);
     });
   } else {
     server.listen({
       port,
-      host: "localhost",
+      host: "0.0.0.0",
       reusePort: true,
     }, () => {
       log(`serving on port ${port}`);

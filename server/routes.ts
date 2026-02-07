@@ -7,6 +7,10 @@ import { storage } from "./storage";
 import { insertCarSchema } from "@shared/schema";
 import { z } from "zod";
 import { upload, getImageUrl, extractFilenameFromUrl } from "./upload";
+import type { Request, Response } from "express";
+
+// In-memory registry of admin device tokens
+const adminTokens = new Set<string>();
 
 export async function registerRoutes(app: Express): Promise<Server | void> {
   // Serve attached_assets folder statically (includes uploads and generated_images)
@@ -167,6 +171,68 @@ export async function registerRoutes(app: Express): Promise<Server | void> {
       res.status(204).send();
     } catch (error) {
       res.status(500).json({ error: "Failed to delete car" });
+    }
+  });
+
+  // Register an admin device token for push notifications
+  app.post("/api/notify/register-token", (req: Request, res: Response) => {
+    const token = (req.body && (req.body as any).token) as string | undefined;
+    if (!token || typeof token !== "string") {
+      return res.status(400).json({ error: "Missing 'token' in body" });
+    }
+    adminTokens.add(token);
+    const count = adminTokens.size;
+    res.json({ ok: true, count });
+  });
+
+  // List registered admin tokens (for diagnostics)
+  app.get("/api/notify/admin/tokens", (_req: Request, res: Response) => {
+    res.json({ tokens: Array.from(adminTokens) });
+  });
+
+  // Send a push notification to all registered admin devices
+  app.post("/api/notify/admin", async (req: Request, res: Response) => {
+    try {
+      const { title, body, data } = (req.body || {}) as {
+        title?: string;
+        body?: string;
+        data?: Record<string, string>;
+      };
+      const tokens = Array.from(adminTokens);
+      if (tokens.length === 0) {
+        return res.status(400).json({ error: "No admin tokens registered" });
+      }
+      const serverKey = process.env.FCM_SERVER_KEY;
+      if (!serverKey) {
+        return res.status(500).json({ error: "FCM_SERVER_KEY not configured" });
+      }
+
+      const payload = {
+        registration_ids: tokens,
+        notification: {
+          title: title || "Admin Notification",
+          body: body || "",
+        },
+        data: data || {},
+        priority: "high",
+      };
+
+      const resp = await fetch("https://fcm.googleapis.com/fcm/send", {
+        method: "POST",
+        headers: {
+          Authorization: `key=${serverKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const json = await resp.json().catch(() => ({ ok: false }));
+      if (!resp.ok) {
+        return res.status(resp.status).json({ error: "FCM send failed", result: json });
+      }
+      res.json({ ok: true, result: json });
+    } catch (error: any) {
+      res.status(500).json({ error: error?.message || "Failed to send notification" });
     }
   });
 

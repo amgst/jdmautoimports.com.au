@@ -29,6 +29,12 @@ export const cars = pgTable("cars", {
   drivetrain: text("drivetrain"),
   exteriorColor: text("exterior_color"),
   interiorColor: text("interior_color"),
+  // Frontend-managed characteristics moved to backend
+  features: text("features").array().default(sql`'{}'`),
+  enhancements: text("enhancements").array().default(sql`'{}'`),
+  badges: text("badges").array().default(sql`'{}'`),
+  timelineTitles: text("timeline_titles").array().default(sql`'{}'`),
+  timelineDescs: text("timeline_descs").array().default(sql`'{}'`),
 });
 
 // Custom URL validator that accepts both full URLs and relative paths
@@ -56,6 +62,11 @@ export const insertCarSchema = createInsertSchema(cars).omit({
 }).extend({
   image: urlOrPath,
   images: z.array(urlOrPath).optional().nullable().default([]),
+  features: z.array(z.string()).optional().nullable().default([]),
+  enhancements: z.array(z.string()).optional().nullable().default([]),
+  badges: z.array(z.string()).optional().nullable().default([]),
+  timelineTitles: z.array(z.string()).optional().nullable().default([]),
+  timelineDescs: z.array(z.string()).optional().nullable().default([]),
 });
 
 export type InsertCar = z.infer<typeof insertCarSchema>;

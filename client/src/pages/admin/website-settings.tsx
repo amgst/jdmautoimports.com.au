@@ -706,7 +706,7 @@ export default function WebsiteSettings() {
                       <FormItem>
                         <FormLabel>Website Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Tokyo Drive" {...field} />
+                          <Input placeholder=" Drive" {...field} />
                         </FormControl>
                         <FormDescription>
                           The name displayed in the browser title and navigation
@@ -723,7 +723,7 @@ export default function WebsiteSettings() {
                       <FormItem>
                         <FormLabel>Company Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Tokyo Drive" {...field} />
+                          <Input placeholder=" Drive" {...field} />
                         </FormControl>
                         <FormDescription>
                           Your official company name

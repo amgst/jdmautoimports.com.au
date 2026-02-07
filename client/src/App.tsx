@@ -29,6 +29,7 @@ import { isFirebaseInitialized } from "@/lib/firebase";
 import ComingSoon from "@/pages/coming-soon";
 import Booking from "@/pages/booking";
 import FindMeACar from "@/pages/find-me-a-car";
+import { registerForNotifications } from "@/lib/messaging";
 
 // Simple Protected Route Component
 function ProtectedRoute({ component: Component, ...rest }: any) {
@@ -76,6 +77,13 @@ function AdminRouter() {
     "--sidebar-width": "16rem",
     "--sidebar-width-icon": "3rem",
   };
+
+  // Register admin devices for push notifications once when admin area mounts
+  useEffect(() => {
+    registerForNotifications().catch(() => {
+      // Non-blocking: ignore errors to avoid interrupting admin UX
+    });
+  }, []);
 
   return (
     <SidebarProvider style={style as React.CSSProperties}>

@@ -481,6 +481,7 @@ export default function CarForm() {
           </Button>
           <Button
             type="submit"
+            form="car-form"
             disabled={isUploading}
             className="min-w-[120px]"
             data-testid="button-save"
@@ -492,7 +493,7 @@ export default function CarForm() {
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form id="car-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Basic Information</CardTitle>
