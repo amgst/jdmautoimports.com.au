@@ -66,7 +66,7 @@ export default function Home() {
     <>
       <SEO
         title="Premium JDM Imports to Australia - JDM Auto Import"
-        description={ source, ship, and comply high-quality vehicles directly for you. Professional concierge and compliance services."
+        description="We source, ship, and comply high-quality vehicles directly for you. Professional concierge and compliance services."
       />
       <div className="text-left overflow-x-hidden">
         <section className="relative h-[95vh] min-h-[700px] flex items-center justify-center overflow-hidden">
