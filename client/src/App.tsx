@@ -15,6 +15,7 @@ import CarDetail from "@/pages/car-detail";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
 import Terms from "@/pages/terms";
+import Privacy from "@/pages/privacy";
 import AdminDashboard from "@/pages/admin/dashboard";
 import CarsList from "@/pages/admin/cars-list";
 import CarForm from "@/pages/admin/car-form";
@@ -133,6 +134,7 @@ function PublicRouter() {
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
           <Route path="/terms" component={Terms} />
+          <Route path="/privacy" component={Privacy} />
           <Route component={NotFound} />
         </Switch>
       </main>

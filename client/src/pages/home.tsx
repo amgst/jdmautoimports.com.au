@@ -40,7 +40,7 @@ export default function Home() {
   const { isLoading: isSettingsLoading, ...settings } = useWebsiteSettings();
   const websiteName = settings?.websiteName || "Auto Import Specialists";
 
-  const featuredCars = cars?.slice(0, 3) || [];
+  const featuredCars = cars?.filter(c => c.slug).slice(0, 3) || [];
 
   const containerVariants = {
     hidden: { opacity: 0 },

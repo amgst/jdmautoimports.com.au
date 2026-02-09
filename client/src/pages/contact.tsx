@@ -11,14 +11,17 @@ import {
   Clock,
   Send,
   CheckCircle2,
+  Loader2,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useWebsiteSettings } from "@/hooks/use-website-settings";
 import { SEO } from "@/components/seo";
+import { createInquiryFirebase } from "@/lib/inquiriesFirebase";
+import { useMutation } from "@tanstack/react-query";
 
 export default function Contact() {
   const { toast } = useToast();
-  const { isLoading, ...settings } = useWebsiteSettings();
+  const { isLoading: isSettingsLoading, ...settings } = useWebsiteSettings();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,19 +30,47 @@ export default function Contact() {
     message: "",
   });
 
+  const mutation = useMutation({
+    mutationFn: createInquiryFirebase,
+    onSuccess: () => {
+      toast({
+        title: "Message sent!",
+        description: "Thank you for contacting us. We'll get back to you soon.",
+      });
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error sending message",
+        description: "Please try again later or contact us directly.",
+        variant: "destructive",
+      });
+      console.error("Error submitting contact form:", error);
+    },
+  });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real application, this would send the form data to a backend
-    toast({
-      title: "Message sent!",
-      description: "Thank you for contacting us. We'll get back to you soon.",
-    });
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      subject: "",
-      message: "",
+    
+    // Split name into first and last name for the schema
+    const nameParts = formData.name.trim().split(" ");
+    const firstName = nameParts[0] || "Unknown";
+    const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "-";
+
+    mutation.mutate({
+      firstName,
+      lastName,
+      email: formData.email,
+      phone: formData.phone,
+      notes: `Subject: ${formData.subject}\n\nMessage: ${formData.message}`,
+      carId: "", // Generic inquiry
+      carName: "Contact Form Inquiry",
     });
   };
 
@@ -135,7 +166,7 @@ export default function Contact() {
                       type="tel"
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="+81 90-1234-5678"
+                      placeholder="+61 400 000 000"
                     />
                   </div>
                   <div className="space-y-2">
@@ -161,9 +192,18 @@ export default function Contact() {
                       rows={6}
                     />
                   </div>
-                  <Button type="submit" size="lg" className="w-full">
-                    Send Message
-                    <Send className="ml-2 h-5 w-5" />
+                  <Button type="submit" size="lg" className="w-full" disabled={mutation.isPending}>
+                    {mutation.isPending ? (
+                      <>
+                        Sending...
+                        <Loader2 className="ml-2 h-5 w-5 animate-spin" />
+                      </>
+                    ) : (
+                      <>
+                        Send Message
+                        <Send className="ml-2 h-5 w-5" />
+                      </>
+                    )}
                   </Button>
                 </form>
               </Card>

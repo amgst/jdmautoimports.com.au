@@ -182,6 +182,12 @@ export default function AdminInquiries() {
                               <Car className="h-3 w-3 mr-1" /> Car Inquiry
                             </Badge>
                           </div>
+                        ) : inquiry.carName === "Contact Form Inquiry" ? (
+                          <div className="flex items-center gap-2">
+                            <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200 text-[10px] font-bold uppercase py-0 px-2 shrink-0">
+                              <MessageSquare className="h-3 w-3 mr-1" /> General
+                            </Badge>
+                          </div>
                         ) : (
                           <div className="flex items-center gap-2">
                             <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200 text-[10px] font-bold uppercase py-0 px-2 shrink-0">
@@ -195,6 +201,11 @@ export default function AdminInquiries() {
                           <div className="space-y-1">
                             <div className="font-bold text-xs">{inquiry.carName}</div>
                             {inquiry.notes && <div className="text-xs text-muted-foreground italic line-clamp-1">"{inquiry.notes}"</div>}
+                          </div>
+                        ) : inquiry.carName === "Contact Form Inquiry" ? (
+                           <div className="space-y-1">
+                            <div className="font-bold text-xs">General Contact</div>
+                            {inquiry.notes && <div className="text-xs text-muted-foreground italic line-clamp-2">"{inquiry.notes}"</div>}
                           </div>
                         ) : (
                           <div className="space-y-1">
