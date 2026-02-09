@@ -199,7 +199,7 @@ export default function AdminInquiries() {
                         ) : (
                           <div className="space-y-1">
                             <div className="flex gap-2 items-center flex-wrap">
-                              <Badge variant="secondary" className="text-[10px] font-bold">{inquiry.modelPreference || "Any JDM"}</Badge>
+                              <Badge variant="secondary" className="text-[10px] font-bold">{inquiry.modelPreference || "Any Import"}</Badge>
                               <span className="text-[10px] font-bold text-primary bg-primary/5 px-2 py-0.5 rounded border border-primary/10">Budget: {inquiry.budget || "N/A"}</span>
                               <span className="text-[10px] font-bold text-muted-foreground uppercase">{inquiry.yearRange || "Any Year"}</span>
                             </div>

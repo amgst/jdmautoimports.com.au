@@ -157,7 +157,7 @@ export default function ComingSoon() {
                                     </span>
                                 </h1>
                                 <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
-                                    Our JDM experts are working on the site. In the meantime, try to beat the high score in our drift arcade!
+                                    Our import experts are working on the site. In the meantime, try to beat the high score in our drift arcade!
                                 </p>
                                 <Button
                                     onClick={startGame}
@@ -165,7 +165,7 @@ export default function ComingSoon() {
                                     className="bg-blue-600 hover:bg-blue-700 text-white gap-2 px-8 h-14 text-lg rounded-full"
                                 >
                                     <Gamepad2 className="h-5 w-5" />
-                                    Launch JDM Arcade
+                                    Launch Import Arcade
                                 </Button>
                             </motion.div>
                         ) : (

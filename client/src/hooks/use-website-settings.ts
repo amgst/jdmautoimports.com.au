@@ -17,7 +17,7 @@ export function useWebsiteSettings() {
 
     // Update document title
     if (settings.websiteName) {
-      document.title = `${settings.websiteName} - JDM Auto Imports`;
+      document.title = `${settings.websiteName} - Auto Import Specialists`;
     }
 
     // Update favicon

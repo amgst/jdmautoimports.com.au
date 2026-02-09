@@ -303,7 +303,7 @@ export default function Home() {
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">The Direct Import Process</h2>
               <p className="text-lg text-muted-foreground">
-                We handle the entire journey from Japan to your driveway
+                We handle the entire journey from source to your driveway
               </p>
             </div>
 
@@ -420,7 +420,7 @@ export default function Home() {
               Can't find your dream car?
             </h2>
             <p className="text-2xl text-white/90 mb-12 font-medium">
-              Our concierge service can source any vehicle directly from Japan to your exact specifications.
+              Our concierge service can source any vehicle internationally to your exact specifications.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link href="/find-me-a-car">

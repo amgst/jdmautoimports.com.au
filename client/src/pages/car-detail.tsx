@@ -280,7 +280,7 @@ export default function CarDetail() {
                         Auction Sheet Decode
                       </h3>
                       <p className="text-slate-400 text-sm leading-relaxed">
-                        Every JDM vehicle we source includes a verified Japanese auction sheet. Our experts decode the technical shorthand to ensure the grade matches the actual condition.
+                        Every vehicle we source includes a verified auction sheet. Our experts decode the technical shorthand to ensure the grade matches the actual condition.
                       </p>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
