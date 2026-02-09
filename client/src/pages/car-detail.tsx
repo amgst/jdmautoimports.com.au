@@ -95,7 +95,7 @@ export default function CarDetail() {
 
   const seoTitle = car ? `${car.name} - JDM Auto Imports Australia` : "Car Details - JDM Auto Imports";
   const seoDescription = car
-    ? `Direct JDM Import: ${car.name}. ${car.description} High-quality vehicle sourcing and compliance services for Australia.`
+    ? `JDM Import: ${car.name}. ${car.description} High-quality vehicle sourcing and compliance services for Australia.`
     : "Browse JDM and premium car import options for Australia";
 
   if (isLoading) {

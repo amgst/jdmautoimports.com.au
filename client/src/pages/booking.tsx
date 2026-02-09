@@ -83,9 +83,9 @@ export default function Booking() {
     return (
         <>
             <SEO
-                title="Book for Inspection - JDM Auto Import"
-                description="Schedule a professional viewing of your selected vehicle at our specialized facility. Direct JDM import specialists in Australia."
-            />
+                title="Book an Inspection"
+                description="Schedule a professional viewing of your selected vehicle at our specialized facility. Specialized JDM import service in Australia."
+              />
             <div className="py-16 md:py-24 bg-background min-h-screen">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="text-center mb-12">

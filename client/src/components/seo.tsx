@@ -38,7 +38,7 @@ export function SEO({ title, description, image, type = "website", noindex = fal
     document.title = pageTitle;
 
     // Update meta description
-    const metaDesc = description || settings.metaDescription || settings.description || "Direct JDM import specialist in Australia. Sourcing, shipping, and compliance for Japanese performance cars.";
+    const metaDesc = description || settings.metaDescription || settings.description || "Premier JDM import specialist in Australia. Sourcing, shipping, and compliance for Japanese performance cars.";
     let metaDescription = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     if (!metaDescription) {
       metaDescription = document.createElement("meta");

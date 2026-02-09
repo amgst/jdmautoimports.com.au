@@ -53,7 +53,7 @@ export default function About() {
     <>
       <SEO
         title={`About - ${websiteName}`}
-        description={`Learn more about ${websiteName}, a direct JDM import specialist. Bridging the gap between the Japanese car scene and Australian enthusiasts.`}
+        description={`Learn more about ${websiteName}, your trusted partner for Japanese vehicles. Bridging the gap between the Japanese car scene and Australian enthusiasts.`}
       />
       <div className="min-h-screen bg-background text-left">
         {/* Hero Section */}
@@ -65,7 +65,7 @@ export default function About() {
                 About <span className="text-primary">{companyName}</span>
               </h1>
               <p className="text-xl text-muted-foreground leading-relaxed font-medium">
-                We are a direct JDM import specialist. Our mission is to bridge the gap
+                We are {companyName}, your trusted partner for Japanese vehicles. Our mission is to bridge the gap
                 between the legendary Japanese car scene and Australian enthusiasts, providing a seamless,
                 transparent, and professional importing experience.
               </p>
@@ -104,10 +104,10 @@ export default function About() {
               </div>
               <Card className="p-8 bg-muted/40 border-none shadow-xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full" />
-                <h3 className="text-2xl font-bold mb-6 uppercase tracking-wider">The Direct Advantage</h3>
+                <h3 className="text-2xl font-bold mb-6 uppercase tracking-wider">The Import Advantage</h3>
                 <ul className="space-y-4">
                   {[
-                    "Direct access to all Japanese auctions",
+                    "Access to all Japanese auctions",
                     "Transparent fixed-fee sourcing",
                     "Verified auction sheets & translations",
                     "Specialized interstate delivery",

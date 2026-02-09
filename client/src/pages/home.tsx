@@ -65,8 +65,8 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Direct JDM Imports to Australia - JDM Auto Import"
-        description="We source, ship, and comply high-quality vehicles directly for you. Professional concierge and compliance services."
+        title="Premium JDM Imports to Australia - JDM Auto Import"
+        description={ source, ship, and comply high-quality vehicles directly for you. Professional concierge and compliance services."
       />
       <div className="text-left overflow-x-hidden">
         <section className="relative h-[95vh] min-h-[700px] flex items-center justify-center overflow-hidden">
@@ -95,7 +95,7 @@ export default function Home() {
               variants={itemVariants}
               className="text-5xl md:text-8xl font-black text-white mb-6 tracking-tighter uppercase leading-[0.9] drop-shadow-2xl"
             >
-              {settings?.heroTitle || "Direct JDM Imports"}
+              {settings?.heroTitle || "Authentic Japanese Imports"}
               <span className="block text-white drop-shadow-2xl">Delivered to You</span>
             </motion.h1>
 

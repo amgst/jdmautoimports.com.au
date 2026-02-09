@@ -92,11 +92,11 @@ const defaultWebsiteSettings: WebsiteSettings = {
   xUrl: "",
   instagramUrl: "",
   linkedinUrl: "",
-  metaDescription: "Direct JDM imports. Specialist sourcing for GTR, Skyline, Supra, and more. Full compliance handling and Australia-wide delivery.",
+  metaDescription: "Premium JDM imports. Specialist sourcing for GTR, Skyline, Supra, and more. Full compliance handling and Australia-wide delivery.",
   metaKeywords: "JDM imports Australia, car imports, GTR import Sydney, Skyline import Brisbane, import concierge service",
 
   // Hero Defaults
-  heroTitle: "Direct JDM Imports",
+  heroTitle: "Authentic Japanese Imports",
   heroSubtitle: "Your trusted gateway to global vehicle markets.",
   heroImage: "", // Will fall back to default if empty
   heroButtonText: "View Inventory",

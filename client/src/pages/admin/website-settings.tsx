@@ -151,11 +151,11 @@ export default function WebsiteSettings() {
       xUrl: "",
       instagramUrl: "",
       linkedinUrl: "",
-      metaDescription: "Direct JDM imports. Specialist sourcing for GTR, Skyline, Supra, and more. Full compliance handling and Australia-wide delivery.",
+      metaDescription: "Premium JDM imports. Specialist sourcing for GTR, Skyline, Supra, and more. Full compliance handling and Australia-wide delivery.",
       metaKeywords: "JDM imports Australia, car imports, GTR import Sydney, Skyline import Brisbane, import concierge service",
 
       // Hero Defaults
-      heroTitle: "Direct JDM Imports",
+  heroTitle: "Authentic Japanese Imports",
       heroSubtitle: "Your trusted gateway to global vehicle markets.",
       heroImage: "",
       heroButtonText: "View Inventory",
@@ -875,7 +875,7 @@ export default function WebsiteSettings() {
                         <FormLabel>Description</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Premium car rental service with the finest vehicles..."
+                            placeholder="Specialized JDM import service bringing the best Japanese vehicles to Australia..."
                             rows={4}
                             {...field}
                           />
@@ -1130,7 +1130,7 @@ export default function WebsiteSettings() {
                           <FormItem>
                             <FormLabel>Button Text</FormLabel>
                             <FormControl>
-                              <Input placeholder="Browse Our Fleet" {...field} />
+                              <Input placeholder="View Inventory" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -1215,7 +1215,7 @@ export default function WebsiteSettings() {
                       <FormItem>
                         <FormLabel>Section Subtitle</FormLabel>
                         <FormControl>
-                          <Input placeholder="Discover our most popular luxury and performance cars" {...field} />
+                          <Input placeholder="Discover our latest JDM imports and auction finds" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -1254,7 +1254,7 @@ export default function WebsiteSettings() {
                         <FormItem>
                           <FormLabel>Section Subtitle</FormLabel>
                           <FormControl>
-                            <Input placeholder="Renting a car has never been easier" {...field} />
+                            <Input placeholder="Importing your dream JDM car is simple and transparent" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -1271,7 +1271,7 @@ export default function WebsiteSettings() {
                         <FormItem>
                           <FormLabel>Title</FormLabel>
                           <FormControl>
-                            <Input placeholder="Choose Your Car" {...field} />
+                            <Input placeholder="Source & Bid" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -1284,7 +1284,7 @@ export default function WebsiteSettings() {
                         <FormItem>
                           <FormLabel>Description</FormLabel>
                           <FormControl>
-                            <Input placeholder="Browse our extensive fleet..." {...field} />
+                            <Input placeholder="We find your dream car at Japanese auctions..." {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -1301,7 +1301,7 @@ export default function WebsiteSettings() {
                         <FormItem>
                           <FormLabel>Title</FormLabel>
                           <FormControl>
-                            <Input placeholder="Book Online" {...field} />
+                            <Input placeholder="Inspect & Ship" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -1314,7 +1314,7 @@ export default function WebsiteSettings() {
                         <FormItem>
                           <FormLabel>Description</FormLabel>
                           <FormControl>
-                            <Input placeholder="Complete your reservation..." {...field} />
+                            <Input placeholder="We verify condition and handle all shipping logistics..." {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -1331,7 +1331,7 @@ export default function WebsiteSettings() {
                         <FormItem>
                           <FormLabel>Title</FormLabel>
                           <FormControl>
-                            <Input placeholder="Hit the Road" {...field} />
+                            <Input placeholder="Drive Away" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -1344,7 +1344,7 @@ export default function WebsiteSettings() {
                         <FormItem>
                           <FormLabel>Description</FormLabel>
                           <FormControl>
-                            <Input placeholder="Pick up your vehicle..." {...field} />
+                            <Input placeholder="Receive your fully complied vehicle ready for the road..." {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -1386,7 +1386,7 @@ export default function WebsiteSettings() {
                           <FormItem>
                             <FormLabel>Label</FormLabel>
                             <FormControl>
-                              <Input placeholder="Happy Customers" {...field} />
+                              <Input placeholder="Vehicles Sourced" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -1416,7 +1416,7 @@ export default function WebsiteSettings() {
                           <FormItem>
                             <FormLabel>Label</FormLabel>
                             <FormControl>
-                              <Input placeholder="Premium Vehicles" {...field} />
+                              <Input placeholder="Compliance Rate" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -1446,7 +1446,7 @@ export default function WebsiteSettings() {
                           <FormItem>
                             <FormLabel>Label</FormLabel>
                             <FormControl>
-                              <Input placeholder="Locations" {...field} />
+                              <Input placeholder="Auction Access" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -1517,7 +1517,7 @@ export default function WebsiteSettings() {
                         <FormItem>
                           <FormLabel>Section Subtitle</FormLabel>
                           <FormControl>
-                            <Input placeholder="Hear from those who have experienced our premium service" {...field} />
+                            <Input placeholder="Hear from enthusiasts who have imported their dream cars" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -1547,23 +1547,23 @@ export default function WebsiteSettings() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Role/Title</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Business Executive" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <FormField
-                      control={form.control}
-                      name="testimonial1Content"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Review Content</FormLabel>
                           <FormControl>
-                            <Textarea placeholder="Outstanding service..." rows={3} {...field} />
+                            <Input placeholder="Car Enthusiast" {...field} />
                           </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <FormField
+                    control={form.control}
+                    name="testimonial1Content"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Review Content</FormLabel>
+                        <FormControl>
+                          <Textarea placeholder="Outstanding service! My GTR was in perfect condition upon arrival..." rows={3} {...field} />
+                        </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -1592,23 +1592,23 @@ export default function WebsiteSettings() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Role/Title</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Family Traveler" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <FormField
-                      control={form.control}
-                      name="testimonial2Content"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Review Content</FormLabel>
                           <FormControl>
-                            <Textarea placeholder="We rented the BMW X5..." rows={3} {...field} />
+                            <Input placeholder="Supra Owner" {...field} />
                           </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <FormField
+                    control={form.control}
+                    name="testimonial2Content"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Review Content</FormLabel>
+                        <FormControl>
+                          <Textarea placeholder="Sourced my dream Supra through them..." rows={3} {...field} />
+                        </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -1645,23 +1645,23 @@ export default function WebsiteSettings() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Subtitle</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Book your premium vehicle today..." {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="ctaButtonText"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Button Text</FormLabel>
                           <FormControl>
-                            <Input placeholder="Book Now" {...field} />
+                            <Input placeholder="Start sourcing your dream JDM car today..." {...field} />
                           </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="ctaButtonText"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Button Text</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Start Sourcing" {...field} />
+                            </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -1699,7 +1699,7 @@ export default function WebsiteSettings() {
                         <FormLabel>Meta Description</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Discover our premium car rental collection..."
+                            placeholder="Specialist JDM car importer offering direct auction access..."
                             rows={3}
                             {...field}
                           />
@@ -1719,7 +1719,7 @@ export default function WebsiteSettings() {
                       <FormItem>
                         <FormLabel>Meta Keywords</FormLabel>
                         <FormControl>
-                          <Input placeholder="car rental, luxury cars, premium vehicles" {...field} />
+                          <Input placeholder="jdm import, japanese cars, car auction, gtr, supra" {...field} />
                         </FormControl>
                         <FormDescription>
                           Comma-separated keywords for SEO
