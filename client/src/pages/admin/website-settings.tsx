@@ -139,23 +139,23 @@ export default function WebsiteSettings() {
   const form = useForm<WebsiteSettingsForm>({
     resolver: zodResolver(websiteSettingsSchema),
     defaultValues: {
-      websiteName: "JDM Auto Import",
+      websiteName: "Auto Import Specialists",
       logo: "",
       favicon: "/favicon.png",
-      companyName: "JDM Auto Import",
-      email: "info@jdmautoimports.com.au",
+      companyName: "Auto Import Specialists",
+      email: "info@example.com",
       phone: "+61 400 000 000",
       address: "Brisbane, QLD, Australia",
-      description: "We source high-quality performance cars, handling everything from auction to compliance and delivery.",
+      description: "We source high-quality imported vehicles, handling everything from auction to compliance and delivery.",
       facebookUrl: "",
       xUrl: "",
       instagramUrl: "",
       linkedinUrl: "",
-      metaDescription: "Premium JDM imports. Specialist sourcing for GTR, Skyline, Supra, and more. Full compliance handling and Australia-wide delivery.",
-      metaKeywords: "JDM imports Australia, car imports, GTR import Sydney, Skyline import Brisbane, import concierge service",
+      metaDescription: "Premium vehicle imports. Specialist sourcing for luxury and performance vehicles. Full compliance handling and Australia-wide delivery.",
+      metaKeywords: "vehicle imports Australia, car imports, luxury car import, performance car import, import concierge service",
 
       // Hero Defaults
-  heroTitle: "Authentic Japanese Imports",
+      heroTitle: "Premium Global Imports",
       heroSubtitle: "Your trusted gateway to global vehicle markets.",
       heroImage: "",
       heroButtonText: "View Inventory",
@@ -169,9 +169,9 @@ export default function WebsiteSettings() {
 
       // How It Works Defaults
       howItWorksTitle: "How It Works",
-      howItWorksSubtitle: "Importing your dream JDM car is simple and transparent",
+      howItWorksSubtitle: "Importing your dream car is simple and transparent",
       howItWorksStep1Title: "Source & Bid",
-      howItWorksStep1Description: "We help you find the perfect car at Japanese auctions and handle the bidding process",
+      howItWorksStep1Description: "We help you find the perfect car at international auctions and handle the bidding process",
       howItWorksStep2Title: "Shipping & Transit",
       howItWorksStep2Description: "We manage international logistics, insurance, and arrival at Australian ports",
       howItWorksStep3Title: "Compliance & Delivery",
@@ -199,7 +199,7 @@ export default function WebsiteSettings() {
 
       // CTA Defaults
       ctaTitle: "Ready to Start Your Import Project?",
-      ctaSubtitle: "Contact our specialists today and secure your piece of Japanese automotive history",
+      ctaSubtitle: "Contact our specialists today and secure your piece of automotive history",
       ctaButtonText: "Enquire Now",
       ctaButtonLink: "/contact",
 
@@ -374,7 +374,7 @@ export default function WebsiteSettings() {
         description: "Website settings saved successfully",
       });
       // Update document title if available
-      document.title = `${data.websiteName} - JDM Auto Import`;
+      document.title = `${data.websiteName} - Auto Import Specialists`;
     },
     onError: (error: unknown) => {
       console.error("Error saving website settings:", error);

@@ -93,15 +93,15 @@ export default function CarDetail() {
     }
   }, [car?.id, uniqueImages.length]);
 
-  const seoTitle = car ? `${car.name} - JDM Auto Imports Australia` : "Car Details - JDM Auto Imports";
+  const seoTitle = car ? `${car.name} - Auto Import Specialists` : "Car Details - Auto Import Specialists";
   const seoDescription = car
-    ? `JDM Import: ${car.name}. ${car.description} High-quality vehicle sourcing and compliance services for Australia.`
-    : "Browse JDM and premium car import options for Australia";
+    ? `Import: ${car.name}. ${car.description} High-quality vehicle sourcing and compliance services for Australia.`
+    : "Browse premium car import options for Australia";
 
   if (isLoading) {
     return (
       <>
-        <SEO title="Loading Car Details" description="JDM Auto Imports - Premium JDM Imports" />
+        <SEO title="Loading Car Details" description="Auto Import Specialists - Premium Imports" />
         <div className="min-h-screen bg-background text-left">
           <div className="max-w-7xl mx-auto px-6 py-12">
             <Skeleton className="h-8 w-32 mb-8" />
@@ -185,7 +185,7 @@ export default function CarDetail() {
               <div className="flex flex-wrap items-center gap-4">
                 <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/10 text-sm font-semibold">
                   <Globe className="w-4 h-4 text-blue-400" />
-                  JDM IMPORT
+                  PREMIUM IMPORT
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/10 text-sm font-semibold">
                   <ShieldCheck className="w-4 h-4 text-blue-400" />
@@ -322,7 +322,7 @@ export default function CarDetail() {
                     const descs = (car as any).timelineDescs && (car as any).timelineDescs.length > 0
                       ? (car as any).timelineDescs
                       : [
-                        "JDM Auto Imports Australia team scouts auctions for the perfect unit.",
+                        "Auto Import Specialists team scouts auctions for the perfect unit.",
                         "Secure export-grade vehicle after 100-point check.",
                         "Roll-on/Roll-off shipping to major Australian ports.",
                         "SEVS workshop handles mods and documentation.",
@@ -402,13 +402,13 @@ export default function CarDetail() {
                   <div className="flex items-center justify-between border-b border-border pb-6">
                     <h3 className="text-2xl font-bold">Included Enhancements</h3>
                     <Badge variant="default" className="bg-primary text-primary-foreground rounded-lg px-3 py-1 text-xs font-bold uppercase tracking-widest">
-                      JDM SPECIALIST PACKAGE
+                      IMPORT SPECIALIST PACKAGE
                     </Badge>
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {(car.enhancements && car.enhancements.length > 0
                       ? car.enhancements
-                      : ["Apple CarPlay|Conversion","Android Auto|Conversion","English Menu|Enabled","Verified ODO|Japanese Cert"]
+                      : ["Apple CarPlay|Conversion","Android Auto|Conversion","English Menu|Enabled","Verified ODO|Export Cert"]
                     ).map((e, i) => {
                       const [label, sub] = (e || "").split("|");
                       return <EnhancementBadge key={i} label={label || ""} sub={sub || ""} />;

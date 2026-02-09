@@ -17,7 +17,7 @@ import { SEO } from "@/components/seo";
 
 export default function About() {
   const { isLoading, ...settings } = useWebsiteSettings();
-  const websiteName = settings?.websiteName || "JDM Auto Import";
+  const websiteName = settings?.websiteName || "Auto Import Specialists";
   const companyName = settings?.companyName || websiteName;
   const values = [
     {
@@ -28,7 +28,7 @@ export default function About() {
     {
       icon: Award,
       title: "Premium Handpicks",
-      description: "We hand-select only the highest auction grade vehicles, maintaining the standard that JDM fans expect.",
+      description: "We hand-select only the highest auction grade vehicles, maintaining the standard that enthusiasts expect.",
     },
     {
       icon: Users,
@@ -38,22 +38,22 @@ export default function About() {
     {
       icon: Car,
       title: "Expert Sourcing",
-      description: "With years of experience in the Japanese market, we know where to find the best GTRs, Chasers, and 4WDs.",
+      description: "With years of experience in the global market, we know where to find the best performance cars, luxury vehicles, and 4WDs.",
     },
   ];
 
   const stats = [
-    { number: "500+", label: "Vehicles Sourced" },
-    { number: "100%", label: "Compliance Rate" },
-    { number: "20+", label: "Auction Access" },
-    { number: "24/7", label: "Import Support" },
+    { number: settings?.stats1Value || "500+", label: settings?.stats1Label || "Vehicles Sourced" },
+    { number: settings?.stats2Value || "100%", label: settings?.stats2Label || "Compliance Rate" },
+    { number: settings?.stats3Value || "20+", label: settings?.stats3Label || "Auction Tiers" },
+    { number: settings?.stats4Value || "24/7", label: settings?.stats4Label || "Support" },
   ];
 
   return (
     <>
       <SEO
         title={`About - ${websiteName}`}
-        description={`Learn more about ${websiteName}, your trusted partner for Japanese vehicles. Bridging the gap between the Japanese car scene and Australian enthusiasts.`}
+        description={`Learn more about ${websiteName}, your trusted partner for imported vehicles. Bridging the gap between the global car scene and Australian enthusiasts.`}
       />
       <div className="min-h-screen bg-background text-left">
         {/* Hero Section */}
@@ -65,8 +65,8 @@ export default function About() {
                 About <span className="text-primary">{companyName}</span>
               </h1>
               <p className="text-xl text-muted-foreground leading-relaxed font-medium">
-                We are {companyName}, your trusted partner for Japanese vehicles. Our mission is to bridge the gap
-                between the legendary Japanese car scene and Australian enthusiasts, providing a seamless,
+                We are {companyName}, your trusted partner for imported vehicles. Our mission is to bridge the gap
+                between the global car scene and Australian enthusiasts, providing a seamless,
                 transparent, and professional importing experience.
               </p>
             </div>
@@ -80,8 +80,8 @@ export default function About() {
               <div>
                 <h2 className="text-4xl font-black mb-6 uppercase tracking-tight">Our Mission</h2>
                 <p className="text-lg text-muted-foreground mb-4 leading-relaxed font-medium">
-                  At {companyName}, our mission is to provide a transparent gateway to the Japanese car auctions.
-                  We believe that every enthusiast deserves a high-quality, authentic JDM vehicle without
+                  At {companyName}, our mission is to provide a transparent gateway to the global car auctions.
+                  We believe that every enthusiast deserves a high-quality, authentic imported vehicle without
                   the stress of navigating international shipping and Australian compliance.
                 </p>
                 <p className="text-lg text-muted-foreground mb-8 leading-relaxed font-medium">
@@ -107,7 +107,7 @@ export default function About() {
                 <h3 className="text-2xl font-bold mb-6 uppercase tracking-wider">The Import Advantage</h3>
                 <ul className="space-y-4">
                   {[
-                    "Access to all Japanese auctions",
+                    "Access to all international auctions",
                     "Transparent fixed-fee sourcing",
                     "Verified auction sheets & translations",
                     "Specialized interstate delivery",

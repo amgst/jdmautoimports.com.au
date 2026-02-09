@@ -33,12 +33,12 @@ export function SEO({ title, description, image, type = "website", noindex = fal
     if (!settings) return;
 
     // Update document title
-    const siteName = settings.websiteName || "JDM Auto Imports Australia";
+    const siteName = settings.websiteName || "Auto Import Specialists";
     const pageTitle = title ? `${siteName} | ${title}` : siteName;
     document.title = pageTitle;
 
     // Update meta description
-    const metaDesc = description || settings.metaDescription || settings.description || "Premier JDM import specialist in Australia. Sourcing, shipping, and compliance for Japanese performance cars.";
+    const metaDesc = description || settings.metaDescription || settings.description || "Premier vehicle import specialist in Australia. Sourcing, shipping, and compliance for performance cars.";
     let metaDescription = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     if (!metaDescription) {
       metaDescription = document.createElement("meta");
@@ -133,8 +133,8 @@ export function SEO({ title, description, image, type = "website", noindex = fal
     const structuredData = {
       "@context": "https://schema.org",
       "@type": "AutoDealer",
-      "name": settings.companyName || settings.websiteName || "JDM Auto Imports Australia",
-      "description": settings.description || settings.metaDescription || "Specialist in high-quality JDM vehicle imports and compliance in Australia.",
+      "name": settings.companyName || settings.websiteName || "Auto Import Specialists",
+      "description": settings.description || settings.metaDescription || "Specialist in high-quality vehicle imports and compliance in Australia.",
       "url": canonicalUrl,
       "telephone": settings.phone || "",
       "email": settings.email || "",

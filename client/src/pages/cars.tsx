@@ -144,15 +144,15 @@ export default function Cars() {
   return (
     <>
       <SEO
-        title="Inventory - JDM Auto Import"
-        description="Browse our high-quality JDM vehicles ready for import to Australia. JDM Auto Import specializes in sourcing, shipping, and compliance for Japanese performance cars."
+        title={`Inventory - ${settings?.websiteName || "Auto Import Specialists"}`}
+        description={`Browse our high-quality vehicles ready for import to Australia. ${settings?.websiteName || "Auto Import Specialists"} specializes in sourcing, shipping, and compliance for performance cars.`}
       />
       <div className="min-h-screen bg-background text-left">
         <div className="bg-card border-b">
           <div className="max-w-7xl mx-auto px-6 py-12">
             <h1 className="text-5xl font-bold mb-4 uppercase">Inventory</h1>
             <p className="text-lg text-muted-foreground">
-              Browse vehicles sourced directly from Japan for the Australian market
+              Browse vehicles sourced internationally for the Australian market
             </p>
           </div>
         </div>

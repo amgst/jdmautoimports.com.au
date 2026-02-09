@@ -72,7 +72,7 @@ export function useWebsiteSettings() {
         ogTitle.setAttribute("property", "og:title");
         document.head.appendChild(ogTitle);
       }
-      ogTitle.content = `${settings.websiteName} - JDM Auto Imports`;
+      ogTitle.content = `${settings.websiteName} - Auto Import Specialists`;
     }
   }, [settings]);
 

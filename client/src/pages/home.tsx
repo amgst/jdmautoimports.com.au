@@ -38,7 +38,7 @@ export default function Home() {
     queryFn: getAllCarsFirebase,
   });
   const { isLoading: isSettingsLoading, ...settings } = useWebsiteSettings();
-  const websiteName = settings?.websiteName || "JDM Auto Import";
+  const websiteName = settings?.websiteName || "Auto Import Specialists";
 
   const featuredCars = cars?.slice(0, 3) || [];
 
@@ -65,7 +65,7 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Premium JDM Imports to Australia - JDM Auto Import"
+        title="Premium Vehicle Imports to Australia - Auto Import Specialists"
         description="We source, ship, and comply high-quality vehicles directly for you. Professional concierge and compliance services."
       />
       <div className="text-left overflow-x-hidden">
@@ -95,7 +95,7 @@ export default function Home() {
               variants={itemVariants}
               className="text-5xl md:text-8xl font-black text-white mb-6 tracking-tighter uppercase leading-[0.9] drop-shadow-2xl"
             >
-              {settings?.heroTitle || "Authentic Japanese Imports"}
+              {settings?.heroTitle || "Premium Global Imports"}
               <span className="block text-white drop-shadow-2xl">Delivered to You</span>
             </motion.h1>
 

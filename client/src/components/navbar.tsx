@@ -15,7 +15,7 @@ export function Navbar() {
   const [logoError, setLogoError] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const websiteName = settingsWebsiteName || "JDM Auto Import";
+  const websiteName = settingsWebsiteName || "Auto Import Specialists";
 
   // Reset logo error when logo URL changes
   useEffect(() => {

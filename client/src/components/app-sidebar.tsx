@@ -66,7 +66,7 @@ export function AppSidebar() {
     setLocation("/admin/login");
   };
 
-  const websiteName = settings?.websiteName || "JDM Auto Imports Australia";
+  const websiteName = settings?.websiteName || "Auto Import Specialists";
 
   return (
     <Sidebar>

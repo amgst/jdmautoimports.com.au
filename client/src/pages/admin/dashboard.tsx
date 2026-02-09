@@ -36,7 +36,7 @@ export default function AdminDashboard() {
     <div className="text-left">
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2">Admin Dashboard</h1>
-        <p className="text-muted-foreground">Manage your JDM inventory and customer sourcing requests</p>
+        <p className="text-muted-foreground">Manage your inventory and customer sourcing requests</p>
       </div>
 
       {isLoading ? (

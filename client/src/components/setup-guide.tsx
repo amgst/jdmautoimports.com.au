@@ -14,7 +14,7 @@ export default function SetupGuide({ onSkip }: SetupGuideProps) {
                     <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
                         <AlertCircle className="h-8 w-8 text-blue-600" />
                     </div>
-                    <CardTitle className="text-3xl font-bold text-slate-800">Welcome to JDM Auto Imports</CardTitle>
+                    <CardTitle className="text-3xl font-bold text-slate-800">Welcome to Auto Import Specialists</CardTitle>
                     <CardDescription className="text-lg mt-2">
                         Application Setup Required
                     </CardDescription>

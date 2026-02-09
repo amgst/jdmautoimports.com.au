@@ -80,23 +80,23 @@ export interface WebsiteSettings {
 }
 
 const defaultWebsiteSettings: WebsiteSettings = {
-  websiteName: "JDM Auto Import",
+  websiteName: "Auto Import Specialists",
   logo: "",
   favicon: "/favicon.png",
-  companyName: "JDM Auto Import",
-  email: "info@jdmautoimports.com.au",
+  companyName: "Auto Import Specialists",
+  email: "info@example.com",
   phone: "+61 400 000 000",
   address: "Brisbane, QLD, Australia",
-  description: "We source high-quality performance cars, handling everything from auction to compliance and delivery.",
+  description: "We source high-quality vehicles, handling everything from auction to compliance and delivery.",
   facebookUrl: "",
   xUrl: "",
   instagramUrl: "",
   linkedinUrl: "",
-  metaDescription: "Premium JDM imports. Specialist sourcing for GTR, Skyline, Supra, and more. Full compliance handling and Australia-wide delivery.",
-  metaKeywords: "JDM imports Australia, car imports, GTR import Sydney, Skyline import Brisbane, import concierge service",
+  metaDescription: "Premium vehicle imports. Specialist sourcing for sports cars, luxury vehicles, and SUVs. Full compliance handling and Australia-wide delivery.",
+  metaKeywords: "car imports Australia, vehicle imports, luxury car import, performance car import, import concierge service",
 
   // Hero Defaults
-  heroTitle: "Authentic Japanese Imports",
+  heroTitle: "Premium Global Imports",
   heroSubtitle: "Your trusted gateway to global vehicle markets.",
   heroImage: "", // Will fall back to default if empty
   heroButtonText: "View Inventory",
@@ -133,10 +133,10 @@ const defaultWebsiteSettings: WebsiteSettings = {
   testimonialsSubtitle: "Hear from those who have experienced our premium service",
   testimonial1Name: "James Davidson",
   testimonial1Role: "Car Enthusiast",
-  testimonial1Content: "Outstanding service! My GTR was in perfect condition upon arrival, and the compliance process was seamless. JDM Auto Import made the whole process incredibly easy.",
+  testimonial1Content: "Outstanding service! My vehicle was in perfect condition upon arrival, and the compliance process was seamless. The team made the whole process incredibly easy.",
   testimonial2Name: "Sarah Martinez",
-  testimonial2Role: "Supra Owner",
-  testimonial2Content: "Sourced my dream Supra through them. Transparent pricing and great communication throughout the shipping process. Highly recommend!",
+  testimonial2Role: "Happy Customer",
+  testimonial2Content: "Sourced my dream car through them. Transparent pricing and great communication throughout the shipping process. Highly recommend!",
 
   // CTA Defaults
   ctaTitle: "Ready to Start Your Journey?",
@@ -219,8 +219,8 @@ export async function saveWebsiteSettings(
     });
 
     // Ensure core fields have defaults if empty
-    dataToSave.websiteName = dataToSave.websiteName || "JDM Auto Import";
-    dataToSave.companyName = dataToSave.companyName || "JDM Auto Import";
+    dataToSave.websiteName = dataToSave.websiteName || "Auto Import Specialists";
+    dataToSave.companyName = dataToSave.companyName || "Auto Import Specialists";
     dataToSave.favicon = dataToSave.favicon || "/favicon.png";
     dataToSave.maintenanceMode = !!dataToSave.maintenanceMode;
 

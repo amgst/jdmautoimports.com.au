@@ -70,7 +70,7 @@ export default function FindMeACar() {
                     </div>
                     <h1 className="text-4xl font-bold">Request Received</h1>
                     <p className="text-xl text-muted-foreground">
-                        Thank you for reaching out! Our JDM specialists are already looking for your perfect car. We'll contact you within 24-48 hours.
+                        Thank you for reaching out! Our Import specialists are already looking for your perfect car. We'll contact you within 24-48 hours.
                     </p>
                     <Button onClick={() => setSubmitted(false)} variant="outline">
                         Send Another Request
@@ -83,18 +83,18 @@ export default function FindMeACar() {
     return (
         <>
             <SEO
-                title="Sourcing Service - JDM Auto Import"
-                description="Can't find your dream car in our inventory? Let us source it directly from Japan. We handle auctions, shipping, and compliance."
+                title="Sourcing Service - Auto Import Specialists"
+                description="Can't find your dream car in our inventory? Let us source it directly from overseas. We handle auctions, shipping, and compliance."
             />
             <div className="max-w-7xl mx-auto px-6 py-12">
                 <div className="grid lg:grid-cols-2 gap-12 items-start text-left">
                     <div className="space-y-8">
                         <div>
                             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4 uppercase">
-                                Find Me the Perfect JDM Car
+                                Find Me the Perfect Import Car
                             </h1>
                             <p className="text-xl text-muted-foreground italic">
-                                Can't find what you're looking for in our inventory? Let us source it directly from Japan for you.
+                                Can't find what you're looking for in our inventory? Let us source it directly from overseas for you.
                             </p>
                         </div>
 
@@ -105,7 +105,7 @@ export default function FindMeACar() {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-lg">Auction Access</h3>
-                                    <p className="text-muted-foreground">We search thousands of Australian-compliant vehicles in Japanese auctions every week.</p>
+                                    <p className="text-muted-foreground">We search thousands of Australian-compliant vehicles in international auctions every week.</p>
                                 </div>
                             </div>
                             <div className="flex gap-4">
