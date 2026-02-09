@@ -29,6 +29,7 @@ import SetupGuide from "@/components/setup-guide";
 import { isFirebaseInitialized } from "@/lib/firebase";
 import ComingSoon from "@/pages/coming-soon";
 import Booking from "@/pages/booking";
+import { SiteProtection } from "@/components/site-protection";
 import FindMeACar from "@/pages/find-me-a-car";
 import { registerForNotifications } from "@/lib/messaging";
 
@@ -202,9 +203,11 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <AppContent />
+        <SiteProtection>
+          <AppContent />
+        </SiteProtection>
       </TooltipProvider>
-    </QueryClientProvider>
+    </QueryClientProvider>>
   );
 }
 
