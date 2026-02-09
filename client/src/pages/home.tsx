@@ -110,7 +110,7 @@ export default function Home() {
               <Link href="/cars">
                 <Button
                   size="lg"
-                  className="w-full sm:w-auto px-10 py-7 text-lg font-black bg-primary text-primary-foreground border-0 shadow-2xl hover:scale-105 transition-all group relative overflow-hidden"
+                  className="w-full sm:w-auto px-8 py-6 text-base font-bold bg-primary text-primary-foreground border-0 shadow-2xl hover:scale-105 transition-all group relative overflow-hidden"
                 >
                   <span className="relative z-10 flex items-center">
                     Explore Inventory
@@ -123,7 +123,7 @@ export default function Home() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="w-full sm:w-auto px-10 py-7 text-lg font-black text-white border-2 border-white/20 bg-white/5 backdrop-blur-xl hover:bg-white/10 hover:border-white/40 hover:scale-105 transition-all"
+                  className="w-full sm:w-auto px-8 py-6 text-base font-bold text-white border-2 border-white/20 bg-white/5 backdrop-blur-xl hover:bg-white/10 hover:border-white/40 hover:scale-105 transition-all"
                 >
                   Find Me a Car
                 </Button>

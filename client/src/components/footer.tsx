@@ -1,7 +1,6 @@
 import { Link } from "wouter";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Car,
   Phone,
@@ -10,7 +9,7 @@ import {
   Facebook,
   Instagram,
   Linkedin,
-  Send
+  Clock
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useWebsiteSettings } from "@/hooks/use-website-settings";
@@ -156,28 +155,38 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Newsletter */}
+          {/* Business Hours */}
           <div className="space-y-3 sm:space-y-4 sm:col-span-2 lg:col-span-1">
-            <h3 className="text-base sm:text-lg font-bold uppercase tracking-wider text-foreground">Stay Updated</h3>
-            <p className="text-sm sm:text-base text-muted-foreground">
-              Get the latest auction picks and import news.
-            </p>
-            <div className="flex gap-2">
-              <Input
-                type="email"
-                placeholder="Email address"
-                className="flex-1 rounded-lg border-primary/20 focus-visible:ring-primary"
-              />
-              <Button size="icon" className="shadow-lg">
-                <Send className="h-4 w-4" />
-              </Button>
-            </div>
+            <h3 className="text-base sm:text-lg font-bold uppercase tracking-wider text-foreground">Business Hours</h3>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3">
+                <Clock className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                <div className="text-sm sm:text-base text-muted-foreground">
+                  <span className="font-medium block">Mon - Fri:</span>
+                  9:00 AM - 6:00 PM
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <Clock className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                <div className="text-sm sm:text-base text-muted-foreground">
+                  <span className="font-medium block">Saturday:</span>
+                  10:00 AM - 4:00 PM
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <Clock className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                <div className="text-sm sm:text-base text-muted-foreground">
+                  <span className="font-medium block">Sunday:</span>
+                  Closed
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
 
         <div className="border-t mt-8 sm:mt-12 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs sm:text-sm text-muted-foreground font-medium">
-            © {new Date().getFullYear()} {companyName}. Built for enthusiasts.
+            © {new Date().getFullYear()} {companyName}.
           </p>
           <div className="flex gap-6 text-xs sm:text-sm text-muted-foreground">
             <Link href="/terms" className="hover:text-primary transition-colors font-medium">Terms</Link>
