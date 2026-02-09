@@ -181,17 +181,17 @@ export default function Home() {
                 </div>
               </Card>
 
-              <div className="mt-8 flex flex-wrap justify-center gap-6 md:gap-12 opacity-60">
-                <div className="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest">
-                  <CheckCircle2 className="h-4 w-4 text-white" />
+              <div className="mt-8 flex flex-wrap justify-center gap-6 md:gap-12">
+                <div className="flex items-center gap-2 text-zinc-800 text-xs font-bold uppercase tracking-widest">
+                  <CheckCircle2 className="h-4 w-4 text-zinc-800" />
                   <span>Grade Certified</span>
                 </div>
-                <div className="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest">
-                  <Clock className="h-4 w-4 text-white" />
+                <div className="flex items-center gap-2 text-zinc-800 text-xs font-bold uppercase tracking-widest">
+                  <Clock className="h-4 w-4 text-zinc-800" />
                   <span>24/7 Support</span>
                 </div>
-                <div className="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest">
-                  <Briefcase className="h-4 w-4 text-white" />
+                <div className="flex items-center gap-2 text-zinc-800 text-xs font-bold uppercase tracking-widest">
+                  <Briefcase className="h-4 w-4 text-zinc-800" />
                   <span>Full Compliance</span>
                 </div>
               </div>

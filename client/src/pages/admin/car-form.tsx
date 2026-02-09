@@ -455,39 +455,45 @@ export default function CarForm() {
 
   return (
     <div className="max-w-4xl">
-      <div className="flex items-center justify-between gap-4 mb-8">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+        <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
           <Button
             variant="ghost"
             onClick={() => setLocation("/admin/cars")}
             data-testid="button-back"
+            size="sm"
+            className="px-2 sm:px-4"
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Inventory
+            <ArrowLeft className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline">Back to Inventory</span>
           </Button>
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-xl sm:text-3xl font-bold truncate flex-1 sm:flex-none">
             {isEdit ? "Edit Vehicle" : "Add New Vehicle"}
           </h1>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-end">
           <Button
             type="button"
             variant="outline"
             onClick={() => setLocation("/admin/cars")}
             data-testid="button-close"
+            size="sm"
+            className="px-2 sm:px-4"
           >
-            <X className="mr-2 h-4 w-4" />
-            Close
+            <X className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline">Close</span>
           </Button>
           <Button
             type="submit"
             form="car-form"
             disabled={isUploading}
-            className="min-w-[120px]"
+            className="sm:min-w-[120px]"
+            size="sm"
             data-testid="button-save"
           >
-            <Save className="mr-2 h-4 w-4" />
-            {isUploading ? "Saving..." : "Save Changes"}
+            <Save className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline">{isUploading ? "Saving..." : "Save Changes"}</span>
+            <span className="sm:hidden">{isUploading ? "Saving..." : "Save"}</span>
           </Button>
         </div>
       </div>
