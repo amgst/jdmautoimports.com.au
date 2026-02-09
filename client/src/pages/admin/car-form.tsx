@@ -1026,6 +1026,88 @@ export default function CarForm() {
             </CardContent>
           </Card>
 
+          <Card>
+            <CardHeader>
+              <CardTitle>Verified Asset Dossier</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="dossierTitle"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Dossier Title</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Vehicle Integrity" {...field} value={field.value || ""} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="auctionGrade"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Auction Grade</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g. 4.5B" {...field} value={field.value || ""} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="verifiedMileage"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Verified Mileage</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g. Verified" {...field} value={field.value || ""} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="accidentHistory"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Accident History</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g. None" {...field} value={field.value || ""} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <FormField
+                control={form.control}
+                name="dossierText"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Auction Sheet Decode Text</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Description of the auction sheet verification..." 
+                        className="min-h-[100px]"
+                        {...field} 
+                        value={field.value || ""} 
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+
           <div className="flex gap-4">
             <Button
               type="submit"

@@ -69,7 +69,7 @@ export default function Home() {
         description="We source, ship, and comply high-quality vehicles directly for you. Professional concierge and compliance services."
       />
       <div className="text-left overflow-x-hidden">
-        <section className="relative min-h-[90vh] flex flex-col items-center justify-start md:justify-center pt-12 md:pt-0 pb-12 overflow-hidden">
+        <section className="relative min-h-[90vh] flex flex-col items-center justify-start md:justify-center pt-24 md:pt-24 pb-12 overflow-hidden">
           <motion.div
             initial={{ scale: 1.1, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}

@@ -148,7 +148,7 @@ export default function CarDetail() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80" />
 
-          <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex flex-col justify-between py-12">
+          <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex flex-col justify-between pt-24 pb-12">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -271,26 +271,28 @@ export default function CarDetail() {
                     <CheckCircle2 className="h-3 w-3" />
                     <span>Verified Asset Dossier</span>
                   </div>
-                  <h2 className="text-3xl md:text-5xl font-black mb-8 uppercase tracking-tighter">Vehicle Integrity</h2>
+                  <h2 className="text-3xl md:text-5xl font-black mb-8 uppercase tracking-tighter">
+                    {car.dossierTitle || "Vehicle Integrity"}
+                  </h2>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
                     <div className="space-y-4">
                       <h3 className="text-xl font-bold flex items-center gap-2">
                         <FileText className="text-blue-400" />
-                        Auction Sheet Decode
+                        {car.auctionGrade ? `Auction Grade: ${car.auctionGrade}` : "Auction Sheet Decode"}
                       </h3>
                       <p className="text-slate-400 text-sm leading-relaxed">
-                        Every vehicle we source includes a verified auction sheet. Our experts decode the technical shorthand to ensure the grade matches the actual condition.
+                        {car.dossierText || "Every vehicle we source includes a verified auction sheet. Our experts decode the technical shorthand to ensure the grade matches the actual condition."}
                       </p>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-center">
                         <p className="text-[10px] font-bold text-blue-400 uppercase mb-1">Mileage</p>
-                        <p className="font-bold text-lg">Verified</p>
+                        <p className="font-bold text-lg">{car.verifiedMileage || "Verified"}</p>
                       </div>
                       <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-center">
                         <p className="text-[10px] font-bold text-blue-400 uppercase mb-1">Accident</p>
-                        <p className="font-bold text-lg">None</p>
+                        <p className="font-bold text-lg">{car.accidentHistory || "None"}</p>
                       </div>
                     </div>
                   </div>

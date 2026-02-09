@@ -84,7 +84,7 @@ export default function Contact() {
       <div className="min-h-screen bg-background text-left">
         {/* Hero Section */}
         <section className="bg-card border-b">
-          <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
+          <div className="max-w-7xl mx-auto px-6 pt-24 pb-16 md:pt-32 md:pb-24">
             <div className="max-w-3xl">
               <h1 className="text-5xl md:text-6xl font-bold mb-6 uppercase">Contact Us</h1>
               <p className="text-xl text-muted-foreground leading-relaxed">

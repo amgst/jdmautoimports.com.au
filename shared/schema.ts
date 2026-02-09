@@ -35,6 +35,12 @@ export const cars = pgTable("cars", {
   badges: text("badges").array().default(sql`'{}'`),
   timelineTitles: text("timeline_titles").array().default(sql`'{}'`),
   timelineDescs: text("timeline_descs").array().default(sql`'{}'`),
+  // Verified Asset Dossier
+  auctionGrade: text("auction_grade"),
+  verifiedMileage: text("verified_mileage"),
+  accidentHistory: text("accident_history"),
+  dossierTitle: text("dossier_title"),
+  dossierText: text("dossier_text"),
 });
 
 // Custom URL validator that accepts both full URLs and relative paths
@@ -67,6 +73,11 @@ export const insertCarSchema = createInsertSchema(cars).omit({
   badges: z.array(z.string()).optional().nullable().default([]),
   timelineTitles: z.array(z.string()).optional().nullable().default([]),
   timelineDescs: z.array(z.string()).optional().nullable().default([]),
+  auctionGrade: z.string().optional().nullable(),
+  verifiedMileage: z.string().optional().nullable(),
+  accidentHistory: z.string().optional().nullable(),
+  dossierTitle: z.string().optional().nullable(),
+  dossierText: z.string().optional().nullable(),
 });
 
 export type InsertCar = z.infer<typeof insertCarSchema>;

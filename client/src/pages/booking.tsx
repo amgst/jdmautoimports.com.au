@@ -86,7 +86,7 @@ export default function Booking() {
                 title="Book an Inspection"
                 description="Schedule a professional viewing of your selected vehicle at our specialized facility. Specialized vehicle import service in Australia."
               />
-            <div className="py-16 md:py-24 bg-background min-h-screen">
+            <div className="pt-24 pb-16 md:pt-32 md:pb-24 bg-background min-h-screen">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="text-center mb-12">
                         <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter uppercase font-outfit">

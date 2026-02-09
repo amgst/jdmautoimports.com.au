@@ -86,7 +86,7 @@ export default function FindMeACar() {
                 title="Sourcing Service - Auto Import Specialists"
                 description="Can't find your dream car in our inventory? Let us source it directly from overseas. We handle auctions, shipping, and compliance."
             />
-            <div className="max-w-7xl mx-auto px-6 py-12">
+            <div className="max-w-7xl mx-auto px-6 pt-24 pb-12">
                 <div className="grid lg:grid-cols-2 gap-12 items-start text-left">
                     <div className="space-y-8">
                         <div>

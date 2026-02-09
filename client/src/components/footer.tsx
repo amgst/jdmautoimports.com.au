@@ -36,10 +36,10 @@ export function Footer() {
     setLogoError(false);
   }, [logoUrl]);
 
-  const websiteName = settings?.websiteName || "Auto Import Specialists";
-  const companyName = settings?.companyName || "Auto Import Specialists";
+  const websiteName = settings?.websiteName || "JDM Auto Import";
+  const companyName = settings?.companyName || "JDM Auto Import";
   const description = settings?.description || "We source, ship, and comply high-quality vehicles directly for you.";
-  const email = settings?.email || "info@example.com";
+  const email = settings?.email || "info@jdmautoimports.com.au";
   const phone = settings?.phone || "+61 400 000 000";
   const address = settings?.address || "Brisbane, Queensland, Australia";
   const facebookUrl = settings?.facebookUrl;

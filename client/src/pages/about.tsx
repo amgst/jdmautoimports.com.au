@@ -59,7 +59,7 @@ export default function About() {
         {/* Hero Section */}
         <section className="bg-card border-b relative overflow-hidden">
           <div className="absolute inset-0 bg-primary/5 pattern-grid opacity-20" />
-          <div className="max-w-7xl mx-auto px-6 py-16 md:py-24 relative z-10">
+          <div className="max-w-7xl mx-auto px-6 pt-24 pb-16 md:pt-32 md:pb-24 relative z-10">
             <div className="max-w-3xl">
               <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter uppercase">
                 About <span className="text-primary">{companyName}</span>
