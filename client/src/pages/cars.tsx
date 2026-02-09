@@ -151,7 +151,7 @@ export default function Cars() {
       />
       <div className="min-h-screen bg-background text-left">
         <div className="bg-card border-b">
-          <div className="max-w-7xl mx-auto px-6 py-12">
+          <div className="max-w-7xl mx-auto px-6 pt-24 pb-12">
             <h1 className="text-5xl font-bold mb-4 uppercase">Inventory</h1>
             <p className="text-lg text-muted-foreground">
               Browse vehicles sourced internationally for the Australian market
@@ -308,7 +308,7 @@ export default function Cars() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
                 {currentCars.map((car) => (
-                  <Link key={car.id} href={`/cars/${car.slug}`}>
+                  <Link key={car.id} href={`/inventory/${car.slug}`}>
                     <Card className="overflow-hidden hover-elevate active-elevate-2 cursor-pointer h-full border-2 hover:border-red-500 transition-colors">
                       <div className="aspect-[4/3] overflow-hidden">
                         <img

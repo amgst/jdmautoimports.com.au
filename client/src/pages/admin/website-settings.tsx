@@ -159,7 +159,7 @@ export default function WebsiteSettings() {
       heroSubtitle: "Your trusted gateway to global vehicle markets.",
       heroImage: "",
       heroButtonText: "View Inventory",
-      heroButtonLink: "/cars",
+      heroButtonLink: "/inventory",
       heroLearnMoreText: "Start Sourcing",
       heroLearnMoreLink: "/find-me-a-car",
 
@@ -233,7 +233,7 @@ export default function WebsiteSettings() {
         heroSubtitle: settings.heroSubtitle || "Experience luxury and performance with Australia's finest collection of imported and premium vehicles.",
         heroImage: settings.heroImage || "",
         heroButtonText: settings.heroButtonText || "View Inventory",
-        heroButtonLink: settings.heroButtonLink || "/cars",
+        heroButtonLink: settings.heroButtonLink || "/inventory",
         heroLearnMoreText: settings.heroLearnMoreText || "Start Sourcing",
         heroLearnMoreLink: settings.heroLearnMoreLink || "/find-me-a-car",
 
@@ -1143,7 +1143,7 @@ export default function WebsiteSettings() {
                           <FormItem>
                             <FormLabel>Button Link</FormLabel>
                             <FormControl>
-                              <Input placeholder="/cars" {...field} />
+                              <Input placeholder="/inventory" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -1671,12 +1671,12 @@ export default function WebsiteSettings() {
                       name="ctaButtonLink"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Button Link</FormLabel>
-                          <FormControl>
-                            <Input placeholder="/cars" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
+                            <FormLabel>Button Link</FormLabel>
+                            <FormControl>
+                              <Input placeholder="/inventory" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
                       )}
                     />
                   </div>

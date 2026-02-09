@@ -122,7 +122,7 @@ export default function CarDetail() {
       <div className="min-h-screen bg-background flex items-center justify-center text-left">
         <div className="text-center">
           <h2 className="text-3xl font-bold mb-6">Car not found</h2>
-          <Link href="/cars">
+          <Link href="/inventory">
             <Button variant="outline" className="rounded-xl">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Inventory
@@ -533,7 +533,7 @@ export default function CarDetail() {
                   </div>
                   <h2 className="text-4xl font-bold tracking-tight">Similar Imports</h2>
                 </div>
-                <Link href="/cars">
+                <Link href="/inventory">
                   <Button variant="ghost" className="font-bold group">
                     View All Inventory
                     <ChevronRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -543,7 +543,7 @@ export default function CarDetail() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {similarCars.map((c) => (
-                  <Link key={c.id} href={`/cars/${c.slug}`}>
+                  <Link key={c.id} href={`/inventory/${c.slug}`}>
                     <Card className="overflow-hidden group cursor-pointer border-0 shadow-lg hover:shadow-2xl transition-all duration-500 rounded-3xl">
                       <div className="aspect-[4/3] overflow-hidden relative">
                         <img

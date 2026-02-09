@@ -69,7 +69,7 @@ export default function Home() {
         description="We source, ship, and comply high-quality vehicles directly for you. Professional concierge and compliance services."
       />
       <div className="text-left overflow-x-hidden">
-        <section className="relative h-[95vh] min-h-[700px] flex items-center justify-center overflow-hidden">
+        <section className="relative min-h-[90vh] flex flex-col items-center justify-start md:justify-center pt-12 md:pt-0 pb-12 overflow-hidden">
           <motion.div
             initial={{ scale: 1.1, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -235,7 +235,7 @@ export default function Home() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {featuredCars.map((car) => (
-                  <Link key={car.id} href={`/cars/${car.slug}`}>
+                  <Link key={car.id} href={`/inventory/${car.slug}`}>
                     <Card className="overflow-hidden hover-elevate active-elevate-2 cursor-pointer h-full border-2 hover:border-red-500 transition-colors">
                       <div className="aspect-[4/3] overflow-hidden">
                         <img
@@ -288,7 +288,7 @@ export default function Home() {
             )}
 
             <div className="text-center mt-12">
-              <Link href="/cars">
+              <Link href="/inventory">
                 <Button size="lg" variant="outline" className="px-8 font-bold">
                   View Full Inventory
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -341,9 +341,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-16 md:py-24 px-6 bg-background">
+        <section className="py-16 md:py-24 px-4 md:px-6 bg-background">
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 text-center">
               <div className="p-6 rounded-2xl bg-gradient-to-b from-card/50 to-background/50 backdrop-blur-sm border border-border/30 transition-all duration-300 hover:scale-105 hover:shadow-lg">
                 <div className="text-6xl font-black text-primary mb-2">10+</div>
                 <div className="text-sm uppercase font-bold tracking-widest text-muted-foreground">Years Experience</div>
@@ -431,7 +431,7 @@ export default function Home() {
                   Start Sourcing Request
                 </Button>
               </Link>
-              <Link href="/cars">
+              <Link href="/inventory">
                 <Button
                   size="lg"
                   variant="outline"

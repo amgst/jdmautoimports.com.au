@@ -89,7 +89,7 @@ export default function About() {
                   curated concierge service that handles everything from the initial bid to the final delivery.
                 </p>
                 <div className="flex gap-4">
-                  <Link href="/cars">
+                  <Link href="/inventory">
                     <Button size="lg" className="px-8 font-bold shadow-lg shadow-primary/20">
                       View Inventory
                       <ArrowRight className="ml-2 h-5 w-5" />

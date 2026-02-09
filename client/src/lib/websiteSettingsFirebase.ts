@@ -100,7 +100,7 @@ export const defaultWebsiteSettings: WebsiteSettings = {
   heroSubtitle: "Your trusted gateway to global vehicle markets.",
   heroImage: "", // Will fall back to default if empty
   heroButtonText: "View Inventory",
-  heroButtonLink: "/cars",
+  heroButtonLink: "/inventory",
   heroLearnMoreText: "Start Sourcing",
   heroLearnMoreLink: "/find-me-a-car",
 
