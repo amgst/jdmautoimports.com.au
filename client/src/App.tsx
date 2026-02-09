@@ -120,8 +120,8 @@ function PublicRouter() {
       <main className="flex-1 pt-16">
         <Switch>
           <Route path="/" component={Home} />
-          <Route path="/cars" component={Cars} />
-          <Route path="/cars/:slug" component={CarDetail} />
+          <Route path="/inventory" component={Cars} />
+          <Route path="/inventory/:slug" component={CarDetail} />
           <Route path="/find-me-a-car" component={FindMeACar} />
           <Route path="/booking" component={Booking} />
           <Route path="/about" component={About} />

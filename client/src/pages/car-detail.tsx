@@ -154,7 +154,7 @@ export default function CarDetail() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.5 }}
             >
-              <Link href="/cars">
+              <Link href="/inventory">
                 <Button
                   variant="outline"
                   className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/20 rounded-xl"

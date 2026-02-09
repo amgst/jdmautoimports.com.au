@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getWebsiteSettings } from "@/lib/websiteSettingsFirebase";
+import { getWebsiteSettings, defaultWebsiteSettings } from "@/lib/websiteSettingsFirebase";
 
 /**
  * Hook to fetch website settings and update HTML head elements
@@ -76,8 +76,11 @@ export function useWebsiteSettings() {
     }
   }, [settings]);
 
+  // Ensure we always return a valid settings object, falling back to defaults if loading or undefined
+  const finalSettings = settings || defaultWebsiteSettings;
+
   return {
-    ...settings,
+    ...finalSettings,
     isLoading
   };
 }

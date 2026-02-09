@@ -108,7 +108,7 @@ export function Footer() {
             <h3 className="text-base sm:text-lg font-bold uppercase tracking-wider text-foreground">Services</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/cars" className="text-muted-foreground hover:text-primary transition-colors font-medium">
+                <Link href="/inventory" className="text-muted-foreground hover:text-primary transition-colors font-medium">
                   Inventory
                 </Link>
               </li>

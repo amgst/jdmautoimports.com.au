@@ -22,8 +22,10 @@ import { Fuel, Settings, Users as SeatsIcon, Search, SlidersHorizontal, ArrowUpA
 import { getAllCarsFirebase } from "@/lib/carsFirebase";
 import { getThumbnailUrl } from "@/lib/imageUtils";
 import { SEO } from "@/components/seo";
+import { useWebsiteSettings } from "@/hooks/use-website-settings";
 
 export default function Cars() {
+  const settings = useWebsiteSettings();
   // Initialize filters from URL parameters
   const getInitialFilters = () => {
     if (typeof window === "undefined") {

@@ -190,7 +190,7 @@ export default function CarsList() {
                       </TableCell>
                       <TableCell className="text-right pr-6" onClick={(e) => e.stopPropagation()}>
                         <div className="flex items-center justify-end gap-2">
-                          <Link href={`/cars/${car.slug}`} target="_blank">
+                          <Link href={`/inventory/${car.slug}`} target="_blank">
                             <Button size="icon" variant="ghost" data-testid={`button-view-${car.id}`} className="hover:bg-blue-50 hover:text-blue-600 rounded-lg">
                               <Eye className="h-4 w-4" />
                             </Button>

@@ -107,7 +107,7 @@ export default function Home() {
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center mb-16 w-full max-w-md sm:max-w-none">
-              <Link href="/cars">
+              <Link href="/inventory">
                 <Button
                   size="lg"
                   className="w-full sm:w-auto px-8 py-6 text-base font-bold bg-primary text-primary-foreground border-0 shadow-2xl hover:scale-105 transition-all group relative overflow-hidden"
@@ -170,7 +170,7 @@ export default function Home() {
                       const params = new URLSearchParams();
                       if (heroCategory !== "all") params.set("category", heroCategory);
                       if (heroTransmission !== "all") params.set("transmission", heroTransmission);
-                      return `/cars${params.toString() ? `?${params.toString()}` : ""}`;
+                      return `/inventory${params.toString() ? `?${params.toString()}` : ""}`;
                     })()} className="h-full">
                       <Button className="w-full h-12 md:h-12 font-semibold text-base rounded-xl md:rounded-2xl shadow-sm bg-black text-white hover:bg-black/90" size="lg">
                         <Search className="mr-2 h-5 w-5" />

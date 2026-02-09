@@ -79,7 +79,7 @@ export interface WebsiteSettings {
   maintenanceMode?: boolean;
 }
 
-const defaultWebsiteSettings: WebsiteSettings = {
+export const defaultWebsiteSettings: WebsiteSettings = {
   websiteName: "Auto Import Specialists",
   logo: "",
   favicon: "/favicon.png",
