@@ -182,6 +182,7 @@ export function Footer() {
           <div className="flex gap-6 text-xs sm:text-sm text-muted-foreground">
             <Link href="/terms" className="hover:text-primary transition-colors font-medium">Terms</Link>
             <Link href="/privacy" className="hover:text-primary transition-colors font-medium">Privacy</Link>
+            <a href="https://vancegraphix.com.au/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors font-medium">Developed by VGP</a>
           </div>
         </div>
       </div>
