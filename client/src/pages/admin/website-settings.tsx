@@ -192,7 +192,7 @@ export default function WebsiteSettings() {
       testimonialsSubtitle: "Hear from those who have experienced our premium service",
       testimonial1Name: "James Davidson",
       testimonial1Role: "Car Enthusiast",
-      testimonial1Content: "Outstanding service! My GTR was in perfect condition upon arrival, and the compliance process was seamless. JDM Auto Import made the whole process incredibly easy.",
+      testimonial1Content: "Outstanding service! My GTR was in perfect condition upon arrival, and the compliance process was seamless. Auto Import Specialists made the whole process incredibly easy.",
       testimonial2Name: "Sarah Martinez",
       testimonial2Role: "Supra Owner",
       testimonial2Content: "Sourced my dream Supra through them. Transparent pricing and great communication throughout the shipping process. Highly recommend!",
@@ -229,8 +229,8 @@ export default function WebsiteSettings() {
         metaKeywords: settings.metaKeywords || "",
 
         // Hero
-        heroTitle: settings.heroTitle || "JDM Auto Imports",
-        heroSubtitle: settings.heroSubtitle || "Experience luxury and performance with Australia's finest collection of JDM and premium vehicles.",
+        heroTitle: settings.heroTitle || "Auto Import Specialists",
+        heroSubtitle: settings.heroSubtitle || "Experience luxury and performance with Australia's finest collection of imported and premium vehicles.",
         heroImage: settings.heroImage || "",
         heroButtonText: settings.heroButtonText || "View Inventory",
         heroButtonLink: settings.heroButtonLink || "/cars",
@@ -243,9 +243,9 @@ export default function WebsiteSettings() {
 
         // How It Works
       howItWorksTitle: settings.howItWorksTitle || "How It Works",
-      howItWorksSubtitle: settings.howItWorksSubtitle || "Importing your dream JDM car is simple and transparent",
+      howItWorksSubtitle: settings.howItWorksSubtitle || "Importing your dream car is simple and transparent",
       howItWorksStep1Title: settings.howItWorksStep1Title || "Choose Your Car",
-        howItWorksStep1Description: settings.howItWorksStep1Description || "We help you find the perfect car at Japanese auctions and handle the bidding process",
+        howItWorksStep1Description: settings.howItWorksStep1Description || "We help you find the perfect car at international auctions and handle the bidding process",
         howItWorksStep2Title: settings.howItWorksStep2Title || "Shipping & Transit",
         howItWorksStep2Description: settings.howItWorksStep2Description || "We manage international logistics, insurance, and arrival at Australian ports",
         howItWorksStep3Title: settings.howItWorksStep3Title || "Compliance & Delivery",
@@ -266,7 +266,7 @@ export default function WebsiteSettings() {
       testimonialsSubtitle: settings.testimonialsSubtitle || "Hear from those who have experienced our premium service",
       testimonial1Name: settings.testimonial1Name || "James Davidson",
       testimonial1Role: settings.testimonial1Role || "Car Enthusiast",
-      testimonial1Content: settings.testimonial1Content || "Outstanding service! My GTR was in perfect condition upon arrival, and the compliance process was seamless. JDM Auto Import made the whole process incredibly easy.",
+      testimonial1Content: settings.testimonial1Content || "Outstanding service! My vehicle was in perfect condition upon arrival, and the compliance process was seamless. Auto Import Specialists made the whole process incredibly easy.",
       testimonial2Name: settings.testimonial2Name || "Sarah Martinez",
       testimonial2Role: settings.testimonial2Role || "Supra Owner",
       testimonial2Content: settings.testimonial2Content || "Sourced my dream Supra through them. Transparent pricing and great communication throughout the shipping process. Highly recommend!",
@@ -875,7 +875,7 @@ export default function WebsiteSettings() {
                         <FormLabel>Description</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Specialized JDM import service bringing the best Japanese vehicles to Australia..."
+                            placeholder="Specialized vehicle import service bringing the best international vehicles to Australia..."
                             rows={4}
                             {...field}
                           />
@@ -1033,7 +1033,7 @@ export default function WebsiteSettings() {
                       <FormItem>
                         <FormLabel>Hero Title</FormLabel>
                         <FormControl>
-                          <Input placeholder="JDM Auto Imports" {...field} />
+                          <Input placeholder="Auto Import Specialists" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -1215,7 +1215,7 @@ export default function WebsiteSettings() {
                       <FormItem>
                         <FormLabel>Section Subtitle</FormLabel>
                         <FormControl>
-                          <Input placeholder="Discover our latest JDM imports and auction finds" {...field} />
+                          <Input placeholder="Discover our latest imports and auction finds" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -1254,7 +1254,7 @@ export default function WebsiteSettings() {
                         <FormItem>
                           <FormLabel>Section Subtitle</FormLabel>
                           <FormControl>
-                            <Input placeholder="Importing your dream JDM car is simple and transparent" {...field} />
+                            <Input placeholder="Importing your dream car is simple and transparent" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -1284,7 +1284,7 @@ export default function WebsiteSettings() {
                         <FormItem>
                           <FormLabel>Description</FormLabel>
                           <FormControl>
-                            <Input placeholder="We find your dream car at Japanese auctions..." {...field} />
+                            <Input placeholder="We find your dream car at international auctions..." {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -1646,7 +1646,7 @@ export default function WebsiteSettings() {
                       <FormItem>
                         <FormLabel>Subtitle</FormLabel>
                           <FormControl>
-                            <Input placeholder="Start sourcing your dream JDM car today..." {...field} />
+                            <Input placeholder="Start sourcing your dream car today..." {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -1697,9 +1697,9 @@ export default function WebsiteSettings() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Meta Description</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Specialist JDM car importer offering direct auction access..."
+                          <FormControl>
+                            <Textarea
+                            placeholder="Specialist vehicle importer offering direct auction access..."
                             rows={3}
                             {...field}
                           />

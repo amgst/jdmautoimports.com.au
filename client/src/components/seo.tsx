@@ -73,7 +73,7 @@ export function SEO({ title, description, image, type = "website", noindex = fal
     const ogDesc = description || settings.metaDescription || settings.description || "";
     const defaultOgImage =
       getAbsoluteUrl(settings.logo) ||
-      "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=1200&q=80"; // Updated to a more JDM-style car image
+      "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=1200&q=80"; // Updated to a more import-style car image
     const ogImage = getAbsoluteUrl(image) || defaultOgImage;
 
     const updateOGTag = (property: string, content: string) => {

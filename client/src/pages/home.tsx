@@ -314,7 +314,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-3">1. Sourcing</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  We scout auctions and dealers across Japan to find the highest-grade vehicles that meet Australian import standards.
+                  We scout auctions and dealers across international markets to find the highest-grade vehicles that meet Australian import standards.
                 </p>
               </div>
 

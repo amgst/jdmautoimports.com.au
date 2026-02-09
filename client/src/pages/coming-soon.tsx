@@ -109,15 +109,15 @@ export default function ComingSoon() {
     useEffect(() => {
         if (score > highScore) {
             setHighScore(score);
-            localStorage.setItem("jdm_high_score", score.toString());
+            localStorage.setItem("import_high_score", score.toString());
         }
     }, [score, highScore]);
 
     return (
         <>
             <SEO
-                title="Under Maintenance - JDM Auto Imports Australia"
-                description="Our JDM experts are currently updating the site for a better experience. We'll be back online soon with premium Japanese imports."
+                title="Under Maintenance - Auto Import Specialists Australia"
+                description="Our import experts are currently updating the site for a better experience. We'll be back online soon with premium vehicle imports."
             />
             <div className="min-h-screen bg-neutral-950 text-white flex flex-col items-center justify-center p-6 relative overflow-hidden text-left">
                 {/* Background decoration */}
