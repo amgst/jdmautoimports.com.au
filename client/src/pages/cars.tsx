@@ -144,8 +144,8 @@ export default function Cars() {
   return (
     <>
       <SEO
-        title="Inventory - JDM Auto Imports Australia"
-        description="Browse our high-quality JDM vehicles ready for import to Australia. JDM Auto Imports Australia specializes in sourcing, shipping, and compliance for Japanese performance cars."
+        title="Inventory - JDM Auto Import"
+        description="Browse our high-quality JDM vehicles ready for import to Australia. JDM Auto Import specializes in sourcing, shipping, and compliance for Japanese performance cars."
       />
       <div className="min-h-screen bg-background text-left">
         <div className="bg-card border-b">

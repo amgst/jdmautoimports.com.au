@@ -78,8 +78,8 @@ export default function Contact() {
   return (
     <>
       <SEO
-        title={`Contact Us - ${settings?.websiteName || "JDM Auto Imports"}`}
-        description="Get in touch with Australia's JDM import specialists. We're here to help with your sourcing, shipping, and compliance needs."
+        title={`Contact Us - ${settings?.websiteName || "JDM Auto Import"}`}
+        description="Get in touch with JDM Auto Import specialists. We're here to help with your sourcing, shipping, and compliance needs."
       />
       <div className="min-h-screen bg-background text-left">
         {/* Hero Section */}

@@ -36,9 +36,9 @@ export function Footer() {
     setLogoError(false);
   }, [logoUrl]);
 
-  const websiteName = settings?.websiteName || "JDM Auto Imports Australia";
-  const companyName = settings?.companyName || "JDM Auto Imports Australia";
-  const description = settings?.description || "Australia's specialist in direct JDM imports. We source, ship, and comply high-quality Japanese vehicles directly for you.";
+  const websiteName = settings?.websiteName || "JDM Auto Import";
+  const companyName = settings?.companyName || "JDM Auto Import";
+  const description = settings?.description || "We source, ship, and comply high-quality vehicles directly for you.";
   const email = settings?.email || "info@jdmautoimports.com.au";
   const phone = settings?.phone || "+61 400 000 000";
   const address = settings?.address || "Brisbane, Queensland, Australia";

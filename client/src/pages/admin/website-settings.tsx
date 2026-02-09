@@ -139,24 +139,24 @@ export default function WebsiteSettings() {
   const form = useForm<WebsiteSettingsForm>({
     resolver: zodResolver(websiteSettingsSchema),
     defaultValues: {
-      websiteName: "JDM Auto Imports Australia",
+      websiteName: "JDM Auto Import",
       logo: "",
       favicon: "/favicon.png",
-      companyName: "JDM Auto Imports Australia",
+      companyName: "JDM Auto Import",
       email: "info@jdmautoimports.com.au",
       phone: "+61 400 000 000",
       address: "Brisbane, QLD, Australia",
-      description: "Australia's premier JDM import specialist. We source high-quality Japanese performance cars, handling everything from auction to compliance and delivery.",
+      description: "We source high-quality performance cars, handling everything from auction to compliance and delivery.",
       facebookUrl: "",
       xUrl: "",
       instagramUrl: "",
       linkedinUrl: "",
-      metaDescription: "Direct JDM imports to Australia. Specialist sourcing for GTR, Skyline, Supra, and more. Full compliance handling and Australia-wide delivery.",
-      metaKeywords: "JDM imports Australia, Japanese car imports, GTR import Sydney, Skyline import Brisbane, JDM concierge service",
+      metaDescription: "Direct JDM imports. Specialist sourcing for GTR, Skyline, Supra, and more. Full compliance handling and Australia-wide delivery.",
+      metaKeywords: "JDM imports Australia, car imports, GTR import Sydney, Skyline import Brisbane, import concierge service",
 
       // Hero Defaults
       heroTitle: "Direct JDM Imports",
-      heroSubtitle: "Australia's trusted gateway to the finest Japanese performance and classic vehicles.",
+      heroSubtitle: "Your trusted gateway to global vehicle markets.",
       heroImage: "",
       heroButtonText: "View Inventory",
       heroButtonLink: "/cars",
@@ -191,11 +191,11 @@ export default function WebsiteSettings() {
       testimonialsTitle: "What Our Customers Say",
       testimonialsSubtitle: "Hear from those who have experienced our premium service",
       testimonial1Name: "James Davidson",
-      testimonial1Role: "Business Executive",
-      testimonial1Content: "Outstanding service! The Tesla Model 3 was in perfect condition, and the booking process was seamless. JDM Auto Imports made my business trip incredibly convenient.",
+      testimonial1Role: "Car Enthusiast",
+      testimonial1Content: "Outstanding service! My GTR was in perfect condition upon arrival, and the compliance process was seamless. JDM Auto Import made the whole process incredibly easy.",
       testimonial2Name: "Sarah Martinez",
-      testimonial2Role: "Family Traveler",
-      testimonial2Content: "We rented the BMW X5 for our family vacation and it was perfect! Spacious, comfortable, and the customer support was fantastic. Highly recommend!",
+      testimonial2Role: "Supra Owner",
+      testimonial2Content: "Sourced my dream Supra through them. Transparent pricing and great communication throughout the shipping process. Highly recommend!",
 
       // CTA Defaults
       ctaTitle: "Ready to Start Your Import Project?",
@@ -232,24 +232,24 @@ export default function WebsiteSettings() {
         heroTitle: settings.heroTitle || "JDM Auto Imports",
         heroSubtitle: settings.heroSubtitle || "Experience luxury and performance with Australia's finest collection of JDM and premium vehicles.",
         heroImage: settings.heroImage || "",
-        heroButtonText: settings.heroButtonText || "Browse Our Fleet",
+        heroButtonText: settings.heroButtonText || "View Inventory",
         heroButtonLink: settings.heroButtonLink || "/cars",
-        heroLearnMoreText: settings.heroLearnMoreText || "Learn More",
-        heroLearnMoreLink: settings.heroLearnMoreLink || "#features",
+        heroLearnMoreText: settings.heroLearnMoreText || "Start Sourcing",
+        heroLearnMoreLink: settings.heroLearnMoreLink || "/find-me-a-car",
 
         // Featured
         featuredTitle: settings.featuredTitle || "Featured Vehicles",
         featuredSubtitle: settings.featuredSubtitle || "Discover our most popular luxury and performance cars",
 
         // How It Works
-        howItWorksTitle: settings.howItWorksTitle || "How It Works",
-        howItWorksSubtitle: settings.howItWorksSubtitle || "Renting a car has never been easier",
-        howItWorksStep1Title: settings.howItWorksStep1Title || "Choose Your Car",
-        howItWorksStep1Description: settings.howItWorksStep1Description || "Browse our extensive fleet and select the perfect vehicle for your needs",
-        howItWorksStep2Title: settings.howItWorksStep2Title || "Book Online",
-        howItWorksStep2Description: settings.howItWorksStep2Description || "Complete your reservation quickly and securely through our platform",
-        howItWorksStep3Title: settings.howItWorksStep3Title || "Hit the Road",
-        howItWorksStep3Description: settings.howItWorksStep3Description || "Pick up your vehicle and enjoy your journey with confidence",
+      howItWorksTitle: settings.howItWorksTitle || "How It Works",
+      howItWorksSubtitle: settings.howItWorksSubtitle || "Importing your dream JDM car is simple and transparent",
+      howItWorksStep1Title: settings.howItWorksStep1Title || "Choose Your Car",
+        howItWorksStep1Description: settings.howItWorksStep1Description || "We help you find the perfect car at Japanese auctions and handle the bidding process",
+        howItWorksStep2Title: settings.howItWorksStep2Title || "Shipping & Transit",
+        howItWorksStep2Description: settings.howItWorksStep2Description || "We manage international logistics, insurance, and arrival at Australian ports",
+        howItWorksStep3Title: settings.howItWorksStep3Title || "Compliance & Delivery",
+        howItWorksStep3Description: settings.howItWorksStep3Description || "Full RAWS compliance and registration before delivering to your door",
 
         // Stats
         stats1Value: settings.stats1Value || "1000+",
@@ -262,20 +262,20 @@ export default function WebsiteSettings() {
         stats4Label: settings.stats4Label || "Support",
 
         // Testimonials
-        testimonialsTitle: settings.testimonialsTitle || "What Our Customers Say",
-        testimonialsSubtitle: settings.testimonialsSubtitle || "Hear from those who have experienced our premium service",
-        testimonial1Name: settings.testimonial1Name || "James Davidson",
-        testimonial1Role: settings.testimonial1Role || "Business Executive",
-        testimonial1Content: settings.testimonial1Content || "Outstanding service! The Tesla Model 3 was in perfect condition, and the booking process was seamless. JDM Auto Imports made my business trip incredibly convenient.",
-        testimonial2Name: settings.testimonial2Name || "Sarah Martinez",
-        testimonial2Role: settings.testimonial2Role || "Family Traveler",
-        testimonial2Content: settings.testimonial2Content || "We rented the BMW X5 for our family vacation and it was perfect! Spacious, comfortable, and the customer support was fantastic. Highly recommend!",
+      testimonialsTitle: settings.testimonialsTitle || "What Our Customers Say",
+      testimonialsSubtitle: settings.testimonialsSubtitle || "Hear from those who have experienced our premium service",
+      testimonial1Name: settings.testimonial1Name || "James Davidson",
+      testimonial1Role: settings.testimonial1Role || "Car Enthusiast",
+      testimonial1Content: settings.testimonial1Content || "Outstanding service! My GTR was in perfect condition upon arrival, and the compliance process was seamless. JDM Auto Import made the whole process incredibly easy.",
+      testimonial2Name: settings.testimonial2Name || "Sarah Martinez",
+      testimonial2Role: settings.testimonial2Role || "Supra Owner",
+      testimonial2Content: settings.testimonial2Content || "Sourced my dream Supra through them. Transparent pricing and great communication throughout the shipping process. Highly recommend!",
 
         // CTA
-        ctaTitle: settings.ctaTitle || "Ready to Start Your Journey?",
-        ctaSubtitle: settings.ctaSubtitle || "Book your premium vehicle today and experience the road like never before",
-        ctaButtonText: settings.ctaButtonText || "Book Now",
-        ctaButtonLink: settings.ctaButtonLink || "/cars",
+      ctaTitle: settings.ctaTitle || "Ready to Start Your Journey?",
+      ctaSubtitle: settings.ctaSubtitle || "Find your dream vehicle today and experience the road like never before",
+      ctaButtonText: settings.ctaButtonText || "Start Sourcing",
+      ctaButtonLink: settings.ctaButtonLink || "/find-me-a-car",
 
         // Pages
         termsAndConditions: settings.termsAndConditions || "",
@@ -374,7 +374,7 @@ export default function WebsiteSettings() {
         description: "Website settings saved successfully",
       });
       // Update document title if available
-      document.title = `${data.websiteName} - JDM Auto Imports`;
+      document.title = `${data.websiteName} - JDM Auto Import`;
     },
     onError: (error: unknown) => {
       console.error("Error saving website settings:", error);

@@ -83,7 +83,7 @@ export default function FindMeACar() {
     return (
         <>
             <SEO
-                title="Sourcing Service - JDM Auto Imports Australia"
+                title="Sourcing Service - JDM Auto Import"
                 description="Can't find your dream car in our inventory? Let us source it directly from Japan. We handle auctions, shipping, and compliance."
             />
             <div className="max-w-7xl mx-auto px-6 py-12">

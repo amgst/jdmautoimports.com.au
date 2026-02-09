@@ -80,29 +80,29 @@ export interface WebsiteSettings {
 }
 
 const defaultWebsiteSettings: WebsiteSettings = {
-  websiteName: "JDM Auto Imports",
+  websiteName: "JDM Auto Import",
   logo: "",
   favicon: "/favicon.png",
-  companyName: "JDM Auto Imports",
-  email: "info@premiumcarrentals.com.au",
-  phone: "+61 2 9999 8888",
-  address: "123 Premium Street, Sydney, NSW 2000, Australia",
-  description: "Australia's premier car rental service offering luxury vehicles, premium sedans, SUVs, and sports cars. Book your perfect vehicle for your Australian adventure with exceptional service and competitive rates.",
+  companyName: "JDM Auto Import",
+  email: "info@jdmautoimports.com.au",
+  phone: "+61 400 000 000",
+  address: "Brisbane, QLD, Australia",
+  description: "We source high-quality performance cars, handling everything from auction to compliance and delivery.",
   facebookUrl: "",
   xUrl: "",
   instagramUrl: "",
   linkedinUrl: "",
-  metaDescription: "JDM Auto Imports offers premium JDM and luxury car rentals in Australia. Choose from our exclusive fleet of Japanese imports and high-performance vehicles.",
-  metaKeywords: "JDM imports, car rental Australia, luxury car hire Australia, JDM Auto Imports, Japanese car rental Sydney, performance car hire Melbourne",
+  metaDescription: "Direct JDM imports. Specialist sourcing for GTR, Skyline, Supra, and more. Full compliance handling and Australia-wide delivery.",
+  metaKeywords: "JDM imports Australia, car imports, GTR import Sydney, Skyline import Brisbane, import concierge service",
 
   // Hero Defaults
-  heroTitle: "JDM Auto Imports",
-  heroSubtitle: "Experience luxury and performance with Australia's finest collection of premium vehicles.",
+  heroTitle: "Direct JDM Imports",
+  heroSubtitle: "Your trusted gateway to global vehicle markets.",
   heroImage: "", // Will fall back to default if empty
-  heroButtonText: "Browse Our Fleet",
+  heroButtonText: "View Inventory",
   heroButtonLink: "/cars",
-  heroLearnMoreText: "Learn More",
-  heroLearnMoreLink: "#features",
+  heroLearnMoreText: "Start Sourcing",
+  heroLearnMoreLink: "/find-me-a-car",
 
   // Featured Defaults
   featuredTitle: "Featured Vehicles",
@@ -110,21 +110,21 @@ const defaultWebsiteSettings: WebsiteSettings = {
 
   // How It Works Defaults
   howItWorksTitle: "How It Works",
-  howItWorksSubtitle: "Renting a car has never been easier",
-  howItWorksStep1Title: "Choose Your Car",
-  howItWorksStep1Description: "Browse our extensive fleet and select the perfect vehicle for your needs",
-  howItWorksStep2Title: "Book Online",
-  howItWorksStep2Description: "Complete your reservation quickly and securely through our platform",
-  howItWorksStep3Title: "Hit the Road",
-  howItWorksStep3Description: "Pick up your vehicle and enjoy your journey with confidence",
+  howItWorksSubtitle: "Importing your dream car is simple and transparent",
+  howItWorksStep1Title: "Source & Bid",
+  howItWorksStep1Description: "We help you find the perfect car at auctions and handle the bidding process",
+  howItWorksStep2Title: "Shipping & Transit",
+  howItWorksStep2Description: "We manage international logistics, insurance, and arrival at Australian ports",
+  howItWorksStep3Title: "Compliance & Delivery",
+  howItWorksStep3Description: "Full compliance and registration before delivering to your door",
 
   // Stats Defaults
-  stats1Value: "1000+",
-  stats1Label: "Happy Customers",
-  stats2Value: "50+",
-  stats2Label: "Premium Vehicles",
-  stats3Value: "5",
-  stats3Label: "Locations",
+  stats1Value: "500+",
+  stats1Label: "Vehicles Sourced",
+  stats2Value: "100%",
+  stats2Label: "Compliance Rate",
+  stats3Value: "20+",
+  stats3Label: "Auction Tiers",
   stats4Value: "24/7",
   stats4Label: "Support",
 
@@ -132,21 +132,21 @@ const defaultWebsiteSettings: WebsiteSettings = {
   testimonialsTitle: "What Our Customers Say",
   testimonialsSubtitle: "Hear from those who have experienced our premium service",
   testimonial1Name: "James Davidson",
-  testimonial1Role: "Business Executive",
-  testimonial1Content: "Outstanding service! The Tesla Model 3 was in perfect condition, and the booking process was seamless. JDM Auto Imports made my business trip incredibly convenient.",
+  testimonial1Role: "Car Enthusiast",
+  testimonial1Content: "Outstanding service! My GTR was in perfect condition upon arrival, and the compliance process was seamless. JDM Auto Import made the whole process incredibly easy.",
   testimonial2Name: "Sarah Martinez",
-  testimonial2Role: "Family Traveler",
-  testimonial2Content: "We rented the BMW X5 for our family vacation and it was perfect! Spacious, comfortable, and the customer support was fantastic. Highly recommend!",
+  testimonial2Role: "Supra Owner",
+  testimonial2Content: "Sourced my dream Supra through them. Transparent pricing and great communication throughout the shipping process. Highly recommend!",
 
   // CTA Defaults
   ctaTitle: "Ready to Start Your Journey?",
-  ctaSubtitle: "Book your premium vehicle today and experience the road like never before",
-  ctaButtonText: "Book Now",
-  ctaButtonLink: "/cars",
+  ctaSubtitle: "Find your dream vehicle today and experience the road like never before",
+  ctaButtonText: "Start Sourcing",
+  ctaButtonLink: "/find-me-a-car",
 
   // Pages Defaults
   termsAndConditions: `## Agreement to Terms
-By accessing our website and using our car rental services, you agree to be bound by these Terms and Conditions and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site.
+By accessing our website and using our vehicle import services, you agree to be bound by these Terms and Conditions and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site.
 
 ## 1. Use License
 Permission is granted to temporarily view the materials (information or software) on our website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:
@@ -219,8 +219,8 @@ export async function saveWebsiteSettings(
     });
 
     // Ensure core fields have defaults if empty
-    dataToSave.websiteName = dataToSave.websiteName || "JDM Auto Imports";
-    dataToSave.companyName = dataToSave.companyName || "JDM Auto Imports";
+    dataToSave.websiteName = dataToSave.websiteName || "JDM Auto Import";
+    dataToSave.companyName = dataToSave.companyName || "JDM Auto Import";
     dataToSave.favicon = dataToSave.favicon || "/favicon.png";
     dataToSave.maintenanceMode = !!dataToSave.maintenanceMode;
 

@@ -17,7 +17,7 @@ export default function Terms() {
     return (
         <>
             <SEO
-                title="Terms and Conditions - JDM Auto Imports Australia"
+                title="Terms and Conditions - JDM Auto Import"
                 description="Read our terms and conditions for importing high-quality JDM vehicles to Australia. Professional sourcing, shipping, and compliance services."
             />
             <div className="min-h-screen bg-background pt-24 pb-12 text-left">

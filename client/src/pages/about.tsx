@@ -17,7 +17,7 @@ import { SEO } from "@/components/seo";
 
 export default function About() {
   const { isLoading, ...settings } = useWebsiteSettings();
-  const websiteName = settings?.websiteName || "JDM Auto Imports Australia";
+  const websiteName = settings?.websiteName || "JDM Auto Import";
   const companyName = settings?.companyName || websiteName;
   const values = [
     {
@@ -53,7 +53,7 @@ export default function About() {
     <>
       <SEO
         title={`About - ${websiteName}`}
-        description={`Learn more about ${websiteName}, Australia's premier direct JDM import specialist. Bridging the gap between the Japanese car scene and Australian enthusiasts.`}
+        description={`Learn more about ${websiteName}, a direct JDM import specialist. Bridging the gap between the Japanese car scene and Australian enthusiasts.`}
       />
       <div className="min-h-screen bg-background text-left">
         {/* Hero Section */}
@@ -65,7 +65,7 @@ export default function About() {
                 About <span className="text-primary">{companyName}</span>
               </h1>
               <p className="text-xl text-muted-foreground leading-relaxed font-medium">
-                We are Australia's premier direct JDM import specialist. Our mission is to bridge the gap
+                We are a direct JDM import specialist. Our mission is to bridge the gap
                 between the legendary Japanese car scene and Australian enthusiasts, providing a seamless,
                 transparent, and professional importing experience.
               </p>

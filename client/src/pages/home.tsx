@@ -38,7 +38,7 @@ export default function Home() {
     queryFn: getAllCarsFirebase,
   });
   const { isLoading: isSettingsLoading, ...settings } = useWebsiteSettings();
-  const websiteName = settings?.websiteName || "JDM Auto Imports Australia";
+  const websiteName = settings?.websiteName || "JDM Auto Import";
 
   const featuredCars = cars?.slice(0, 3) || [];
 
@@ -65,8 +65,8 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Direct JDM Imports to Australia - JDM Auto Imports Australia"
-        description="JDM Auto Imports Australia is Australia's premier JDM import specialist. We source, ship, and comply high-quality Japanese vehicles directly for you. Professional concierge and compliance services."
+        title="Direct JDM Imports to Australia - JDM Auto Import"
+        description="We source, ship, and comply high-quality vehicles directly for you. Professional concierge and compliance services."
       />
       <div className="text-left overflow-x-hidden">
         <section className="relative h-[95vh] min-h-[700px] flex items-center justify-center overflow-hidden">
@@ -88,7 +88,7 @@ export default function Home() {
           >
             <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 border border-white/30 backdrop-blur-md text-white text-xs font-bold uppercase tracking-widest mb-6">
               <Star className="h-3 w-3 fill-white text-white" />
-              <span>Australia's #1 JDM Importer</span>
+              <span>Direct Vehicle Imports</span>
             </motion.div>
 
             <motion.h1 
@@ -103,7 +103,7 @@ export default function Home() {
               variants={itemVariants}
               className="text-lg md:text-xl text-white mb-10 leading-relaxed max-w-2xl mx-auto font-medium"
             >
-              {settings?.heroSubtitle || "Your direct bridge to the Japanese car market. Sourcing, shipping, and compliance handled with professional expertise."}
+              {settings?.heroSubtitle || "Your direct bridge to the import market. Sourcing, shipping, and compliance handled with professional expertise."}
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center mb-16 w-full max-w-md sm:max-w-none">
