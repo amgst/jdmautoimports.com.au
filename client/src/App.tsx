@@ -207,7 +207,7 @@ function App() {
           <AppContent />
         </SiteProtection>
       </TooltipProvider>
-    </QueryClientProvider>>
+    </QueryClientProvider>
   );
 }
 
