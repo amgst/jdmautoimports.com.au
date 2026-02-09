@@ -33,7 +33,7 @@ export default function ComingSoon() {
 
     // Initialization
     useEffect(() => {
-        const saved = localStorage.getItem("jdm_high_score");
+        const saved = localStorage.getItem("import_high_score");
         if (saved) setHighScore(parseInt(saved));
     }, []);
 

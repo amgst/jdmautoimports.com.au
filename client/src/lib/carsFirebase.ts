@@ -141,14 +141,30 @@ export async function createCarFirebase(input: InsertCar): Promise<Car> {
 }
 
 export async function updateCarFirebase(id: string, input: InsertCar): Promise<Car | undefined> {
+  // Try to find by "id" field first
   const q = query(
     collection(db, CARS_COLLECTION),
     where("id", "==", id),
   );
   const snap = await getDocs(q);
-  if (snap.empty) return undefined;
+  
+  let docRef;
+  
+  if (!snap.empty) {
+    docRef = snap.docs[0].ref;
+  } else {
+    // Fallback: Try to use id as document ID
+    const docRefById = doc(collection(db, CARS_COLLECTION), id);
+    const docSnap = await getDoc(docRefById);
+    
+    if (docSnap.exists()) {
+      docRef = docRefById;
+    } else {
+      console.error(`updateCarFirebase: Car not found with id ${id}`);
+      throw new Error("Car not found");
+    }
+  }
 
-  const docRef = snap.docs[0].ref;
   const slug = generateSlug(input.name);
 
   const updated: Car = {

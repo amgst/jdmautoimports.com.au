@@ -6,7 +6,7 @@ importScripts('https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js'
 importScripts('https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging-compat.js');
 
 firebase.initializeApp({
-  messagingSenderId: 'REPLACE_WITH_MESSAGING_SENDER_ID',
+  messagingSenderId: '866374087987',
 });
 
 const messaging = firebase.messaging();

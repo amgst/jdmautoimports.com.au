@@ -32,13 +32,13 @@ async function main() {
   }
 
   // Update with new description
-  const newDescription = "JDM Auto Import is Australia's premier import specialist, offering direct access to Japanese auctions for GTRs, RX7s, Supras, and more. We handle sourcing, compliance, and delivery for your dream car with exceptional service and transparent pricing.";
+  const newDescription = "Auto Import Specialists is Australia's premier import specialist, offering direct access to global auctions for luxury and performance vehicles. We handle sourcing, compliance, and delivery for your dream car with exceptional service and transparent pricing.";
   
   await updateDoc(docRef, {
     description: newDescription,
     // Also ensure other fields are clean of rental terms if they exist
-    metaDescription: "Premium JDM imports. Specialist sourcing for GTR, Skyline, Supra, and more. Full compliance handling and Australia-wide delivery.",
-    heroTitle: "Authentic Japanese Imports",
+    metaDescription: "Premium vehicle imports. Specialist sourcing for luxury and performance vehicles. Full compliance handling and Australia-wide delivery.",
+    heroTitle: "Premium Global Imports",
     heroSubtitle: "Your trusted gateway to global vehicle markets.",
     testimonialsSubtitle: "Hear from those who have experienced our premium service",
     howItWorksSubtitle: "Importing your dream car is simple and transparent",
