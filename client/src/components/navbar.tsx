@@ -30,6 +30,7 @@ export function Navbar() {
   const navLinks = [
     { href: "/", label: "Home", testId: "link-home" },
     { href: "/inventory", label: "Inventory", testId: "link-cars" },
+    { href: "/inventory/coming-soon", label: "Coming Soon", testId: "link-coming-soon" },
     { href: "/find-me-a-car", label: "Find Me a Car", testId: "link-find-car" },
     { href: "/about", label: "About Us", testId: "link-about" },
     { href: "/contact", label: "Contact", testId: "link-contact" },
@@ -37,7 +38,8 @@ export function Navbar() {
 
   const isActive = (href: string) => {
     if (href === "/") return location === "/";
-    if (href === "/inventory") return location.startsWith("/inventory") && !location.startsWith("/admin");
+    if (href === "/inventory") return location === "/inventory";
+    if (href === "/inventory/coming-soon") return location === "/inventory/coming-soon";
     return location === href;
   };
 

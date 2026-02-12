@@ -22,6 +22,7 @@ export const cars = pgTable("cars", {
   hasAC: boolean("has_ac").notNull().default(true),
   hasUSB: boolean("has_usb").notNull().default(false),
   available: boolean("available").notNull().default(true),
+  isComingSoon: boolean("is_coming_soon").notNull().default(false),
   // Technical Specifications
   consumption: text("consumption"),
   engine: text("engine"),
@@ -139,6 +140,7 @@ export const bookings = pgTable("bookings", {
   fullName: text("full_name").notNull(),
   phoneNumber: text("phone_number").notNull(),
   email: text("email").notNull(),
+  notes: text("notes"),
   status: text("status").notNull().default("pending"),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
 });

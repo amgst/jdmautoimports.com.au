@@ -17,6 +17,7 @@ export interface WebsiteSettings {
   email: string;
   phone: string;
   address: string;
+  licenseNumber?: string;
   description: string;
   facebookUrl?: string;
   xUrl?: string;
@@ -49,6 +50,7 @@ export interface WebsiteSettings {
   howItWorksStep3Description?: string;
 
   // Stats Section
+  showStatsSection?: boolean;
   stats1Value?: string;
   stats1Label?: string;
   stats2Value?: string;
@@ -80,14 +82,15 @@ export interface WebsiteSettings {
 }
 
 export const defaultWebsiteSettings: WebsiteSettings = {
-  websiteName: "Auto Import Specialists",
+  websiteName: "JDM Auto Import",
   logo: "",
   favicon: "/favicon.png",
-  companyName: "Auto Import Specialists",
-  email: "info@example.com",
-  phone: "+61 400 000 000",
-  address: "Brisbane, QLD, Australia",
-  description: "We source high-quality vehicles, handling everything from auction to compliance and delivery.",
+  companyName: "JDM Auto Import",
+  email: "info@jdmautoimports.com.au",
+  phone: "+61 469 440 944",
+  address: "6/1353 The Horsley Drive, Wetherill Park, NSW 2164, Australia",
+  licenseNumber: "NSW Motor Dealer Licence # MD094267",
+  description: "JDM Auto Imports is a leading Australian importer and dealership dedicated to genuine Japanese Domestic Market vehicles. From rare performance icons to premium daily drivers, we connect Australia with Japan’s finest cars through expert sourcing, compliance, and unmatched attention to detail.",
   facebookUrl: "",
   xUrl: "",
   instagramUrl: "",
@@ -119,14 +122,15 @@ export const defaultWebsiteSettings: WebsiteSettings = {
   howItWorksStep3Description: "Full compliance and registration before delivering to your door",
 
   // Stats Defaults
-  stats1Value: "500+",
-  stats1Label: "Vehicles Sourced",
-  stats2Value: "100%",
-  stats2Label: "Compliance Rate",
-  stats3Value: "20+",
-  stats3Label: "Auction Tiers",
-  stats4Value: "24/7",
-  stats4Label: "Support",
+  showStatsSection: true,
+  stats1Value: "10+",
+  stats1Label: "Years Experience",
+  stats2Value: "200+",
+  stats2Label: "Imports",
+  stats3Value: "100%",
+  stats3Label: "Grade Certified",
+  stats4Value: "",
+  stats4Label: "",
 
   // Testimonials Defaults
   testimonialsTitle: "What Our Customers Say",

@@ -240,6 +240,7 @@ export default function CarForm() {
       hasAC: true,
       hasUSB: false,
       available: true,
+      isComingSoon: false,
       consumption: "",
       engine: "",
       power: "",
@@ -275,6 +276,7 @@ export default function CarForm() {
         hasAC: carData.hasAC as boolean,
         hasUSB: carData.hasUSB as boolean,
         available: carData.available as boolean,
+        isComingSoon: (carData.isComingSoon as boolean) || false,
         consumption: (carData.consumption as string) || "",
         engine: (carData.engine as string) || "",
         power: (carData.power as string) || "",
@@ -1002,27 +1004,51 @@ export default function CarForm() {
                 />
               </div>
 
-              <FormField
-                control={form.control}
-                name="available"
-                render={({ field }) => (
-                  <FormItem className="flex items-center justify-between rounded-lg border p-4">
-                    <div className="space-y-0.5">
-                      <FormLabel className="text-base">Available for Rent</FormLabel>
-                      <FormDescription>
-                        Toggle to make this car available or unavailable
-                      </FormDescription>
-                    </div>
-                    <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        data-testid="switch-available"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="available"
+                  render={({ field }) => (
+                    <FormItem className="flex items-center justify-between rounded-lg border p-4">
+                      <div className="space-y-0.5">
+                        <FormLabel className="text-base">Available for Inventory</FormLabel>
+                        <FormDescription>
+                          Toggle to make this car available or unavailable
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          data-testid="switch-available"
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="isComingSoon"
+                  render={({ field }) => (
+                    <FormItem className="flex items-center justify-between rounded-lg border p-4">
+                      <div className="space-y-0.5">
+                        <FormLabel className="text-base">Coming Soon / On the Way</FormLabel>
+                        <FormDescription>
+                          Mark as already sourced and on way to Australia
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          data-testid="switch-coming-soon"
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
             </CardContent>
           </Card>
 

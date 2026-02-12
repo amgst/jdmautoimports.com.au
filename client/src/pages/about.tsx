@@ -43,11 +43,11 @@ export default function About() {
   ];
 
   const stats = [
-    { number: settings?.stats1Value || "500+", label: settings?.stats1Label || "Vehicles Sourced" },
-    { number: settings?.stats2Value || "100%", label: settings?.stats2Label || "Compliance Rate" },
-    { number: settings?.stats3Value || "20+", label: settings?.stats3Label || "Auction Tiers" },
-    { number: settings?.stats4Value || "24/7", label: settings?.stats4Label || "Support" },
-  ];
+    { number: settings?.stats1Value || "10+", label: settings?.stats1Label || "Years Experience" },
+    { number: settings?.stats2Value || "200+", label: settings?.stats2Label || "Imports" },
+    { number: settings?.stats3Value || "100%", label: settings?.stats3Label || "Grade Certified" },
+    { number: settings?.stats4Value || "", label: settings?.stats4Label || "" },
+  ].filter(s => s.number && s.label);
 
   return (
     <>
@@ -149,19 +149,21 @@ export default function About() {
         </section>
 
         {/* Stats Section */}
-        <section className="py-24 px-6 bg-primary text-primary-foreground relative overflow-hidden">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=2070&auto=format&fit=crop')] opacity-10 grayscale" />
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-              {stats.map((stat, index) => (
-                <div key={index}>
-                  <div className="text-6xl font-black mb-4 tracking-tighter">{stat.number}</div>
-                  <div className="text-sm font-bold uppercase tracking-widest opacity-80">{stat.label}</div>
-                </div>
-              ))}
+        {settings.showStatsSection && stats.length > 0 && (
+          <section className="py-24 px-6 bg-primary text-primary-foreground relative overflow-hidden">
+            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=2070&auto=format&fit=crop')] opacity-10 grayscale" />
+            <div className="max-w-7xl mx-auto relative z-10">
+              <div className={`grid grid-cols-1 sm:grid-cols-2 ${stats.length === 3 ? 'md:grid-cols-3' : 'md:grid-cols-4'} gap-12 text-center`}>
+                {stats.map((stat, index) => (
+                  <div key={index}>
+                    <div className="text-6xl font-black mb-4 tracking-tighter">{stat.number}</div>
+                    <div className="text-sm font-bold uppercase tracking-widest opacity-80">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* Contact CTA Section */}
         <section className="py-16 md:py-24 px-6 bg-background">

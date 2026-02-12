@@ -6,6 +6,7 @@ import {
   Phone,
   Mail,
   MapPin,
+  ShieldCheck,
   Facebook,
   Instagram,
   Linkedin,
@@ -40,8 +41,9 @@ export function Footer() {
   const companyName = settings?.companyName || "JDM Auto Import";
   const description = settings?.description || "We source, ship, and comply high-quality vehicles directly for you.";
   const email = settings?.email || "info@jdmautoimports.com.au";
-  const phone = settings?.phone || "+61 400 000 000";
-  const address = settings?.address || "Brisbane, Queensland, Australia";
+  const phone = settings?.phone || "+61 469 440 944";
+  const address = settings?.address || "6/1353 The Horsley Drive, Wetherill Park, NSW 2164, Australia";
+  const licenseNumber = (settings as any)?.licenseNumber || "NSW Motor Dealer Licence # MD094267";
   const facebookUrl = settings?.facebookUrl;
   const xUrl = settings?.xUrl;
   const instagramUrl = settings?.instagramUrl;
@@ -152,6 +154,7 @@ export function Footer() {
                   {email}
                 </a>
               </li>
+ 
             </ul>
           </div>
 
@@ -177,7 +180,12 @@ export function Footer() {
                 <Clock className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                 <div className="text-sm sm:text-base text-muted-foreground">
                   <span className="font-medium block">Sunday:</span>
-                  Closed
+                  10:00 AM - 4:00 PM
+                </div>
+              </li>
+              <li className="flex items-start gap-3 pl-8">
+                <div className="text-xs sm:text-sm text-muted-foreground italic">
+                  Open with Appointments too
                 </div>
               </li>
             </ul>
@@ -185,9 +193,14 @@ export function Footer() {
         </div>
 
         <div className="border-t mt-8 sm:mt-12 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs sm:text-sm text-muted-foreground font-medium">
-            © {new Date().getFullYear()} {companyName}.
-          </p>
+          <div className="flex flex-col items-center md:items-start gap-1">
+            <p className="text-xs sm:text-sm text-muted-foreground font-medium">
+              © {new Date().getFullYear()} {companyName}.
+            </p>
+            <p className="text-[10px] sm:text-xs text-muted-foreground/80 font-bold uppercase tracking-tight">
+              {licenseNumber}
+            </p>
+          </div>
           <div className="flex gap-6 text-xs sm:text-sm text-muted-foreground">
             <Link href="/terms" className="hover:text-primary transition-colors font-medium">Terms</Link>
             <Link href="/privacy" className="hover:text-primary transition-colors font-medium">Privacy</Link>

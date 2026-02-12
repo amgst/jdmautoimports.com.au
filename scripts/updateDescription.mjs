@@ -32,16 +32,33 @@ async function main() {
   }
 
   // Update with new description
-  const newDescription = "Auto Import Specialists is Australia's premier import specialist, offering direct access to global auctions for luxury and performance vehicles. We handle sourcing, compliance, and delivery for your dream car with exceptional service and transparent pricing.";
+  const newDescription = "JDM Auto Imports is a leading Australian importer and dealership dedicated to genuine Japanese Domestic Market vehicles. From rare performance icons to premium daily drivers, we connect Australia with Japan’s finest cars through expert sourcing, compliance, and unmatched attention to detail.";
   
   await updateDoc(docRef, {
     description: newDescription,
+    websiteName: "JDM Auto Import",
+    companyName: "JDM Auto Import",
+    email: "info@jdmautoimports.com.au",
+    phone: "+61 469 440 944",
+    address: "6/1353 The Horsley Drive, Wetherill Park, NSW 2164, Australia",
+    licenseNumber: "NSW Motor Dealer Licence # MD094267",
+    businessHours: "Mon - Fri: 9:00 AM - 6:00 PM | Sat - Sun: 10:00 AM - 4:00 PM | Open with Appointments too",
     // Also ensure other fields are clean of rental terms if they exist
-    metaDescription: "Premium vehicle imports. Specialist sourcing for luxury and performance vehicles. Full compliance handling and Australia-wide delivery.",
-    heroTitle: "Premium Global Imports",
-    heroSubtitle: "Your trusted gateway to global vehicle markets.",
-    testimonialsSubtitle: "Hear from those who have experienced our premium service",
-    howItWorksSubtitle: "Importing your dream car is simple and transparent",
+    metaDescription: "JDM Auto Imports is a leading Australian importer and dealership dedicated to genuine Japanese Domestic Market vehicles. Expert sourcing, compliance, and delivery.",
+    heroTitle: "Genuine JDM Imports",
+    heroSubtitle: "Your leading Australian gateway to Japan's finest domestic market vehicles.",
+    testimonialsSubtitle: "Hear from those who have experienced our professional JDM sourcing",
+    howItWorksSubtitle: "Connecting Australia with Japan's finest cars is simple and transparent",
+    // Stats Section
+    showStatsSection: true,
+    stats1Value: "10+",
+    stats1Label: "Years Experience",
+    stats2Value: "200+",
+    stats2Label: "Imports",
+    stats3Value: "100%",
+    stats3Label: "Grade Certified",
+    stats4Value: "",
+    stats4Label: "",
   });
 
   console.log("Updated description to:", newDescription);

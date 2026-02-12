@@ -184,9 +184,16 @@ export default function CarsList() {
                         <Badge variant="secondary" className="text-[10px] font-bold uppercase py-0">{car.category}</Badge>
                       </TableCell>
                       <TableCell>
-                        <Badge variant={car.available ? "default" : "secondary"} className="text-[10px] font-bold uppercase py-0">
-                          {car.available ? "Available" : "Sourced / Sold"}
-                        </Badge>
+                        <div className="flex flex-col gap-1">
+                          <Badge variant={car.available ? "default" : "secondary"} className="text-[10px] font-bold uppercase py-0 w-fit">
+                            {car.available ? "Available" : "Sourced / Sold"}
+                          </Badge>
+                          {car.isComingSoon && (
+                            <Badge className="text-[10px] font-bold uppercase py-0 w-fit bg-blue-600 hover:bg-blue-600">
+                              Coming Soon
+                            </Badge>
+                          )}
+                        </div>
                       </TableCell>
                       <TableCell className="text-right pr-6" onClick={(e) => e.stopPropagation()}>
                         <div className="flex items-center justify-end gap-2">

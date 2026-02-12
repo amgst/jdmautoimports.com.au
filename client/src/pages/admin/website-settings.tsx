@@ -53,6 +53,7 @@ const websiteSettingsSchema = z.object({
   email: z.string().email("Invalid email address").or(z.literal("")),
   phone: z.string().min(1, "Phone number is required"),
   address: z.string().min(1, "Address is required"),
+  licenseNumber: z.string().optional(),
   description: z.string().min(1, "Description is required"),
   facebookUrl: urlOrPath.or(z.literal("")),
   xUrl: urlOrPath.or(z.literal("")),
@@ -85,6 +86,7 @@ const websiteSettingsSchema = z.object({
   howItWorksStep3Description: z.string().optional(),
 
   // Stats Section
+  showStatsSection: z.boolean().default(true),
   stats1Value: z.string().optional(),
   stats1Label: z.string().optional(),
   stats2Value: z.string().optional(),
@@ -143,10 +145,11 @@ export default function WebsiteSettings() {
       logo: "",
       favicon: "/favicon.png",
       companyName: "Auto Import Specialists",
-      email: "info@example.com",
-      phone: "+61 400 000 000",
-      address: "Brisbane, QLD, Australia",
-      description: "We source high-quality imported vehicles, handling everything from auction to compliance and delivery.",
+      email: "info@jdmautoimports.com.au",
+      phone: "+61 469 440 944",
+      address: "6/1353 The Horsley Drive, Wetherill Park, NSW 2164, Australia",
+      licenseNumber: "NSW Motor Dealer Licence # MD094267",
+      description: "JDM Auto Imports is a leading Australian importer and dealership dedicated to genuine Japanese Domestic Market vehicles. From rare performance icons to premium daily drivers, we connect Australia with Japan’s finest cars through expert sourcing, compliance, and unmatched attention to detail.",
       facebookUrl: "",
       xUrl: "",
       instagramUrl: "",
@@ -178,14 +181,15 @@ export default function WebsiteSettings() {
       howItWorksStep3Description: "Full RAWS compliance and registration before delivering to your door",
 
       // Stats Defaults
-      stats1Value: "500+",
-      stats1Label: "Vehicles Sourced",
-      stats2Value: "100%",
-      stats2Label: "Compliance Rate",
-      stats3Value: "20+",
-      stats3Label: "Auction Tiers",
-      stats4Value: "24/7",
-      stats4Label: "Support",
+      showStatsSection: true,
+      stats1Value: "10+",
+      stats1Label: "Years Experience",
+      stats2Value: "200+",
+      stats2Label: "Imports",
+      stats3Value: "100%",
+      stats3Label: "Grade Certified",
+      stats4Value: "",
+      stats4Label: "",
 
       // Testimonials Defaults
       testimonialsTitle: "What Our Customers Say",
@@ -220,6 +224,7 @@ export default function WebsiteSettings() {
         email: settings.email || "",
         phone: settings.phone || "",
         address: settings.address || "",
+        licenseNumber: settings.licenseNumber || "",
         description: settings.description || "",
         facebookUrl: settings.facebookUrl || "",
         xUrl: settings.xUrl || "",
@@ -252,14 +257,15 @@ export default function WebsiteSettings() {
         howItWorksStep3Description: settings.howItWorksStep3Description || "Full RAWS compliance and registration before delivering to your door",
 
         // Stats
-        stats1Value: settings.stats1Value || "1000+",
-        stats1Label: settings.stats1Label || "Happy Customers",
-        stats2Value: settings.stats2Value || "50+",
-        stats2Label: settings.stats2Label || "Premium Vehicles",
-        stats3Value: settings.stats3Value || "5",
-        stats3Label: settings.stats3Label || "Locations",
-        stats4Value: settings.stats4Value || "24/7",
-        stats4Label: settings.stats4Label || "Support",
+        showStatsSection: settings.showStatsSection !== undefined ? settings.showStatsSection : true,
+        stats1Value: settings.stats1Value || "10+",
+        stats1Label: settings.stats1Label || "Years Experience",
+        stats2Value: settings.stats2Value || "200+",
+        stats2Label: settings.stats2Label || "Imports",
+        stats3Value: settings.stats3Value || "100%",
+        stats3Label: settings.stats3Label || "Grade Certified",
+        stats4Value: settings.stats4Value || "",
+        stats4Label: settings.stats4Label || "",
 
         // Testimonials
       testimonialsTitle: settings.testimonialsTitle || "What Our Customers Say",
@@ -304,6 +310,7 @@ export default function WebsiteSettings() {
         email: data.email || "",
         phone: data.phone,
         address: data.address,
+        licenseNumber: data.licenseNumber || undefined,
         description: data.description,
         facebookUrl: data.facebookUrl || undefined,
         xUrl: data.xUrl || undefined,
@@ -336,6 +343,7 @@ export default function WebsiteSettings() {
         howItWorksStep3Description: data.howItWorksStep3Description || undefined,
 
         // Stats Section
+        showStatsSection: data.showStatsSection,
         stats1Value: data.stats1Value || undefined,
         stats1Label: data.stats1Label || undefined,
         stats2Value: data.stats2Value || undefined,
@@ -943,6 +951,23 @@ export default function WebsiteSettings() {
                       </FormItem>
                     )}
                   />
+
+                  <FormField
+                    control={form.control}
+                    name="licenseNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Motor Dealer Licence</FormLabel>
+                        <FormControl>
+                          <Input placeholder="NSW Motor Dealer Licence # MD000000" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                          Displayed in the footer contact information
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </CardContent>
               </Card>
 
@@ -1356,13 +1381,30 @@ export default function WebsiteSettings() {
 
               {/* Stats Section */}
               <Card>
-                <CardHeader>
-                  <CardTitle>Statistics Section</CardTitle>
-                  <CardDescription>
-                    Customize the statistics shown on the home page
-                  </CardDescription>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <div className="space-y-1">
+                    <CardTitle>Statistics Section</CardTitle>
+                    <CardDescription>
+                      Customize the statistics shown on the home page
+                    </CardDescription>
+                  </div>
+                  <FormField
+                    control={form.control}
+                    name="showStatsSection"
+                    render={({ field }) => (
+                      <FormItem className="flex items-center space-x-2">
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormLabel className="text-sm font-medium">Show Section</FormLabel>
+                      </FormItem>
+                    )}
+                  />
                 </CardHeader>
-                <CardContent className="space-y-6">
+                <CardContent className={`space-y-6 transition-opacity duration-200 ${!form.watch("showStatsSection") ? "opacity-40 pointer-events-none" : ""}`}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="border rounded-md p-4 space-y-4">
                       <h3 className="font-medium">Stat 1</h3>

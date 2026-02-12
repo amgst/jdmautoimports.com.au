@@ -28,8 +28,6 @@ export async function createInquiryFirebase(
     input: InsertInquiry,
 ): Promise<Inquiry> {
     try {
-        console.log("Creating inquiry with data:", input);
-
         // Use the robust ID generator
         const id = generateId();
 
@@ -50,9 +48,7 @@ export async function createInquiryFirebase(
             createdAt: new Date().toISOString(),
         };
 
-        console.log("Saving inquiry to Firestore:", inquiry);
         const docRef = await addDoc(collection(db, INQUIRIES_COLLECTION), inquiry);
-        console.log("Inquiry saved successfully with document ID:", docRef.id);
 
         return inquiry;
     } catch (error) {

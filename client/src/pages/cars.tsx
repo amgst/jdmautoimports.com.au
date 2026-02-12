@@ -74,6 +74,9 @@ export default function Cars() {
   }, [cars]);
 
   const filteredCars = cars?.filter((car) => {
+    // Exclude Coming Soon cars from main inventory
+    if (car.isComingSoon) return false;
+
     const matchesSearch = car.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       car.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = categoryFilter === "all" || car.category.toLowerCase() === categoryFilter.toLowerCase();

@@ -8,6 +8,7 @@ import { insertCarSchema } from "@shared/schema";
 import { z } from "zod";
 import { upload, getImageUrl, extractFilenameFromUrl } from "./upload";
 import type { Request, Response } from "express";
+import { sendEmail, generateInquiryEmailContent, generateBookingEmailContent } from "./email";
 
 // In-memory registry of admin device tokens
 const adminTokens = new Set<string>();
@@ -190,6 +191,86 @@ export async function registerRoutes(app: Express): Promise<Server | void> {
     res.json({ tokens: Array.from(adminTokens) });
   });
 
+  // Specialized notification for inquiries
+  app.post("/api/notify/inquiry", async (req: Request, res: Response) => {
+    try {
+      const data = req.body;
+      const { title, text } = generateInquiryEmailContent(data);
+
+      // 1. Send Email
+    if (process.env.ADMIN_EMAIL) {
+      await sendEmail({
+        to: process.env.ADMIN_EMAIL,
+        subject: title,
+        text: text,
+      });
+    }
+
+      // 2. Send Push Notification
+      const tokens = Array.from(adminTokens);
+      if (tokens.length > 0 && process.env.FCM_SERVER_KEY) {
+        const payload = {
+          registration_ids: tokens,
+          notification: { title, body: text.substring(0, 100) + "..." },
+          priority: "high",
+        };
+        await fetch("https://fcm.googleapis.com/fcm/send", {
+          method: "POST",
+          headers: {
+            Authorization: `key=${process.env.FCM_SERVER_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+      }
+
+      res.json({ ok: true });
+    } catch (error: any) {
+      console.error("Inquiry notification error:", error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // Specialized notification for bookings
+  app.post("/api/notify/booking", async (req: Request, res: Response) => {
+    try {
+      const data = req.body;
+      const { title, text } = generateBookingEmailContent(data);
+
+      // 1. Send Email
+    if (process.env.ADMIN_EMAIL) {
+      await sendEmail({
+        to: process.env.ADMIN_EMAIL,
+        subject: title,
+        text: text,
+      });
+    }
+
+      // 2. Send Push Notification
+      const tokens = Array.from(adminTokens);
+      if (tokens.length > 0 && process.env.FCM_SERVER_KEY) {
+        const payload = {
+          registration_ids: tokens,
+          notification: { title, body: text.substring(0, 100) + "..." },
+          priority: "high",
+        };
+        await fetch("https://fcm.googleapis.com/fcm/send", {
+          method: "POST",
+          headers: {
+            Authorization: `key=${process.env.FCM_SERVER_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+      }
+
+      res.json({ ok: true });
+    } catch (error: any) {
+      console.error("Booking notification error:", error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
   // Send a push notification to all registered admin devices
   app.post("/api/notify/admin", async (req: Request, res: Response) => {
     try {
@@ -199,8 +280,22 @@ export async function registerRoutes(app: Express): Promise<Server | void> {
         data?: Record<string, string>;
       };
       const tokens = Array.from(adminTokens);
+      
+      // Also send email if configured
+      if (process.env.ADMIN_EMAIL) {
+        try {
+          await sendEmail({
+            to: process.env.ADMIN_EMAIL,
+            subject: title || "Admin Notification",
+            text: body || "New notification from JDM Auto Imports",
+          });
+        } catch (emailErr) {
+          console.error("Failed to send notification email:", emailErr);
+        }
+      }
+
       if (tokens.length === 0) {
-        return res.status(400).json({ error: "No admin tokens registered" });
+        return res.status(200).json({ ok: true, message: "Email sent (if configured), but no push tokens registered" });
       }
       const serverKey = process.env.FCM_SERVER_KEY;
       if (!serverKey) {

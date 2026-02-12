@@ -50,11 +50,39 @@ export default function Booking() {
             fullName: "",
             phoneNumber: "",
             email: "",
+            notes: "",
         },
     });
 
     const mutation = useMutation({
-        mutationFn: (data: InsertBooking) => createBookingFirebase(data),
+        mutationFn: async (data: InsertBooking) => {
+            const result = await createBookingFirebase(data);
+            
+            // Trigger notification
+            try {
+                // Adapt booking data to the notification format
+                const notifyData = {
+                    firstName: data.fullName.split(" ")[0] || "Unknown",
+                    lastName: data.fullName.split(" ").slice(1).join(" ") || "-",
+                    email: data.email,
+                    phone: data.phoneNumber,
+                    serviceType: `Inspection: ${data.carName}`,
+                    date: data.inspectionDate,
+                    time: data.inspectionTime,
+                    notes: data.notes || `Car ID: ${data.carId}`
+                };
+
+                await fetch("/api/notify/booking", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(notifyData),
+                });
+            } catch (notifyErr) {
+                console.warn("Failed to send notification:", notifyErr);
+            }
+            
+            return result;
+        },
         onSuccess: () => {
             toast({
                 title: "Booking Submitted",
@@ -264,6 +292,27 @@ export default function Booking() {
                                                 )}
                                             />
                                         </div>
+
+                                        <FormField
+                                            control={form.control}
+                                            name="notes"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel className="text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+                                                        Additional Notes
+                                                    </FormLabel>
+                                                    <FormControl>
+                                                        <Textarea
+                                                            placeholder="Any specific questions or requirements?"
+                                                            {...field}
+                                                            value={field.value || ""}
+                                                            className="min-h-[100px] bg-muted/30 border-muted focus:border-primary transition-all rounded-xl font-medium"
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
 
                                         <Button
                                             type="submit"

@@ -81,8 +81,20 @@ export function InquiryForm({
     const onSubmit = async (data: InsertInquiry) => {
         setIsSubmitting(true);
         try {
-            console.log("Submitting inquiry:", data);
             await createInquiryFirebase(data);
+            
+            // Trigger notification
+            try {
+                await fetch("/api/notify/inquiry", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                });
+            } catch (notifyErr) {
+                console.warn("Failed to send notification:", notifyErr);
+                // Don't fail the submission if notification fails
+            }
+
             await queryClient.invalidateQueries({ queryKey: ["inquiries"] });
 
             toast({
@@ -178,6 +190,20 @@ export function InquiryForm({
                                 )}
                             />
                         </div>
+
+                        <FormField
+                            control={form.control}
+                            name="address"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Location / Address</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="e.g. Sydney, NSW" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
                         <FormField
                             control={form.control}

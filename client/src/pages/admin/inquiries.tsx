@@ -9,8 +9,18 @@ import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { RefreshCw, Mail, MessageSquare, Car, Sparkles } from "lucide-react";
+import { RefreshCw, Mail, MessageSquare, Car, Sparkles, Eye, Phone, Calendar, MapPin, X } from "lucide-react";
 import { queryClient } from "@/lib/queryClient";
+import { Separator } from "@/components/ui/separator";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { format } from "date-fns";
 
 const STATUS_LABELS: Record<string, string> = {
   pending: "New",
@@ -29,6 +39,7 @@ const STATUS_VARIANTS: Record<string, "secondary" | "default" | "outline" | "des
 export default function AdminInquiries() {
   const { toast } = useToast();
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null);
 
   const { data: inquiries, isLoading } = useQuery<Inquiry[]>({
     queryKey: ["inquiries"],
@@ -161,12 +172,13 @@ export default function AdminInquiries() {
                     <TableHead className="font-bold uppercase text-[10px] tracking-widest pl-6">Customer</TableHead>
                     <TableHead className="font-bold uppercase text-[10px] tracking-widest">Type</TableHead>
                     <TableHead className="font-bold uppercase text-[10px] tracking-widest">Details / Requirements</TableHead>
-                    <TableHead className="font-bold uppercase text-[10px] tracking-widest pr-6">Status</TableHead>
+                    <TableHead className="font-bold uppercase text-[10px] tracking-widest">Status</TableHead>
+                    <TableHead className="font-bold uppercase text-[10px] tracking-widest pr-6 text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {inquiries.map((inquiry) => (
-                    <TableRow key={inquiry.id} className="hover:bg-muted/30 transition-colors">
+                    <TableRow key={inquiry.id} className="hover:bg-muted/30 transition-colors cursor-pointer" onClick={() => setSelectedInquiry(inquiry)}>
                       <TableCell className="pl-6 py-4">
                         <div className="font-bold text-sm">
                           {inquiry.firstName} {inquiry.lastName}
@@ -218,7 +230,7 @@ export default function AdminInquiries() {
                           </div>
                         )}
                       </TableCell>
-                      <TableCell className="pr-6">
+                      <TableCell onClick={(e) => e.stopPropagation()}>
                         <Select
                           defaultValue={inquiry.status}
                           onValueChange={(value) =>
@@ -237,6 +249,11 @@ export default function AdminInquiries() {
                           </SelectContent>
                         </Select>
                       </TableCell>
+                      <TableCell className="pr-6 text-right" onClick={(e) => e.stopPropagation()}>
+                        <Button variant="ghost" size="sm" onClick={() => setSelectedInquiry(inquiry)}>
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -245,6 +262,126 @@ export default function AdminInquiries() {
           )}
         </CardContent>
       </Card>
+
+      <Dialog open={!!selectedInquiry} onOpenChange={(open) => !open && setSelectedInquiry(null)}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <div className="flex justify-between items-start pr-8">
+              <div>
+                <DialogTitle className="text-2xl font-black uppercase tracking-tight">
+                  Inquiry Details
+                </DialogTitle>
+                <DialogDescription className="sr-only">
+                  View details for inquiry from {selectedInquiry?.firstName} {selectedInquiry?.lastName}
+                </DialogDescription>
+                <div className="flex gap-2 mt-2">
+                  {selectedInquiry?.carId ? (
+                    <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 text-[10px] font-bold uppercase">
+                      <Car className="h-3 w-3 mr-1" /> Car Inquiry
+                    </Badge>
+                  ) : selectedInquiry?.carName === "Contact Form Inquiry" ? (
+                    <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200 text-[10px] font-bold uppercase">
+                      <MessageSquare className="h-3 w-3 mr-1" /> General Contact
+                    </Badge>
+                  ) : (
+                    <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200 text-[10px] font-bold uppercase">
+                      <Sparkles className="h-3 w-3 mr-1" /> Concierge Request
+                    </Badge>
+                  )}
+                  <Badge variant={selectedInquiry ? STATUS_VARIANTS[selectedInquiry.status] : "outline"} className="text-[10px] font-bold uppercase">
+                    {selectedInquiry ? STATUS_LABELS[selectedInquiry.status] : ""}
+                  </Badge>
+                </div>
+              </div>
+            </div>
+          </DialogHeader>
+
+          {selectedInquiry && (
+            <div className="space-y-8 py-4">
+              {/* Customer Info */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                    <Mail className="h-3 w-3" /> Customer Information
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="text-lg font-bold">{selectedInquiry.firstName} {selectedInquiry.lastName}</div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Mail className="h-4 w-4" /> {selectedInquiry.email}
+                    </div>
+                    {selectedInquiry.phone && (
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Phone className="h-4 w-4" /> {selectedInquiry.phone}
+                      </div>
+                    )}
+                    {selectedInquiry.address && (
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <MapPin className="h-4 w-4" /> {selectedInquiry.address}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                    <Calendar className="h-3 w-3" /> Submission Date
+                  </h3>
+                  <div className="text-sm font-bold">
+                    {selectedInquiry.createdAt ? format(new Date(selectedInquiry.createdAt), "PPP p") : "N/A"}
+                  </div>
+                </div>
+              </div>
+
+              <Separator />
+
+              {/* Inquiry Specific Details */}
+              <div className="space-y-4">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                  {selectedInquiry.carId ? <Car className="h-3 w-3" /> : <Sparkles className="h-3 w-3" />} 
+                  Request Details
+                </h3>
+                
+                {selectedInquiry.carId ? (
+                  <div className="p-4 rounded-xl bg-blue-50/50 border border-blue-100">
+                    <div className="font-bold text-blue-900">{selectedInquiry.carName}</div>
+                    <div className="text-xs text-blue-700/70 mt-1 uppercase font-bold tracking-wider">Vehicle of Interest</div>
+                  </div>
+                ) : selectedInquiry.carName !== "Contact Form Inquiry" && (
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="p-3 rounded-lg bg-purple-50 border border-purple-100">
+                      <div className="text-[10px] font-bold text-purple-700 uppercase tracking-wider mb-1">Model Preference</div>
+                      <div className="font-bold text-sm">{selectedInquiry.modelPreference || "Any"}</div>
+                    </div>
+                    <div className="p-3 rounded-lg bg-purple-50 border border-purple-100">
+                      <div className="text-[10px] font-bold text-purple-700 uppercase tracking-wider mb-1">Budget</div>
+                      <div className="font-bold text-sm">{selectedInquiry.budget || "N/A"}</div>
+                    </div>
+                    <div className="p-3 rounded-lg bg-purple-50 border border-purple-100">
+                      <div className="text-[10px] font-bold text-purple-700 uppercase tracking-wider mb-1">Year Range</div>
+                      <div className="font-bold text-sm">{selectedInquiry.yearRange || "Any"}</div>
+                    </div>
+                  </div>
+                )}
+
+                {selectedInquiry.notes && (
+                  <div className="space-y-2 mt-4">
+                    <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Message / Notes</div>
+                    <div className="p-4 rounded-xl bg-muted/50 border border-muted-foreground/10 text-sm whitespace-pre-wrap italic">
+                      "{selectedInquiry.notes}"
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex justify-end pt-4">
+                <DialogClose asChild>
+                  <Button variant="outline" className="font-bold">Close Details</Button>
+                </DialogClose>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

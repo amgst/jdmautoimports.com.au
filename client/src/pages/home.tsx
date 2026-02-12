@@ -40,7 +40,15 @@ export default function Home() {
   const { isLoading: isSettingsLoading, ...settings } = useWebsiteSettings();
   const websiteName = settings?.websiteName || "Auto Import Specialists";
 
-  const featuredCars = cars?.filter(c => c.slug).slice(0, 3) || [];
+  const stats = [
+    { number: settings?.stats1Value || "10+", label: settings?.stats1Label || "Years Experience" },
+    { number: settings?.stats2Value || "200+", label: settings?.stats2Label || "Imports" },
+    { number: settings?.stats3Value || "100%", label: settings?.stats3Label || "Grade Certified" },
+    { number: settings?.stats4Value || "", label: settings?.stats4Label || "" },
+  ].filter(s => s.number && s.label);
+
+  const featuredCars = cars?.filter(c => c.slug && !c.isComingSoon).slice(0, 3) || [];
+  const comingSoonPreview = cars?.filter(c => c.slug && c.isComingSoon).slice(0, 3) || [];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -298,6 +306,75 @@ export default function Home() {
           </div>
         </section>
 
+        {comingSoonPreview.length > 0 && (
+          <section className="py-16 md:py-24 px-6 bg-zinc-50 dark:bg-zinc-900/50">
+            <div className="max-w-7xl mx-auto">
+              <div className="text-center mb-12">
+                <Badge className="mb-4 bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-1">
+                  ON THE WAY
+                </Badge>
+                <h2 className="text-4xl font-bold mb-4">Coming Soon</h2>
+                <p className="text-lg text-muted-foreground">
+                  Vehicles already sourced and currently on their way to Australia
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {comingSoonPreview.map((car) => (
+                  <Link key={car.id} href={`/inventory/${car.slug}`}>
+                    <Card className="overflow-hidden hover-elevate active-elevate-2 cursor-pointer h-full border-2 hover:border-blue-500 transition-colors relative group">
+                      <div className="absolute top-4 right-4 z-10">
+                        <Badge className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-1 shadow-lg">
+                          ON THE WAY
+                        </Badge>
+                      </div>
+                      <div className="aspect-[4/3] overflow-hidden">
+                        <img
+                          src={getThumbnailUrl(car.image, 720)}
+                          alt={car.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="p-6">
+                        <div className="flex items-start justify-between mb-3">
+                          <div>
+                            <h3 className="text-xl font-bold mb-1">
+                              {car.name}
+                            </h3>
+                            <div className="flex gap-2">
+                              <Badge variant="default" className="text-[10px] uppercase font-bold tracking-tight bg-primary text-primary-foreground">
+                                {car.category}
+                              </Badge>
+                              <Badge variant="outline" className="text-[10px] uppercase font-bold tracking-tight border-blue-500 text-blue-500">
+                                {car.year}
+                              </Badge>
+                            </div>
+                          </div>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-6 line-clamp-2">
+                          {car.description}
+                        </p>
+                        <Button className="w-full font-bold group bg-blue-600 hover:bg-blue-700">
+                          Express Interest
+                        </Button>
+                      </div>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+
+              <div className="text-center mt-12">
+                <Link href="/inventory/coming-soon">
+                  <Button size="lg" variant="outline" className="px-8 font-bold border-blue-500/20 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20">
+                    View All Coming Soon
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </section>
+        )}
+
         <section className="py-16 md:py-24 px-6 bg-gradient-to-b from-card to-background" id="features">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
@@ -341,28 +418,20 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-16 md:py-24 px-4 md:px-6 bg-background">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 text-center">
-              <div className="p-6 rounded-2xl bg-gradient-to-b from-card/50 to-background/50 backdrop-blur-sm border border-border/30 transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                <div className="text-6xl font-black text-primary mb-2">10+</div>
-                <div className="text-sm uppercase font-bold tracking-widest text-muted-foreground">Years Experience</div>
-              </div>
-              <div className="p-6 rounded-2xl bg-gradient-to-b from-card/50 to-background/50 backdrop-blur-sm border border-border/30 transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                <div className="text-6xl font-black text-primary mb-2">500+</div>
-                <div className="text-sm uppercase font-bold tracking-widest text-muted-foreground">Successfully Imported</div>
-              </div>
-              <div className="p-6 rounded-2xl bg-gradient-to-b from-card/50 to-background/50 backdrop-blur-sm border border-border/30 transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                <div className="text-6xl font-black text-primary mb-2">RAW</div>
-                <div className="text-sm uppercase font-bold tracking-widest text-muted-foreground">Compliance Network</div>
-              </div>
-              <div className="p-6 rounded-2xl bg-gradient-to-b from-card/50 to-background/50 backdrop-blur-sm border border-border/30 transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                <div className="text-6xl font-black text-primary mb-2">100%</div>
-                <div className="text-sm uppercase font-bold tracking-widest text-muted-foreground">Grade Certified</div>
+        {settings.showStatsSection && stats.length > 0 && (
+          <section className="py-16 md:py-24 px-4 md:px-6 bg-background">
+            <div className="max-w-7xl mx-auto">
+              <div className={`grid grid-cols-1 sm:grid-cols-2 ${stats.length === 3 ? 'md:grid-cols-3' : 'md:grid-cols-4'} gap-4 md:gap-8 text-center`}>
+                {stats.map((stat, index) => (
+                  <div key={index} className="p-6 rounded-2xl bg-gradient-to-b from-card/50 to-background/50 backdrop-blur-sm border border-border/30 transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                    <div className="text-6xl font-black text-primary mb-2">{stat.number}</div>
+                    <div className="text-sm uppercase font-bold tracking-widest text-muted-foreground">{stat.label}</div>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         <section className="py-16 md:py-24 px-6 bg-card">
           <div className="max-w-7xl mx-auto">

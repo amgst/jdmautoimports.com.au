@@ -26,12 +26,28 @@ export default function Contact() {
     name: "",
     email: "",
     phone: "",
+    address: "",
     subject: "",
     message: "",
   });
 
   const mutation = useMutation({
-    mutationFn: createInquiryFirebase,
+    mutationFn: async (data: any) => {
+      const result = await createInquiryFirebase(data);
+      
+      // Trigger notification
+      try {
+        await fetch("/api/notify/inquiry", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+      } catch (notifyErr) {
+        console.warn("Failed to send notification:", notifyErr);
+      }
+      
+      return result;
+    },
     onSuccess: () => {
       toast({
         title: "Message sent!",
@@ -41,6 +57,7 @@ export default function Contact() {
         name: "",
         email: "",
         phone: "",
+        address: "",
         subject: "",
         message: "",
       });
@@ -68,6 +85,7 @@ export default function Contact() {
       lastName,
       email: formData.email,
       phone: formData.phone,
+      address: formData.address,
       notes: `Subject: ${formData.subject}\n\nMessage: ${formData.message}`,
       carId: "", // Generic inquiry
       carName: "Contact Form Inquiry",
@@ -102,7 +120,12 @@ export default function Contact() {
     {
       icon: Clock,
       title: "Business Hours",
-      details: ["Monday - Friday: 9:00 AM - 6:00 PM", "Saturday: 10:00 AM - 4:00 PM", "Sunday: Closed"],
+      details: [
+        "Monday - Friday: 9:00 AM - 6:00 PM", 
+        "Saturday: 10:00 AM - 4:00 PM", 
+        "Sunday: 10:00 AM - 4:00 PM",
+        "Open with Appointments too"
+      ],
     },
   ];
 
@@ -158,17 +181,27 @@ export default function Contact() {
                       />
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">Phone</Label>
-                    <Input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="+61 400 000 000"
-                    />
-                  </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Phone</Label>
+                      <Input
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="+61 469 440 944"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="address">Location / Address</Label>
+                      <Input
+                        id="address"
+                        name="address"
+                        value={formData.address}
+                        onChange={handleChange}
+                        placeholder="e.g. Sydney, NSW"
+                      />
+                    </div>
                   <div className="space-y-2">
                     <Label htmlFor="subject">Subject *</Label>
                     <Input

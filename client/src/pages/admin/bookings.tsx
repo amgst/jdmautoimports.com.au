@@ -9,9 +9,11 @@ import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { RefreshCw, Calendar, Phone, Mail, Car, Trash2, Clock } from "lucide-react";
+import { RefreshCw, Calendar, Phone, Mail, Car, Trash2, Clock, Eye, MessageSquare } from "lucide-react";
 import { queryClient } from "@/lib/queryClient";
 import { format } from "date-fns";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
 
 const STATUS_LABELS: Record<string, string> = {
     pending: "New",
@@ -30,6 +32,7 @@ const STATUS_VARIANTS: Record<string, "secondary" | "default" | "outline" | "des
 export default function AdminBookings() {
     const { toast } = useToast();
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
 
     const { data: bookings, isLoading } = useQuery<Booking[]>({
         queryKey: ["bookings"],
@@ -116,7 +119,11 @@ export default function AdminBookings() {
                                 </TableHeader>
                                 <TableBody>
                                     {bookings.map((booking) => (
-                                        <TableRow key={booking.id} className="hover:bg-muted/30 transition-colors">
+                                        <TableRow 
+                                            key={booking.id} 
+                                            className="hover:bg-muted/30 transition-colors cursor-pointer"
+                                            onClick={() => setSelectedBooking(booking)}
+                                        >
                                             <TableCell className="pl-6 py-4">
                                                 <div className="flex items-center gap-2 font-bold text-sm">
                                                     <Calendar className="h-4 w-4 text-primary" />
@@ -145,7 +152,7 @@ export default function AdminBookings() {
                                                     </Badge>
                                                 </div>
                                             </TableCell>
-                                            <TableCell>
+                                            <TableCell onClick={(e) => e.stopPropagation()}>
                                                 <Select
                                                     defaultValue={booking.status}
                                                     onValueChange={(value) =>
@@ -164,19 +171,24 @@ export default function AdminBookings() {
                                                     </SelectContent>
                                                 </Select>
                                             </TableCell>
-                                            <TableCell className="pr-6 text-right">
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                                                    onClick={() => {
-                                                        if (confirm("Are you sure you want to delete this booking?")) {
-                                                            deleteMutation.mutate(booking.id);
-                                                        }
-                                                    }}
-                                                >
-                                                    <Trash2 className="h-4 w-4" />
-                                                </Button>
+                                            <TableCell className="pr-6 text-right" onClick={(e) => e.stopPropagation()}>
+                                                <div className="flex justify-end gap-2">
+                                                    <Button variant="ghost" size="sm" onClick={() => setSelectedBooking(booking)}>
+                                                        <Eye className="h-4 w-4" />
+                                                    </Button>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                                                        onClick={() => {
+                                                            if (confirm("Are you sure you want to delete this booking?")) {
+                                                                deleteMutation.mutate(booking.id);
+                                                            }
+                                                        }}
+                                                    >
+                                                        <Trash2 className="h-4 w-4" />
+                                                    </Button>
+                                                </div>
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -186,6 +198,100 @@ export default function AdminBookings() {
                     )}
                 </CardContent>
             </Card>
+
+            <Dialog open={!!selectedBooking} onOpenChange={(open) => !open && setSelectedBooking(null)}>
+                <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                        <div className="flex justify-between items-start pr-8">
+                            <div>
+                                <DialogTitle className="text-2xl font-black uppercase tracking-tight">
+                                    Booking Details
+                                </DialogTitle>
+                                <DialogDescription className="sr-only">
+                                    View details for inspection booking from {selectedBooking?.fullName}
+                                </DialogDescription>
+                                <div className="flex gap-2 mt-2">
+                                    <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 text-[10px] font-bold uppercase">
+                                        <Calendar className="h-3 w-3 mr-1" /> Inspection
+                                    </Badge>
+                                    <Badge variant={selectedBooking ? STATUS_VARIANTS[selectedBooking.status] : "outline"} className="text-[10px] font-bold uppercase">
+                                        {selectedBooking ? STATUS_LABELS[selectedBooking.status] : ""}
+                                    </Badge>
+                                </div>
+                            </div>
+                        </div>
+                    </DialogHeader>
+
+                    {selectedBooking && (
+                        <div className="space-y-8 py-4">
+                            {/* Customer & Appointment Info */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-4">
+                                    <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                                        <Mail className="h-3 w-3" /> Customer Information
+                                    </h3>
+                                    <div className="space-y-2">
+                                        <div className="text-lg font-bold">{selectedBooking.fullName}</div>
+                                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                            <Mail className="h-4 w-4" /> {selectedBooking.email}
+                                        </div>
+                                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                            <Phone className="h-4 w-4" /> {selectedBooking.phoneNumber}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                                        <Calendar className="h-3 w-3" /> Appointment Time
+                                    </h3>
+                                    <div className="space-y-2">
+                                        <div className="text-sm font-bold flex items-center gap-2">
+                                            <Calendar className="h-4 w-4 text-primary" />
+                                            {selectedBooking.inspectionDate ? format(new Date(selectedBooking.inspectionDate), "PPPP") : "N/A"}
+                                        </div>
+                                        <div className="text-sm font-bold flex items-center gap-2">
+                                            <Clock className="h-4 w-4 text-primary" />
+                                            {selectedBooking.inspectionTime}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <Separator />
+
+                            {/* Vehicle Details */}
+                            <div className="space-y-4">
+                                <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                                    <Car className="h-3 w-3" /> Vehicle Information
+                                </h3>
+                                <div className="p-4 rounded-xl bg-slate-50/50 border border-slate-100">
+                                    <div className="font-bold text-slate-900">{selectedBooking.carName}</div>
+                                    <div className="text-xs text-slate-500 mt-1 uppercase font-bold tracking-wider">ID: {selectedBooking.carId}</div>
+                                </div>
+                            </div>
+
+                            {/* Additional Notes */}
+                            {selectedBooking.notes && (
+                                <div className="space-y-4">
+                                    <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                                        <MessageSquare className="h-3 w-3" /> Additional Notes
+                                    </h3>
+                                    <div className="p-4 rounded-xl bg-muted/50 border border-muted-foreground/10 text-sm whitespace-pre-wrap italic">
+                                        "{selectedBooking.notes}"
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="flex justify-end pt-4">
+                                <DialogClose asChild>
+                                    <Button variant="outline" className="font-bold">Close Details</Button>
+                                </DialogClose>
+                            </div>
+                        </div>
+                    )}
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

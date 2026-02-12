@@ -40,7 +40,25 @@ export default function FindMeACar() {
     });
 
     const mutation = useMutation({
-        mutationFn: (data: InsertInquiry) => createInquiryFirebase(data),
+        mutationFn: async (data: InsertInquiry) => {
+            const result = await createInquiryFirebase(data);
+            
+            // Trigger notification
+            try {
+                await fetch("/api/notify/inquiry", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        ...data,
+                        carName: "Concierge Request"
+                    }),
+                });
+            } catch (notifyErr) {
+                console.warn("Failed to send notification:", notifyErr);
+            }
+            
+            return result;
+        },
         onSuccess: () => {
             setSubmitted(true);
             toast({
@@ -205,6 +223,20 @@ export default function FindMeACar() {
                                                 <FormLabel>Specific Car Model(s)</FormLabel>
                                                 <FormControl>
                                                     <Input placeholder="e.g. Nissan Skyline R34 GTR, Toyota Supra A80" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+
+                                    <FormField
+                                        control={form.control}
+                                        name="address"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Location / Address</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="e.g. Sydney, NSW" {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
