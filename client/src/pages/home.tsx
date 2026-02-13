@@ -152,7 +152,7 @@ export default function Home() {
                       <SelectContent>
                         <SelectItem value="all">All Categories</SelectItem>
                         <SelectItem value="sports">Sports / Performance</SelectItem>
-                        <SelectItem value="sedan">Premium Sedans</SelectItem>
+                        <SelectItem value="sedan">Non Hybrid</SelectItem>
                         <SelectItem value="suv">Luxury SUVs</SelectItem>
                         <SelectItem value="van">Luxury MPVs / Vans</SelectItem>
                         <SelectItem value="electric">Electric / Hybrid</SelectItem>
