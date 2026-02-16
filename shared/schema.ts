@@ -23,6 +23,7 @@ export const cars = pgTable("cars", {
   hasUSB: boolean("has_usb").notNull().default(false),
   available: boolean("available").notNull().default(true),
   isComingSoon: boolean("is_coming_soon").notNull().default(false),
+  isSold: boolean("is_sold").notNull().default(false),
   // Technical Specifications
   consumption: text("consumption"),
   engine: text("engine"),
@@ -74,6 +75,9 @@ export const insertCarSchema = createInsertSchema(cars).omit({
   badges: z.array(z.string()).optional().nullable().default([]),
   timelineTitles: z.array(z.string()).optional().nullable().default([]),
   timelineDescs: z.array(z.string()).optional().nullable().default([]),
+  available: z.boolean().optional().default(true),
+  isComingSoon: z.boolean().optional().default(false),
+  isSold: z.boolean().optional().default(false),
   auctionGrade: z.string().optional().nullable(),
   verifiedMileage: z.string().optional().nullable(),
   accidentHistory: z.string().optional().nullable(),

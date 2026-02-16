@@ -31,6 +31,7 @@ export function Navbar() {
     { href: "/", label: "Home", testId: "link-home" },
     { href: "/inventory", label: "Inventory", testId: "link-cars" },
     { href: "/inventory/coming-soon", label: "Coming Soon", testId: "link-coming-soon" },
+    { href: "/inventory/sold", label: "Sold", testId: "link-sold" },
     { href: "/find-me-a-car", label: "Find Me a Car", testId: "link-find-car" },
     { href: "/about", label: "About Us", testId: "link-about" },
     { href: "/contact", label: "Contact", testId: "link-contact" },

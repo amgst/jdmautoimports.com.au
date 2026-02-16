@@ -17,6 +17,7 @@ import Contact from "@/pages/contact";
 import Terms from "@/pages/terms";
 import Privacy from "@/pages/privacy";
 import ComingSoonInventory from "@/pages/coming-soon-inventory";
+import SoldInventory from "@/pages/sold-inventory";
 import AdminDashboard from "@/pages/admin/dashboard";
 import CarsList from "@/pages/admin/cars-list";
 import CarForm from "@/pages/admin/car-form";
@@ -130,6 +131,7 @@ function PublicRouter() {
             {(params) => <Redirect to={`/inventory/${params.slug}`} />}
           </Route>
           <Route path="/inventory/coming-soon" component={ComingSoonInventory} />
+          <Route path="/inventory/sold" component={SoldInventory} />
           <Route path="/inventory" component={Cars} />
           <Route path="/inventory/:slug" component={CarDetail} />
           <Route path="/find-me-a-car" component={FindMeACar} />

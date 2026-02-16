@@ -12,9 +12,16 @@ export async function apiRequest(
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
+  const adminSecret = import.meta.env.VITE_ADMIN_API_SECRET;
+  const headers: Record<string, string> = data ? { "Content-Type": "application/json" } : {};
+
+  if (adminSecret) {
+    headers["x-admin-secret"] = adminSecret;
+  }
+
   const res = await fetch(url, {
     method,
-    headers: data ? { "Content-Type": "application/json" } : {},
+    headers,
     body: data ? JSON.stringify(data) : undefined,
     credentials: "include",
   });
@@ -28,20 +35,27 @@ export const getQueryFn: <T>(options: {
   on401: UnauthorizedBehavior;
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
-  async ({ queryKey }) => {
-    const url = queryKey.join("/") as string;
-    console.log("Fetching URL:", url);
-    const res = await fetch(url, {
-      credentials: "include",
-    });
+    async ({ queryKey }) => {
+      const url = queryKey.join("/") as string;
+      console.log("Fetching URL:", url);
+      const adminSecret = import.meta.env.VITE_ADMIN_API_SECRET;
+      const headers: Record<string, string> = {};
+      if (adminSecret) {
+        headers["x-admin-secret"] = adminSecret;
+      }
 
-    if (unauthorizedBehavior === "returnNull" && res.status === 401) {
-      return null;
-    }
+      const res = await fetch(url, {
+        headers,
+        credentials: "include",
+      });
 
-    await throwIfResNotOk(res);
-    return await res.json();
-  };
+      if (unauthorizedBehavior === "returnNull" && res.status === 401) {
+        return null;
+      }
+
+      await throwIfResNotOk(res);
+      return await res.json();
+    };
 
 export const queryClient = new QueryClient({
   defaultOptions: {

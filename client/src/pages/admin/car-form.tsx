@@ -247,6 +247,7 @@ export default function CarForm() {
       drivetrain: "RWD",
       exteriorColor: "",
       interiorColor: "",
+      isSold: false,
     },
   });
 
@@ -283,6 +284,7 @@ export default function CarForm() {
         drivetrain: (carData.drivetrain as string) || "RWD",
         exteriorColor: (carData.exteriorColor as string) || "",
         interiorColor: (carData.interiorColor as string) || "",
+        isSold: (carData.isSold as boolean) || false,
       });
     }
   }, [car, isEdit, form, form.formState.isDirty]);
@@ -1048,6 +1050,28 @@ export default function CarForm() {
                     </FormItem>
                   )}
                 />
+
+                <FormField
+                  control={form.control}
+                  name="isSold"
+                  render={({ field }) => (
+                    <FormItem className="flex items-center justify-between rounded-lg border p-4">
+                      <div className="space-y-0.5">
+                        <FormLabel className="text-base">Mark as Sold</FormLabel>
+                        <FormDescription>
+                          Move this car to the "Sold" inventory page
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          data-testid="switch-is-sold"
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
               </div>
             </CardContent>
           </Card>
@@ -1120,11 +1144,11 @@ export default function CarForm() {
                   <FormItem>
                     <FormLabel>Auction Sheet Decode Text</FormLabel>
                     <FormControl>
-                      <Textarea 
-                        placeholder="Description of the auction sheet verification..." 
+                      <Textarea
+                        placeholder="Description of the auction sheet verification..."
                         className="min-h-[100px]"
-                        {...field} 
-                        value={field.value || ""} 
+                        {...field}
+                        value={field.value || ""}
                       />
                     </FormControl>
                     <FormMessage />

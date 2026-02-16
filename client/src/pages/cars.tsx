@@ -74,8 +74,8 @@ export default function Cars() {
   }, [cars]);
 
   const filteredCars = cars?.filter((car) => {
-    // Exclude Coming Soon cars from main inventory
-    if (car.isComingSoon) return false;
+    // Exclude Coming Soon and Sold cars from main inventory
+    if (car.isComingSoon || car.isSold) return false;
 
     const matchesSearch = car.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       car.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -366,8 +366,8 @@ export default function Cars() {
                   <Pagination>
                     <PaginationContent>
                       <PaginationItem>
-                        <PaginationPrevious 
-                          href="#" 
+                        <PaginationPrevious
+                          href="#"
                           onClick={(e) => {
                             e.preventDefault();
                             if (currentPage > 1) {
@@ -392,8 +392,8 @@ export default function Cars() {
                         </PaginationItem>
                       ))}
                       <PaginationItem>
-                        <PaginationNext 
-                          href="#" 
+                        <PaginationNext
+                          href="#"
                           onClick={(e) => {
                             e.preventDefault();
                             if (currentPage < totalPages) {

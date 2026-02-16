@@ -13,6 +13,16 @@ import { sendEmail, generateInquiryEmailContent, generateBookingEmailContent } f
 // In-memory registry of admin device tokens
 const adminTokens = new Set<string>();
 
+const requireAdmin = (req: Request, res: Response, next: any) => {
+  const secret = req.headers["x-admin-secret"];
+  const adminSecret = process.env.ADMIN_API_SECRET;
+
+  if (!adminSecret || secret !== adminSecret) {
+    return res.status(401).json({ error: "Unauthorized: Admin access required" });
+  }
+  next();
+};
+
 export async function registerRoutes(app: Express): Promise<Server | void> {
   // Serve attached_assets folder statically (includes uploads and generated_images)
   // Only in non-serverless environments (local dev)
@@ -27,7 +37,7 @@ export async function registerRoutes(app: Express): Promise<Server | void> {
   });
 
   // Upload single image endpoint
-  app.post("/api/upload/image", (req, res, next) => {
+  app.post("/api/upload/image", requireAdmin, (req, res, next) => {
     console.log("Upload route hit - Content-Type:", req.headers['content-type']);
     upload.single("image")(req, res, async (err) => {
       if (err) {
@@ -43,7 +53,7 @@ export async function registerRoutes(app: Express): Promise<Server | void> {
         }
         return next(err);
       }
-      
+
       try {
         if (!req.file) {
           console.log("No file in request");
@@ -62,7 +72,7 @@ export async function registerRoutes(app: Express): Promise<Server | void> {
   });
 
   // Upload multiple images endpoint
-  app.post("/api/upload/images", async (req, res, next) => {
+  app.post("/api/upload/images", requireAdmin, async (req, res, next) => {
     upload.array("images", 10)(req, res, async (err) => {
       if (err) {
         if (err instanceof multer.MulterError) {
@@ -79,7 +89,7 @@ export async function registerRoutes(app: Express): Promise<Server | void> {
         }
         return next(err);
       }
-      
+
       try {
         if (!req.files || (Array.isArray(req.files) && req.files.length === 0)) {
           return res.status(400).json({ error: "No image files provided" });
@@ -134,7 +144,7 @@ export async function registerRoutes(app: Express): Promise<Server | void> {
     }
   });
 
-  app.post("/api/cars", async (req, res) => {
+  app.post("/api/cars", requireAdmin, async (req, res) => {
     try {
       const validatedData = insertCarSchema.parse(req.body);
       const car = await storage.createCar(validatedData);
@@ -147,7 +157,7 @@ export async function registerRoutes(app: Express): Promise<Server | void> {
     }
   });
 
-  app.patch("/api/cars/:id", async (req, res) => {
+  app.patch("/api/cars/:id", requireAdmin, async (req, res) => {
     try {
       const validatedData = insertCarSchema.parse(req.body);
       const car = await storage.updateCar(req.params.id, validatedData);
@@ -163,7 +173,7 @@ export async function registerRoutes(app: Express): Promise<Server | void> {
     }
   });
 
-  app.delete("/api/cars/:id", async (req, res) => {
+  app.delete("/api/cars/:id", requireAdmin, async (req, res) => {
     try {
       const success = await storage.deleteCar(req.params.id);
       if (!success) {
@@ -176,7 +186,7 @@ export async function registerRoutes(app: Express): Promise<Server | void> {
   });
 
   // Register an admin device token for push notifications
-  app.post("/api/notify/register-token", (req: Request, res: Response) => {
+  app.post("/api/notify/register-token", requireAdmin, (req: Request, res: Response) => {
     const token = (req.body && (req.body as any).token) as string | undefined;
     if (!token || typeof token !== "string") {
       return res.status(400).json({ error: "Missing 'token' in body" });
@@ -187,7 +197,7 @@ export async function registerRoutes(app: Express): Promise<Server | void> {
   });
 
   // List registered admin tokens (for diagnostics)
-  app.get("/api/notify/admin/tokens", (_req: Request, res: Response) => {
+  app.get("/api/notify/admin/tokens", requireAdmin, (_req: Request, res: Response) => {
     res.json({ tokens: Array.from(adminTokens) });
   });
 
@@ -198,13 +208,13 @@ export async function registerRoutes(app: Express): Promise<Server | void> {
       const { title, text } = generateInquiryEmailContent(data);
 
       // 1. Send Email
-    if (process.env.ADMIN_EMAIL) {
-      await sendEmail({
-        to: process.env.ADMIN_EMAIL,
-        subject: title,
-        text: text,
-      });
-    }
+      if (process.env.ADMIN_EMAIL) {
+        await sendEmail({
+          to: process.env.ADMIN_EMAIL,
+          subject: title,
+          text: text,
+        });
+      }
 
       // 2. Send Push Notification
       const tokens = Array.from(adminTokens);
@@ -238,13 +248,13 @@ export async function registerRoutes(app: Express): Promise<Server | void> {
       const { title, text } = generateBookingEmailContent(data);
 
       // 1. Send Email
-    if (process.env.ADMIN_EMAIL) {
-      await sendEmail({
-        to: process.env.ADMIN_EMAIL,
-        subject: title,
-        text: text,
-      });
-    }
+      if (process.env.ADMIN_EMAIL) {
+        await sendEmail({
+          to: process.env.ADMIN_EMAIL,
+          subject: title,
+          text: text,
+        });
+      }
 
       // 2. Send Push Notification
       const tokens = Array.from(adminTokens);
@@ -272,7 +282,7 @@ export async function registerRoutes(app: Express): Promise<Server | void> {
   });
 
   // Send a push notification to all registered admin devices
-  app.post("/api/notify/admin", async (req: Request, res: Response) => {
+  app.post("/api/notify/admin", requireAdmin, async (req: Request, res: Response) => {
     try {
       const { title, body, data } = (req.body || {}) as {
         title?: string;
@@ -280,7 +290,7 @@ export async function registerRoutes(app: Express): Promise<Server | void> {
         data?: Record<string, string>;
       };
       const tokens = Array.from(adminTokens);
-      
+
       // Also send email if configured
       if (process.env.ADMIN_EMAIL) {
         try {

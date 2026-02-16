@@ -193,6 +193,11 @@ export default function CarsList() {
                               Coming Soon
                             </Badge>
                           )}
+                          {car.isSold && (
+                            <Badge className="text-[10px] font-bold uppercase py-0 w-fit bg-red-600 hover:bg-red-600">
+                              Sold
+                            </Badge>
+                          )}
                         </div>
                       </TableCell>
                       <TableCell className="text-right pr-6" onClick={(e) => e.stopPropagation()}>
