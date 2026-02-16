@@ -7,9 +7,17 @@ export async function uploadImage(file: File): Promise<string> {
   const formData = new FormData();
   formData.append("image", file);
 
+  const adminSecret = import.meta.env.VITE_ADMIN_API_SECRET;
+  const headers: Record<string, string> = {};
+  if (adminSecret) {
+    headers["x-admin-secret"] = adminSecret;
+  }
+
   const response = await fetch("/api/upload/image", {
     method: "POST",
     body: formData,
+    headers,
+    credentials: "include",
   });
 
   if (!response.ok) {
