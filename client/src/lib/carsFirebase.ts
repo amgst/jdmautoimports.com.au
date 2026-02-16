@@ -25,6 +25,15 @@ function ensureArray<T>(value: T[] | null | undefined): T[] {
   return Array.isArray(value) ? value : [];
 }
 
+function sanitizeForFirestore<T extends Record<string, any>>(value: T): T {
+  const result: Record<string, any> = {};
+  for (const [key, val] of Object.entries(value)) {
+    if (val === undefined) continue;
+    result[key] = val;
+  }
+  return result as T;
+}
+
 export async function getAllCarsFirebase(): Promise<Car[]> {
   if (!isFirebaseInitialized) return [];
   const snap = await getDocs(collection(db, CARS_COLLECTION));
@@ -126,15 +135,21 @@ export async function getCarByIdFirebase(id: string): Promise<Car | undefined> {
 }
 
 export async function createCarFirebase(input: InsertCar): Promise<Car> {
+  if (!isFirebaseInitialized) {
+    throw new Error("Firebase is not configured. Please complete the setup guide first.");
+  }
+
   const id = crypto.randomUUID();
   const slug = generateSlug(input.name);
 
-  const car: Car = {
+  const raw: any = {
     ...(input as any),
     id,
     slug,
     images: ensureArray(input.images as any),
   };
+
+  const car = sanitizeForFirestore(raw) as Car;
 
   await addDoc(collection(db, CARS_COLLECTION), car);
   return car;
@@ -167,12 +182,14 @@ export async function updateCarFirebase(id: string, input: InsertCar): Promise<C
 
   const slug = generateSlug(input.name);
 
-  const updated: Car = {
+  const rawUpdated: any = {
     ...(input as any),
     id,
     slug,
     images: ensureArray(input.images as any),
   };
+
+  const updated = sanitizeForFirestore(rawUpdated) as Car;
 
   await updateDoc(docRef, updated as any);
   return updated;
@@ -186,12 +203,14 @@ export async function duplicateCarFirebase(id: string): Promise<Car | undefined>
   const newName = `${originalCar.name} (Copy)`;
   const newSlug = `${originalCar.slug}-copy-${Math.floor(Math.random() * 1000)}`;
 
-  const duplicatedCar: Car = {
+  const rawDuplicated: any = {
     ...originalCar,
     id: newId,
     name: newName,
     slug: newSlug,
   };
+
+  const duplicatedCar = sanitizeForFirestore(rawDuplicated) as Car;
 
   await addDoc(collection(db, CARS_COLLECTION), duplicatedCar);
   return duplicatedCar;

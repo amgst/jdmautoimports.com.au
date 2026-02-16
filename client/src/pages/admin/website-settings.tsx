@@ -397,8 +397,8 @@ export default function WebsiteSettings() {
     },
   });
 
-  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleLogoChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
       if (!isImageFile(file)) {
         toast({
@@ -419,11 +419,15 @@ export default function WebsiteSettings() {
       setLogoFile(file);
       const preview = URL.createObjectURL(file);
       setLogoPreview(preview);
+      try {
+        await uploadLogo();
+      } catch {
+      }
     }
   };
 
-  const handleFaviconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleFaviconChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
       if (!isImageFile(file)) {
         toast({
@@ -444,6 +448,10 @@ export default function WebsiteSettings() {
       setFaviconFile(file);
       const preview = URL.createObjectURL(file);
       setFaviconPreview(preview);
+      try {
+        await uploadFavicon();
+      } catch {
+      }
     }
   };
 
@@ -518,8 +526,8 @@ export default function WebsiteSettings() {
     }
   };
 
-  const handleHeroImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleHeroImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
       if (!isImageFile(file)) {
         toast({
@@ -540,6 +548,10 @@ export default function WebsiteSettings() {
       setHeroImageFile(file);
       const preview = URL.createObjectURL(file);
       setHeroImagePreview(preview);
+      try {
+        await uploadHeroImage();
+      } catch {
+      }
     }
   };
 

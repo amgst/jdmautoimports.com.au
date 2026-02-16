@@ -344,13 +344,17 @@ export default function CarForm() {
         title: "Success",
         description: "Car created successfully",
       });
-      // Remain on page after save
     },
-    onError: () => {
+    onError: (error: unknown) => {
       setIsUploading(false);
+      console.error("Create car error:", error);
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Failed to create car";
       toast({
         title: "Error",
-        description: "Failed to create car",
+        description: message,
         variant: "destructive",
       });
     },

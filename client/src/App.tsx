@@ -98,7 +98,7 @@ function AdminRouter() {
             <SidebarTrigger data-testid="button-sidebar-toggle" />
           </header>
           <main className="flex-1 overflow-auto">
-            <div className="p-8">
+            <div className="px-6 py-4">
               <Switch>
                 <Route path="/admin/cars/new" component={CarForm} />
                 <Route path="/admin/cars/:id/edit" component={CarForm} />

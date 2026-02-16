@@ -68,6 +68,7 @@ export const insertCarSchema = createInsertSchema(cars).omit({
   id: true,
   slug: true,
 }).extend({
+  name: z.string().min(1, "Car name is required"),
   image: urlOrPath,
   images: z.array(urlOrPath).optional().nullable().default([]),
   features: z.array(z.string()).optional().nullable().default([]),
